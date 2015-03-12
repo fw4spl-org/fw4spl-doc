@@ -74,7 +74,7 @@ Multi-threading
 Serialization
 =======================
 
-.. .. include:: SDM-SAD-Serialization.rst
+.. include:: SDM-SAD-Serialization.rst
 
 .. [TODO]Environment management
 .. ============================
