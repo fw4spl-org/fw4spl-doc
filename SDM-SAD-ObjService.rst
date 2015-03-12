@@ -305,7 +305,7 @@ between objects and services. This class concept is very simple :
 This registry manages the object-service relationships and guarantees the non destruction of an object while some services are still working on it.
 
 Object-Service concept example
------------------------------
+------------------------------
 
 To conclude, the generic object-service concept is illustrated with this
 example:

@@ -60,7 +60,7 @@ Signal-slot communication
 App-config
 =======================
 
-.. .. include:: SDM-SAD-App-config.rst
+.. include:: SDM-SAD-App-config.rst
 
 .. [TODO]Activities
 .. =======================
