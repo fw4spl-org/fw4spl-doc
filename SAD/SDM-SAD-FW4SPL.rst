@@ -66,10 +66,10 @@ App-config
 .. =======================
 .. .. include:: SDM-SAD-Activities.rst
 
-Multi-threading
+Multithreading
 =======================
 
-.. .. include:: SDM-SAD-Thread.rst
+.. include:: SDM-SAD-Thread.rst
 
 Serialization
 =======================
