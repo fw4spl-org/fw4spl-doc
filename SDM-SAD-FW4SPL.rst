@@ -121,7 +121,7 @@ Manager and updater services
 Component-based software
 ==============================
 
-.. .. include:: SDM-SAD-Component.rst
+.. include:: SDM-SAD-Component.rst
 
 Graphical User Interface
 ========================
