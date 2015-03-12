@@ -55,7 +55,7 @@ Object-Service concept
 Signal-slot communication
 =========================
 
-.. .. include:: SDM-SAD-SigSlot.rst
+.. include:: SDM-SAD-SigSlot.rst
 
 App-config
 =======================
