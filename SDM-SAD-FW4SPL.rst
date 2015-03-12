@@ -15,41 +15,35 @@ General
 Introduction
 ------------
 
-All our software are developted with the open source framework :
-FrameWork for Software Production Line as known as FW4SPL or F4S. This
-framework, created by Ircad, is a modular workspace for rapid
-application development. It provides some software modules to make
-easier the creation of software application. It is mainly dedicated to
-the medical software. Therefore, many functionalities like digital image
-processing, simulation of medical interactions are allowed.
+The framework FW4SPL (FrameWork for Software Production) is an open-source 
+framework, developed by IRCAD (research institute against cancer and disease). 
+The principle of FW4SPL is the fast and easy creation of applications, mainly 
+in the medical field. Therefore it provides features like digital image
+processing in 2D and 3D, visualization or simulation of medical interactions. 
+To build an application with FW4SPL there are no programming skills required. 
+By writing a simple XML the user can design its own application.
+ 
+FW4SPL is built on a component-based architecture composed of C++ libraries. 
+The three main concepts of the architecture, explained in the following sections, are:
 
-FW4SPL is a component-oriented architecture with the notion of
-role-based programming. This architecture consists of a set of
-cross-platform C++ libraries and it is multi-plateforms (runs under
-Windows, Linux and MacOS). It has been built around three ideas:
+-  object-service concept
+-  component approach
+-  signal-slot communication
 
--  The concept of data and services
--  The component approach
--  The communication links
-
+The framework is multi-platform and runs under Windows, Linux and MacOS. 
+The programming language of the framework is C++.
 This document will introduce the general architecture of FW4SPL.
 
 Annexes
 -------
 
--  Bundle and Srclib description: this document describes briefly all
-   projects (libraries and components) used in the architecture.
--  Objects list: this document describes briefly all data used in the
-   architecture.
--  Services list: this document describes briefly all services used in
-   the architecture.
--  SOUP: this document contains a description of libraries used to
+-  *Srclib list:* this document lists all libraries with a briefly description.
+-  *Object list:* this document lists all data with a briefly description.
+-  *Service list:* this document lists all services and its bundles with a briefly description.
+-  *Third party:* this document contains a description of libraries used to
    support this architecture and its functionalities.
--  OSR diagram: this document introduces how an application
-   configuration is represented on a diagram.
--  Medical data version: this document represents the life cycle of the
-   Visible Patient medical data and its modifications between different
-   software version
+-  *OSR diagram:* this document introduces how to represent an application
+   configuration as diagram.
 
 
 Object-Service concept
