@@ -100,7 +100,7 @@ Medical patient folder
 Manager and updater services
 ==================================
 
-.. .. include:: SDM-SAD-Manager.rst
+.. include:: SDM-SAD-Manager.rst
 
 .. [TODO]Progress bar
 .. =======================
