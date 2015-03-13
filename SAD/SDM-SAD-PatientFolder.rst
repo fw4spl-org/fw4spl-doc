@@ -1,4 +1,3 @@
-
 DICOM is a software integration standard that is used in Medical Imaging. All
 modern medical imaging systems (AKA Imaging Modalities) Equipment like X-Rays,
 Ultrasounds, CT (Computed Tomography), and MRI (Magnetic Resonance Imaging)
@@ -14,7 +13,9 @@ information (name, ID, sex and birth date), important acquisition data (e.g.,
 type of equipment used and its settings), and context of the imaging study that
 is used to link the image to the medical treatment it was part of.
 
-Roni Z. 2011. Introduction to DICOM. Introduction. Available at: http://dicomiseasy.blogspot.fr/2011/10/introduction-to-dicom-chapter-1.html [Accessed: 13 Mars 2015].
+    Roni Z. 2011. Introduction to DICOM [#]_ .
+
+.. [#] Roni Z. 2011. Introduction to DICOM. Introduction. http://dicomiseasy.blogspot.fr/2011/10/introduction-to-dicom-chapter-1.html
 
 The objects representing the medical patient data In FW4SPL are inclined towards the DICOM standard. 
 In the library ``fwMedData`` several structures and values have been retrieved:

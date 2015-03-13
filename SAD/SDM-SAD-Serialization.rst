@@ -8,7 +8,7 @@ especially Object than extend ``::fwData::Object``) to a JSON format [#]_.  Of
 course, this process is also available for loading data from JSON format to
 plain C++ structures.
 
-.. [#] http://json.org/
+.. [#] Introducing JSON. http://json.org/
 
 
 To realize this serialization, ``fwAtoms`` provides basic structures (which extend
