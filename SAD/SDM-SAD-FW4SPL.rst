@@ -91,7 +91,7 @@ Serialization
 Medical patient folder
 ============================
 
-.. .. include:: SDM-SAD-PatientFolder.rst
+.. include:: SDM-SAD-PatientFolder.rst
 
 .. [TODO]Generic scene
 .. =======================
@@ -127,9 +127,4 @@ Graphical User Interface
 ========================
 
 .. .. include:: SDM-SAD-GUI.rst
-
-Appendix : Medical folder
-=========================
-
-.. .. include:: Appendix/SDM-SAD-APX-MedFolder.rst
 
