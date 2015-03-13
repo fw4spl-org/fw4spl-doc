@@ -126,5 +126,5 @@ Component-based software
 Graphical User Interface
 ========================
 
-.. .. include:: SDM-SAD-GUI.rst
+.. include:: SDM-SAD-GUI.rst
 
