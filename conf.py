@@ -52,8 +52,8 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'fw4spl-doc'
-copyright = '2015, IRCAD'
-author = 'IRCAD Dev. team'
+copyright = '2015, IRCAD-IHU'
+author = 'IRCAD-IHU Dev. team'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -228,7 +228,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
   (master_doc, 'fw4spl-doc.tex', 'FW4SPL Documentation',
-   'Fred', 'manual'),
+   'IRCAD-IHU', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
