@@ -1,5 +1,3 @@
-
-
 Overview
 --------
 
@@ -24,12 +22,12 @@ Some advantages include:
   instructions depend on each other's result), running another thread can avoid
   leaving these idle.
 - If several threads work on the same set of data, they can actually share
-  their cache, leading to better cache usage or synchronization on its values.
+  their cache, leading to better cache usage or synchronization of its values.
 
 Some criticisms of multithreading include:
 
 - Multiple threads can interfere with each other when sharing hardware
-  resources such as caches or translation lookaside buffers (TLBs).
+  resources such as caches or translation look aside buffers (TLBs).
 - Execution times of a single thread are not improved but can be degraded, even
   when only one thread is executing. This is due to slower frequencies and/or
   additional pipeline stages that are necessary to accommodate thread-switching
@@ -157,10 +155,10 @@ Asynchronous call
 ~~~~~~~~~~~~~~~~~
 
 Slots are able to work with ``fwThread::Worker``. If a Slot has a Worker, each
-asynchronous execution request will be run in it's worker, otherwise
+asynchronous execution request will be run in its worker, otherwise
 asynchronous requests can not be satisfied without specifying a worker.
 
-Setting worker example :
+Setting worker example:
 
 .. code:: cpp
 
@@ -184,7 +182,7 @@ to wait for end-of-execution.
     future.wait(); //ensures slotStart is finished before continuing
 
 ``asyncCall`` method returns a ``boost::shared_future< R >`` where R is the return
-type, this allows to wait for end-of-execution and to get the computed value.
+type. This allows facilitates waiting for end-of-execution and retrieval of the computed value.
 
 .. code:: cpp
 
@@ -193,7 +191,7 @@ type, this allows to wait for end-of-execution and to get the computed value.
     future.wait(); //ensures slotStart is finished before continuing
     int result = future.get();
 
-Slots asynchronous execution has been made *weak*. For an async call/run
+In this case, the slots asynchronous execution has been *weakened*. For an async call/run
 pending in a worker queue, it means that :
 
 - if the slot is detroyed before the execution of this call, it will be
@@ -211,10 +209,10 @@ the execution of connected slots in their worker :
 
     sig2->asyncEmit(21, 42);
 
-The instruction above has for consequence to run each connected slot in it's
+The instruction above has the consequence of running each connected slot in its
 own worker.
 
-Note: Each connected slot must have a worker set in order to use asyncEmit.
+Note: Each connected slot must have a worker set to use asyncEmit.
 
 
 Object-Service and Multithreading
@@ -223,10 +221,9 @@ Object-Service and Multithreading
 Object
 ~~~~~~
 
-The architecture allows writing thread safe functions which manipulate objects
+The architecture allows the writing of thread safe functions which manipulate objects
 easily. Objects have their own mutex (inherited from ``fwData::Object``) to
-control concurrent access from different threads. This mutex is available through
-to the method:
+control concurrent access from different threads. This mutex is available using the following method:
 
 .. code:: cpp
 
@@ -279,8 +276,8 @@ The following example illustrates how to use these helpers:
 Services
 ~~~~~~~~
 
-The service architecture allows to write a thread-safe service by
-avoiding the requirement of explicit synchronisation. Each service has an associated
+The service architecture allows the writing of a thread-safe service by
+avoiding the requirement of explicit synchronization. Each service has an associated
 worker in which service methods are intended to be executed.
 
 Specifically, all inherited ``IService`` methods (``start``, ``stop``,
@@ -301,7 +298,7 @@ can be set/updated by using the inherited method :
 
 Since the signal-slot communication is thread-safe and
 ``IService::receive(msg)`` method is a slot, it is possible to attach a service
-to a thread and send notifications to execute parallel tasks to it.
+to a thread and send notifications to execute parallel tasks.
 
 .. note::
     Some services use or require GUI backend elements. Thus, they can't be used
