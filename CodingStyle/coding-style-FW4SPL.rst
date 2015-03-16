@@ -1,3 +1,7 @@
+**********************
+Coding style
+**********************
+
 Terminology :
 ==============
 - Rules are mandatory. Any rule can be (exceptionally) exceeded, but if so, it has to be rigorously justified.
