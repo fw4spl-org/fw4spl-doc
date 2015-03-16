@@ -1,9 +1,12 @@
 Overview
 --------
 
-"Signals and slots" is a language construct introduced in `Qt <http://wiki.qt.io/Qt_signal-slot_quick_start>`_. for
-communication between objects.  The concept is that
-objects and services(explained in 2.3) can send signals containing event information which can be
+"Signals and slots" is a language construct introduced in Qt [#]_
+for communication between objects.
+
+.. [#] http://wiki.qt.io/Qt_signal-slot_quick_start
+
+The concept is that objects and services(explained in 2.3) can send signals containing event information which can be
 received by other services using special functions known as slots.
 
 
@@ -30,9 +33,8 @@ Slots are wrappers for functions and class methods that can be attached
 to a ``fwThread::Worker``. The purpose of this class is to provide
 synchronous and asynchronous mechanisms for method and function calling.
 
-Slots have a common base class : SlotBase. This allows to store them in
-the same container. Slots are designed to allow calling them by knowing
-only the argument types.
+Slots have a common base class : SlotBase. This allows the storage of them in
+the same container. Slots are designed such that they can be called, even where only the argument type is known.
 
 Examples :
 
@@ -90,33 +92,33 @@ class provides a mechanism to connect slots.
 
 Examples:
 
-The following instruction declares a signal with a signature of type void.
+The following instruction declares a signal with a void signature.
 
 .. code:: c++
 
     ::fwCom::Signal< void() >::sptr sig = ::fwCom::Signal< void() >::New();
 
-The connection between a signal and a slot of the same information type :
+The connection between a signal and a slot of the same information type:
 
 .. code:: c++
 
     sig->connect(slotStart);
 
 The following instruction will trigger the execution of all
-slots connected to this signal :
+slots connected to this signal:
 
 .. code:: c++
 
     sig->emit();
 
-It is possible to connect multiple slots having the same information type to
-the same signal and trigger simultaneously their execution.
+It is possible to connect multiple slots with the same information type to
+the same signal and trigger their simultaneous execution.
 
-Signals can take several arguments as signature and trigger their connected slots
+Signals can take several arguments as a signature which will trigger their connected slots
 by passing the right arguments.
 
 In the following example a signal is declared of type void(int, int). The signal is connected
-to two slots of different type void (int) and int (int, int).
+to two different types of slot, void (int) and int (int, int).
 
 .. code:: c++
 
@@ -132,23 +134,23 @@ to two slots of different type void (int) and int (int, int).
 
 Here 2 points need to be highlighted :
 
--  A signal cannot return a value. In consequence of that fact their return type is declared to void. 
-   Thus, the return value of a slot, triggered by a signal, cannot retrieved neither.
+-  A signal cannot return a value. Consequently their return type is void. 
+   Thus, the return value of a slot, triggered by a signal, equally cannot be retrieved.
    
--  To trigger successfully a slot by a signal, the minimum requirements as number of arguments or 
+-  To successfully trigger a slot using a signal, the minimum requirement as to the number of arguments or 
    fitting argument types has to be given by the signal. In the last example the slot slot2 only 
    requires one argument of type int, but the signal is emitting two arguments of type int. 
-   Hence the signal signature fulfilles the slot's argument number and argument type, the signal 
-   can successfully trigger the slot slot2. The slot slot2 is taking the first emitted argument which 
+   Because the signal signature fulfills the slot's argument number and argument type, the signal 
+   can successfully trigger the slot slot2. The slot slot2 takes the first emitted argument which 
    fits its parameter (here 21, the second argument is ignored).
 
 
 Disconnection
 ~~~~~~~~~~~~~
 
-The method disconnect is called between one signal and one slot, to stops their existing connection. 
-A disconnecting assumes a signal slot connection. Once a signal slot connection is disconnected, the slot 
-cannot be triggered by this signal. Connection as well as disconnection of a signal slot connection can be 
+The disconnect method is called between one signal and one slot, to stop their existing connection. 
+A disconnection assumes a signal slot connection. Once a signal slot connection is disconnected, it 
+cannot be triggered by this signal. Both connection and disconnection of a signal slot connection can be 
 done at any time.
 
 .. code:: c++
@@ -162,14 +164,14 @@ the slot slot1 is not triggered by sig2.
 Connection handling
 ~~~~~~~~~~~~~~~~~~~
 
-The connection between a slot and a signal returns a connection handler :
+The connection between a slot and a signal returns a connection handler:
 
 .. code:: c++
 
     ::fwCom::Connection connection = signal->connect(slot);
 
-Each connection handler provides a mechanism which allows to disable a
-signal slot connection temporarily. The slot stays connected to the signal, but it will
+Each connection handler provides a mechanism which allows a
+signal slot connection to be disabled temporarily. The slot stays connected to the signal, but it will
 not be triggered while the connection is blocked :
 
 .. code:: c++
@@ -208,9 +210,9 @@ a structure.
 HasSlots
 ~~~~~~~~
 
-The class ``HasSlots`` proposes a mapping between a key (string defining the slot name)
-and a slot. ``HasSlots`` allows to manage many slots due to a map. To use
-this helper in a class, the class must inherit from ``HasSlots`` and it must register the slots
+The class ``HasSlots`` offers mapping between a key (string defining the slot name)
+and a slot. ``HasSlots`` allows the management of many slots using a map. To use
+this helper in a class, the class must inherit from ``HasSlots`` and must register the slots
 in the constructor:
 
 .. code:: c++
@@ -249,9 +251,9 @@ Then, slots can be used as below :
 HasSignals
 ~~~~~~~~~~
 
-The class ``HasSignals`` provides a mapping between a key (string defining the signal name) and a signal.
-``HasSignals`` allows to manage many signals due to a map, comparing to ``HasSlots``. To use this helper in a class, the class must inherit from
-``HasSignals`` as seen below and it must register signals in the constructor:
+The class ``HasSignals`` provides mapping between a key (string defining the signal name) and a signal.
+``HasSignals`` allows the management of many signals using a map, similar to ``HasSlots``. To use this helper in a class, the class must inherit from
+``HasSignals`` as seen below and must register signals in the constructor:
 
 .. code:: c++
 
@@ -279,8 +281,8 @@ Then, signals can be used as below:
 Signals and slots used in objects and services
 -------------------------------------------------------
 
-Slots are used in both objects and services, whereas signals are only integrated in services. The abstract
-class ``fwData::Object`` inherits from ``HasSignals`` class as basis to use signals :
+Slots are used in both objects and services, whereas signals are only used in services. The abstract
+class ``fwData::Object`` inherits from the ``HasSignals`` class as a basis to use signals :
 
 .. code:: c++
 
@@ -303,7 +305,7 @@ class ``fwData::Object`` inherits from ``HasSignals`` class as basis to use sign
       }
     }
 
-And the abstract class ``fwService::IService`` inherits from the ``HasSlots`` class and the ``HasSignals`` class, as basis to communicate through signals and slots:
+Moreover the abstract class ``fwService::IService`` inherits from the ``HasSlots`` class and the ``HasSignals`` class, as a basis to communicate through signals and slots:
 
 .. code:: c++
 
@@ -325,17 +327,17 @@ And the abstract class ``fwService::IService`` inherits from the ``HasSlots`` cl
       }
     }
 
-Accordingly to the design, the ``s_OBJECT_MODIFIED_SIG``
-object signal is connected to all ``s_RECEIVE_SLOT`` slots of their associated services (object service relation).
-When a service modifies its associated object, the service emits a ``s_OBJECT_MODIFIED_SIG``
-signal of the object in order to notify any service working on the modified
+According to the design, the ``s_OBJECT_MODIFIED_SIG``
+object signal is connected to all ``s_RECEIVE_SLOT`` slots of its associated services (object service relation).
+When a service modifies its associated object, the service emits an ``s_OBJECT_MODIFIED_SIG``
+signal from the object in order to notify any service working on the modified
 object through the receive method.
 
 An other way to communicate between objects and services is
-to split each modification type in different signals and to
+to split each modification type into different signals and to
 create different slots in the services. In this case, the method
 ``IService::getObjSrvConnections()`` and the helper
-``::fwServices::helper::SigSlotConnection`` provides few tools to
+``::fwServices::helper::SigSlotConnection`` provide few tools to
 connect/disconnect signals/slots between objects/services.
 
 
@@ -345,11 +347,11 @@ Proxy
 The class ``::fwServices::registry::Proxy`` is a communication element and singleton in the architecture. 
 It defines a proxy for
 signal/slot connections. The proxy concept is used to declare
-communication channels : all signals registered in a proxy's channel are
+communication channels: all signals registered in a proxy's channel are
 connected to all slots registered in the same channel. This concept is
-useful to create multiple connections or when the slots/signals are not created yet (possible in dynamic programs).
+useful to create multiple connections or when the slots/signals have not yet been created (possible in dynamic programs).
 
-The following shows an example to connect one signal to several slots:
+The following shows an example where one signal is connected to several slots:
 
 .. code:: c++
 
@@ -375,10 +377,9 @@ The following shows an example to connect one signal to several slots:
 Object messages
 ------------------------
 
-The communication system called *communication channel system* which was used in the former versions of FW4SPL, was replaced by the signal slot communication system.
-In consequence of the communication system replacing, object messages were introduced. So on each object modification, a message is send to inform
-services that an object modification happened.
-The signals and slots use a message parameter to store information of the object modification or
+The communication system called *communication channel system* used in the former versions of FW4SPL, was replaced by the signal slot communication system. As a result of this replacement, object messages were introduced. With each object modification, a message is sent informing
+services that an object modification has occurred.
+The signals and slots use a message parameter to store information about the object modification or to
 specialize the message from others. The library ``fwComEd`` contains all message
 structures which can be used to communicate object modifications. As shown in the table below,
 several messages are available for each object.
