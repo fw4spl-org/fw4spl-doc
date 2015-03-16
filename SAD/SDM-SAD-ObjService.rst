@@ -102,15 +102,15 @@ Service methods
 Several methods exist to manipulate a service. The main methods are:
 ``configure``, ``start``, ``stop``, ``update`` and ``receive``.
 
-- ``configure`` method is used to parse the service parameters and analyze its
+- ``configure``: parses the service parameters and analyze its
   configuration. For example, this method is used to configure an image file
   path on the file system for an image reader service.
-- ``start`` method is used to initialize and launch the service (be careful,
+- ``start``: initializes and launch the service (be careful,
   starting and instantiating a service is not the same thing. For
   example, for a visualization service, the ``start`` method instantiates all GUI
   widgets necessary to visualize the data but the service itself is
   instantiated before.).
-- ``stop`` method is used to stop the service. For example, for a visualization
+- ``stop``: stops the service. For example, for a visualization
   service, this method detaches and destroys all GUI widgets previously
   instantiated earlier in the ``start`` method.
 - ``update`` method is called to perform an action on the data associated with the
