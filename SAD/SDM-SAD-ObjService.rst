@@ -74,7 +74,7 @@ Service
 -------
 
 A service represents a functionality which uses or modifies data. A service
-is always associated with a datum. For example, image data can have a reader
+is always associated with a data. For example, image data can have a reader
 service, a writer service, a visualization service or a processing operator.
 
 Service type
