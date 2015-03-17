@@ -80,15 +80,15 @@ I have an assertion/fatal message when I launch my program, any idea to correct 
 ===================================================================================================
 
 First, you can read the output message :) and try to solve the problem.
-In many cases, there are two kind of problems. The program fail:
-    - to create the service given in configuration In this case, four reasons are possibles :
+In many cases, there are two kind of problems. The program fails to :
+    - create the service given in configuration In this case, four reasons are possibles :
     
         - the name of service implementation in config.xml contains mistakes
         - the bundle that contains this service is not activated in the profile
         - the bundle plugin.xml, that contains this service, not declares the     service or the declaration contains mistakes.
         - the service is not register in the Service Factory (forget of macro REGISTER_SERVICE(...) in file .cpp) 
         
-    - to manage the configuration of service. In this case, the implementation code in .cpp file ( generally configuring() method of service ) does not correspond to description code in config.xml ( Missing arguments, or not well-formed, or mistakes string parameters ).
+    - manage the configuration of service. In this case, the implementation code in .cpp file ( generally configuring() method of service ) does not correspond to description code in config.xml ( Missing arguments, or not well-formed, or mistakes string parameters ).
 
 If I use fw4spl, do I need wrap all my data ?
 =============================================
