@@ -2,7 +2,7 @@
 Dynamic program with factories
 ------------------------------
 
-As shown in the `Object-Service concept example`_, it is easy to change data and service to modify the application behavior by working on a mesh instead of an image. 
+As shown in the :ref:`Object-Service_example`, it is easy to change data and service to modify the application behavior by working on a mesh instead of an image. 
 However, this is limited to one service working with one data. It is impossible to manage several objects/services to create complex software.
 
 Then FW4SPL architecture provides a dynamic management of configurations to allow the use of multiple objects and services.
@@ -33,7 +33,7 @@ communications.
         acm->destroy(); // Destroy all services and then data.
     }
 
-The following part correspond to the configuration XML file of the previous `Object-Service concept example`_.
+The following part correspond to the configuration XML file of the previous :ref:`Object-Service_example`.
 
 .. code:: xml
 
