@@ -1,3 +1,5 @@
+Installation for Linux
+======================
 
 Prerequisites for Linux users
 --------------------------------
