@@ -32,35 +32,35 @@ FW4SPL installation
 Good practice in FW4SPL recommend to separate source files, build and install folders. 
 So to prepare the development environment:
 
-- Create a development folder (Dev)
+* Create a development folder (Dev)
 
-- Create a build folder (Dev\\Build)
+* Create a build folder (Dev\\Build)
 
-    Add a sub folder for Debug and Release.
+    * Add a sub folder for Debug and Release.
 
-- Create a source folder (Dev\\Src)
+* Create a source folder (Dev\\Src)
 
-- Create a install folder (Dev\\Install)
+* Create a install folder (Dev\\Install)
 
-    Add a sub folder for Debug and Release.
+    * Add a sub folder for Debug and Release.
 
 To prepare the third party environment:
 
-- Create a third party folder (BinPkgs)
+* Create a third party folder (BinPkgs)
 
-- Create a build folder (BinPkgs\\Build)
+* Create a build folder (BinPkgs\\Build)
 
-    Add a sub folder for Debug and Release.
+    * Add a sub folder for Debug and Release.
 
-- Create a source folder (BinPkgs\\Src)
+* Create a source folder (BinPkgs\\Src)
 
-- Create an install folder (BinPkgs\\Install)
+* Create an install folder (BinPkgs\\Install)
 
-    Add a sub folder for Debug and Release.
+    * Add a sub folder for Debug and Release.
 
 .. .. image:: media/Directories.png
 
-- Set environment for a x64 version.
+* Set environment for a x64 version.
   For compile BinPkgs and sources, you must use the 'VS2013 x64 Native Tools Command Prompt' 
 
 Dependencies
@@ -68,7 +68,7 @@ Dependencies
 
 .. warning:: Be sure to be in the 'VS2013 x64 Native Tools Command Prompt'
 
-* Clone <http://git-scm.com/book/en/v2/Git-Basics-Getting-a-Git-Repository#Cloning-an-Existing-Repository>`_ the three following repositories in the (BinPkgs) source folder:
+* `Clone <http://git-scm.com/book/en/v2/Git-Basics-Getting-a-Git-Repository#Cloning-an-Existing-Repository>`_ the three following repositories in the (BinPkgs) source folder:
 
     * `fw4spl-deps <https://github.com/fw4spl-org/fw4spl-deps.git>`_
 
@@ -102,7 +102,7 @@ Source
 
 .. warning:: Be sure to be in the 'VS2013 x64 Native Tools Command Prompt'
     
-* Clone <http://git-scm.com/book/en/v2/Git-Basics-Getting-a-Git-Repository#Cloning-an-Existing-Repository>`_ the three following repositories in the (Dev) source folder:
+* `Clone <http://git-scm.com/book/en/v2/Git-Basics-Getting-a-Git-Repository#Cloning-an-Existing-Repository>`_ the three following repositories in the (Dev) source folder:
 
     * `fw4spl <https://github.com/fw4spl-org/fw4spl.git>`_
 
@@ -138,13 +138,11 @@ Source
 
     .. note:: If PROJECT_TO_BUILD is empty, all application will be compile
     
-
 .. warning:: Make sure the arguments concerning the compiler (advanced arguments) point to Visual Studio.
 
 * Generate the code. 
 
 * Compile the FW4SPL source code with ninja in the console. 
-
 
 .. note:: it is possible to generate eclipse project with CMake. You just have to check ECLIPSE_PROJECT.
 
