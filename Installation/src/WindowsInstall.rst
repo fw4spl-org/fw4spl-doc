@@ -10,13 +10,13 @@ If not already installed:
 
 2. Optionally you can install `TortoiseHg <http://tortoisehg.bitbucket.org/>`_
 
-3. Install `Visual Studio 2013 <https://www.visualstudio.com/en-us/products/visual-studio-community-vs.aspx>`_
+3. Install `Visual Studio 2013 Community <https://www.visualstudio.com/en-us/products/visual-studio-community-vs.aspx>`_
 
 4. Install `Python 2.7 <https://www.python.org/downloads/>`_
 
 5. Install `CMake <http://www.cmake.org/download/>`_
 
-6. Install `jom <https://mingw-and-ndk.googlecode.com/files/jom.7z>`_
+6. Install `jom <http://wiki.qt.io/Jom>`_
 
 7. Install `ninja <https://github.com/martine/ninja/releases>`_
 
@@ -102,7 +102,7 @@ Launch an application
 To work with an specific application or several applications the cmake argument *PROJECTS_TO_BUILD* can be set. 
 After an successful compilation the application can be launched with the launcher.exe from FW4SPL. 
 Therefore the profile.xml of the application in the build folder has to be passed as argument to the launcher call in the console. 
-Make sure that the external libraries directory is set to the path (set PATH=%PATH%;C:\FW4SPLBinPkgsInstallPath\Debug\bin;C:\FW4SPLBinPkgsInstallPath\Debug\x64\vc12\bin;). .
+Make sure that the external libraries directory is set to the path (set PATH=C:\\FW4SPLBinPkgsInstallPath\\Debug\\bin;C:\\FW4SPLBinPkgsInstallPath\\Debug\\x64\\vc12\\bin;%PATH%).
 
 .. image:: ../media/launchApp.png
 
@@ -113,7 +113,7 @@ The following programs may be helpful for your developments:
 
 - Install `Eclipse CDT <https://eclipse.org/cdt/>`_. Eclipse is a multi-OS Integrated Development Environment (IDE) for computer programming. 
 - Install `Notepad++ <http://notepad-plus-plus.org/>`_. Notepad++ is a free source code editor, which is designed with syntax highlighting functionality. 
-- Install `ConsoleZ <https://chocolatey.org/packages/ConsoleZ/>`_. ConsoleZ is an alternative command prompt for Windows, adding more capabilities to the default Windows command prompt. To compile FW4SPL with the console the windows command prompt has to be set in the tab settings. 
+- Install `ConsoleZ <https://github.com/cbucher/console/wiki/Downloads>`_. ConsoleZ is an alternative command prompt for Windows, adding more capabilities to the default Windows command prompt. To compile FW4SPL with the console the windows command prompt has to be set in the tab settings. 
 
 
 Console settings
