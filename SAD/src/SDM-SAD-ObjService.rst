@@ -104,10 +104,10 @@ Service methods
 Several methods exist to manipulate a service. The main methods are:
 ``configure``, ``start``, ``stop``, ``update`` and ``receive``.
 
-- ``configure``: parses the service parameters and analyze its
+- ``configure``: parses the service parameters and analyzes its
   configuration. For example, this method is used to configure an image file
   path on the file system for an image reader service.
-- ``start``: initializes and launch the service (be careful,
+- ``start``: initializes and launches the service (be careful,
   starting and instantiating a service is not the same thing. For
   example, for a visualization service, the ``start`` method instantiates all GUI
   widgets necessary to visualize the data but the service itself is
@@ -123,7 +123,7 @@ Several methods exist to manipulate a service. The main methods are:
   the associated image visualization service is notified that the image buffer
   has been modified and then, the view is refreshed.
 
-This method is mandatory, but can be empty. This is because some services do
+These methods are mandatory, but can be empty. This is because some services do
 not need a start/stop process, an update process or to listen to object
 modifications.
 
@@ -202,7 +202,7 @@ In the source file (MyService.cpp), this line must be also added to declare
     When a new service is created, the following functions must be overloaded
     from IService class : ``configuring``, ``starting``, ``stopping``,
     ``receiving`` and ``updating``.  The top level functions from IService
-    class checks the service state before any call to the redefined method.
+    class check the service state before any call to the redefined method.
 
 Object and service factories
 ----------------------------
@@ -212,10 +212,12 @@ factory system. In class-based programming, the factory method pattern is a
 creational pattern which uses factory methods to deal with the problem of
 creating classes without specifying the exact class that will be created. This
 is done by creating classes via a factory method, which is either specified in
-an interface (abstract class) and implemented in implementing classes (concrete
+an interface (abstract class) and implemented in child classes (concrete
 classes) or implemented in a base class (optionally as a template method),
 which can be overridden when inherited in derivative classes; rather than by a
-constructor.
+constructor.[#]_
+
+.. [#] http://en.wikipedia.org/wiki/Factory_method_pattern
 
 Object factory
 ~~~~~~~~~~~~~~
