@@ -102,7 +102,7 @@ Service methods
 ~~~~~~~~~~~~~~~
 
 Several methods exist to manipulate a service. The main methods are:
-``configure``, ``start``, ``stop``, ``update`` and ``receive``.
+``configure``, ``start``, ``stop``, and ``update``.
 
 - ``configure``: parses the service parameters and analyzes its
   configuration. For example, this method is used to configure an image file
@@ -118,10 +118,6 @@ Several methods exist to manipulate a service. The main methods are:
 - ``update`` method is called to perform an action on the data associated with the
   service. For example, for an image reader service, the service reads the
   image, converts it and loads it into the associated data.
-- ``receive`` is called when the service associated object is modified. The method parameter contains all the information about this modification. For example,
-  after an image object update has been realized by an image reader service,
-  the associated image visualization service is notified that the image buffer
-  has been modified and then, the view is refreshed.
 
 These methods are mandatory, but can be empty. This is because some services do
 not need a start/stop process, an update process or to listen to object
@@ -183,10 +179,6 @@ In the header file (MyService.hpp):
         // To stop the service
         void stopping() throw(::fwTools::Failed);
 
-        // To receive notification about object modification
-        void receiving( CSPTR(::fwServices::ObjectMsg) _msg )
-                        throw(::fwTools::Failed);
-
         // To update the service
         void updating() throw(::fwTools::Failed);
     };
@@ -200,9 +192,9 @@ In the source file (MyService.cpp), this line must be also added to declare
 
 .. note::
     When a new service is created, the following functions must be overloaded
-    from IService class : ``configuring``, ``starting``, ``stopping``,
-    ``receiving`` and ``updating``.  The top level functions from IService
-    class check the service state before any call to the redefined method.
+    from IService class : ``configuring``, ``starting``, ``stopping`` and 
+    ``updating``.  The top level functions from IService class check the 
+    service state before any call to the redefined method.
 
 Object and service factories
 ----------------------------
