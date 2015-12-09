@@ -105,3 +105,27 @@ The first question is to know if the data is on center of application:
 
         - If the answer is yes, you need create a new object like fwData::Image and a wrapping with fwData::Image<=>itk::Image and fwData::Image<=>vtkImage.
         - Otherwise, you can just encapsulated an itk::Image in fwData::Image and create an accessor on it. ( however, this kind of choice implies that all applications that use fwData::Image need itk library for running. )
+
+
+What is a sesh@ path ?
+======================
+
+A sesh@ path is a path  used to browse an object (and sub-object) using the introspection (see fwDataCamp and :ref:`Serialization`). The path begins 
+with a '@' or a '!'.
+  - ``@`` : the returned string is the fwID of the sub-object defined by the path.
+  - ``!`` : the returned string is the value of the sub-object, it works only on String, Integer, Float and  Boolean object.
+  
+Example:
+---------
+
+To get the fwID of an image contained in a Composite with the key "myImage"
+
+.. code:: xml
+     
+     @values.myImage
+
+To get the fwID of the first reconstruction of a ModelSeries contained in a Composite with the key "myModel"
+
+.. code:: xml
+
+     @values.myModel.reconstruction_db.0
