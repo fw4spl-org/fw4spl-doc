@@ -175,7 +175,7 @@ param:
         parameter name, used as ``${paramName}`` in the configuration. It will be replaced by the string 
         defined by the service, activity or application that launchs the configuration.
         
-    default: 
+    default (optional): 
         default value for the parameter, it is used if the value is not given by the config launcher.
             
 desc (optional)
@@ -198,7 +198,7 @@ An object can defines a list of services. Some object object can have a specific
         Object type (ex: ``::fwData::Image``, ``::fwData::Composite``)
     src (optional, "new" by default)
         Defines if the object should be created (``new``) or if it already exists in the application (``ref``). 
-        It the last case, the uid must be the same as the first declaration of this object (with ``new``).
+        In the last case, the uid must be the same as the first declaration of this object (with ``new``).
     
 service:
     It represents a service working on the object

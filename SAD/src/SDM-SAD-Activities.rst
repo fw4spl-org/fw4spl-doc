@@ -155,11 +155,11 @@ it creates the ``::fwMedData::ActivitySeries`` and adds the required data in its
 The builder ``::fwActivities::builder::ActivitySeriesInitData`` allows, in addition to what the default builder does, 
 to create data when minOccurs == 0 et maxOccurs == 0.
 
-validators
+validators (optional)
 ***********
 It defines the list of validator. If you need only one validator, you don't need the "validators" tag (only "validator").
     
-validator:
+validator (optional):
     It allows to validate if the selected required object are correct for the activity. 
     
     For example, the validator ``::fwActivities::validator::ImageProperties`` checks that all the selected images 
