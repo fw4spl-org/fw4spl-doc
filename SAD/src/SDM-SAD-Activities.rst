@@ -20,7 +20,7 @@ signals and launchs the activity in a new tab.
 Activity series
 ----------------
 
-The ``::fwMedData::ActivitySeries`` owns a ``::fwData::Composite`` that contains all the data required by the activity.
+The ``::fwMedData::ActivitySeries`` has a ``::fwData::Composite`` that contains all the data required by the activity.
 
 .. code-block:: cpp
 
@@ -97,25 +97,25 @@ Example
     </extension>
 
 
-The activity parameters are (in this order):
+The activity parameters are (in the following order):
 
 id
 *****
-It is the activity unique identifier.
+The activity unique identifier.
 
 title
 *******
-It is the activity title that will be displayed on the tab.
+The activity title that will be displayed on the tab.
 
 desc
 ******
-It is the description of the activity. It is displayed by the SActivityLauncher when several activity can be launched
+The description of the activity. It is displayed by the SActivityLauncher when several activity can be launched
 with the selected data.
 
 
 icon
 *****
-It is the path to the activity icon. It is displayed by the SActivityLauncher when several activity can be launched
+The path to the activity icon. It is displayed by the SActivityLauncher when several activity can be launched
 with the selected data.
 
 .. figure:: ../media/SActivityLauncher.png
@@ -125,7 +125,7 @@ with the selected data.
 
 requirements
 *************
-It is the list of the data required to launch the activity. This data must be selected in the vector (``::fwData::Vector``).
+The list of the data required to launch the activity. This data must be selected in the vector (``::fwData::Vector``).
 
 requirement: 
     A required data.
@@ -153,14 +153,14 @@ Implementation of the activity builder. The default builder is ``::fwActivities:
 it creates the ``::fwMedData::ActivitySeries`` and adds the required data in its composite with de defined key.
 
 The builder ``::fwActivities::builder::ActivitySeriesInitData`` allows, in addition to what the default builder does, 
-to create data when minOccurs == 0 et maxOccurs == 0.
+to create data when minOccurs == 0 and maxOccurs == 0.
 
 validators (optional)
-***********
-It defines the list of validator. If you need only one validator, you don't need the "validators" tag (only "validator").
+**********************
+It defines the list of validators. If you need only one validator, you don't need the "validators" tag (only "validator").
     
 validator (optional):
-    It allows to validate if the selected required object are correct for the activity. 
+    It allows to validate if the selected required objects are correct for the activity. 
     
     For example, the validator ``::fwActivities::validator::ImageProperties`` checks that all the selected images 
     have the same size, spacing and origin.

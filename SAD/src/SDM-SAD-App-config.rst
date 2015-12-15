@@ -6,20 +6,21 @@ App-config
 Dynamic program with factories
 ------------------------------
 
-As shown in the :ref:`Object-Service_example`, it is easy to change data and service to modify the application behavior
-by working on a mesh instead of an image. However, this is limited to one service working with one data. It is 
-impossible to manage several objects/services to create complex software.
+As shown in the :ref:`Object-Service concept example<Object-Service_example>`, it is easy to change an application's
+behaviour by simply changing the appropriate data and services. For example changing an image visualisation application 
+to a 3D model visualisation application. Unfourtunely, this is limited to applications based on one service and one data,
+and thus would impossible to apply on applications containing multiple services and object.
 
-Then FW4SPL architecture provides a dynamic management of configurations to allow the use of multiple objects and services.
+To overcome this, the FW4SPL architecture provides a dynamic management of configurations to allow the use of multiple objects and services.
 
-The xml configuration for an application is defines with the extension ``::fwServices::registry::AppConfig``.
+The xml configuration for an application is defined with the extension ``::fwServices::registry::AppConfig``.
 
 
 Dynamic program with application configuration
 ----------------------------------------------
 
 In the ``fwServices`` library, an application configuration parser
-allows to parse XML files then creates and manages objects, services and
+allows to parse XML files and creates and manages objects, services and
 communications.
 
 .. code-block:: c++
@@ -42,7 +43,7 @@ communications.
     }
 
 
-The following part correspond to the configuration XML file of the previous :ref:`Object-Service_example`.
+The following part corresponds to the configuration XML file of the previous :ref:`Object-Service_example`.
 
 .. code-block:: xml
 
@@ -78,7 +79,8 @@ The following part correspond to the configuration XML file of the previous :ref
 
     </ object >
 
-This is a simple example to show how to build an application with several objects and services thanks to a program and its configurations files.
+This simple example shows how it is possible to build an application with several objects and services
+using only a program and its configurations files.
 
 
 Example
@@ -162,14 +164,14 @@ Example
 
 id 
 ~~~~
-It is the configuration identifier
+The id is the configuration identifier, and is thus unique to each configuration.
 
 parameters (optional)
 ~~~~~~~~~~~~~~~~~~~~~~
-It defines the list of the parameters used by the configuration
+The parameters is a list of the parameters used by the configuration.
     
 param: 
-    defines a parameter
+    defines the parameter
         
     name: 
         parameter name, used as ``${paramName}`` in the configuration. It will be replaced by the string 
@@ -180,16 +182,16 @@ param:
             
 desc (optional)
 ~~~~~~~~~~~~~~~~
-It is the description of the application
+The description of the application.
 
 config
 ~~~~~~~
-It defines the services and objects to launch
+The config tag includes the services and objects to launch.
     
 object
 *******
 It defines an object of the AppConfig. We usually use a ::fwData::Composite in order to add sub-objects.
-An object can defines a list of services. Some object object can have a specific configuration : 
+An object can contain a list of services. Some object objects can have a specific configuration : 
 ::fwData::TransformationMatrix3D, ::fwData::Float, ::fwData::List, ...
     
     uid (optional):
@@ -206,11 +208,11 @@ service:
     uid (optional): 
         Unique identifier of the service. If it is not defined, it will be automatically generated.
     impl: 
-        Service implementation
+        Service implementation type (ex: ``::ioVTK::SImageReader``)
     type (optional):
-        Service type (ex: ``::fwGui::IFrameSrv``)
+        Service type (ex: ``::io::IReader``)
     autoConnect (optional, "no" by default):
-        Defines if the service listen the signals of the working object
+        Defines if the service receives the signals of the working object
     worker (optional):
         Allows to run the service in another worker (see :ref:`Multithreading`)
     
@@ -234,7 +236,7 @@ matrix (optional):
     </object>
 
 value (optional):
-    It works only for ``::fwData::Boolean``, ``::fwData::Integer``, ``::fwData::Float`` and ``::fwData::String``. It 
+    Only these objects contain this tag : ``::fwData::Boolean``, ``::fwData::Integer``, ``::fwData::Float`` and ``::fwData::String``. It 
     allows to define the value of the object.
     
 .. code-block:: xml
@@ -260,7 +262,7 @@ item (optional):
     </item>
 
 colors (optional):
-    It works only for ``::fwData::TransferFunction``. It allows to fill the transfer function values.
+    Only ``::fwData::TransferFunction`` contains this tag. It allows to fill the transfer function values.
     
 .. code-block:: xml
 
