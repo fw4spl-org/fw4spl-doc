@@ -126,9 +126,9 @@ adaptor
 connect/proxy (optional)
      Connects signal to slot
      
-   - **waitForKey** (optional): defines the required object key for the signal/slot connection
+   - **waitForKey** (optional): defines that the connection is made only if the key is present in the scene composite.
    - **signal** (mandatory): must be signal holder UID, followed by '/', followed by signal name. 
-   - **slot** (mandatory): must be slot holder UID, followed by '/', followed by slot name
+   - **slot** (mandatory): must be slot holder UID, followed by '/', followed by slot name.
 
 .. note::
 
