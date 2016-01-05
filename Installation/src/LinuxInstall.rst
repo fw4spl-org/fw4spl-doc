@@ -107,7 +107,7 @@ Dependencies
 
 .. code:: bash
     $ cd fw4spl-deps
-    $ git checkout fw4spl_0.10.2.1
+    $ git checkout fw4spl_0.10.2.2
 
 - Get into your Build directory (Debug or Release) : here an example if you want to compile in DEBUG
 
@@ -170,7 +170,7 @@ Source
 .. code:: bash
 
     $ cd fw4spl
-    $ git checkout fw4spl_0.10.2.1
+    $ git checkout fw4spl_0.10.2.2
 
 - Get into your Build directory (Debug or Release) : here an example if you want to compile in DEBUG
 
@@ -254,7 +254,7 @@ If you want to use this extension, you need to clone the deps repositories:
     $ cd ~/Dev/Deps/Src
     $ git clone https://github.com/fw4spl-org/fw4spl-ext-deps.git fw4spl-ext-deps
     $ cd fw4spl-ext-deps
-    $ git checkout fw4spl_0.10.2.1
+    $ git checkout fw4spl_0.10.2.2
 
 - `fw4spl-ar-deps <https://github.com/fw4spl-org/fw4spl-ar-deps.git>`_: contains the scripts to compile the external libraries used by fw4spl-ar
 
@@ -263,7 +263,7 @@ If you want to use this extension, you need to clone the deps repositories:
     $ cd ~/Dev/Deps/Src
     $ git clone https://github.com/fw4spl-org/fw4spl-ar-deps.git fw4spl-ar-deps
     $ cd fw4spl-ar-deps
-    $ git checkout fw4spl_0.10.2.1
+    $ git checkout fw4spl_0.10.2.2
 
 You must re-edit cmake configuration to add this repository:
 
@@ -290,7 +290,7 @@ If you want to use fw4spl extension, you need this repositories:
     $ cd Dev/Src
     $ git clone https://github.com/fw4spl-org/fw4spl-ext.git fw4spl-ext
     $ cd fw4spl-ext
-    $ git checkout fw4spl_0.10.2.1
+    $ git checkout fw4spl_0.10.2.2
 
 - `fw4spl-ar <https://github.com/fw4spl-org/fw4spl-ar.git>`_: another extension of fw4spl, contains functionalities for augmented reality (video tracking)
 
