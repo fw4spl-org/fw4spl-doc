@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="39cm" height="19cm" viewBox="-101 238 762 363" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g>
+    <rect style="fill: #ffffce" x="292.876" y="260" width="367.124" height="340"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="292.876" y="260" width="367.124" height="340"/>
+    <rect style="fill: #ffffce" x="292.876" y="240" width="81" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="292.876" y="240" width="81" height="20"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="294.876" y="254">visuOgreQt</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="324.48" y="500" width="316.25" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="324.48" y="500" width="316.25" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="482.605" y="519">RenderWindowInteractorManager</text>
+    <rect style="fill: #ffffff" x="324.48" y="528" width="316.25" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="324.48" y="528" width="316.25" height="8"/>
+    <rect style="fill: #ffffff" x="324.48" y="536" width="316.25" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="324.48" y="536" width="316.25" height="8"/>
+  </g>
+  <g>
+    <rect style="fill: #c3e8ff" x="-100" y="372.995" width="374.491" height="227.005"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-100" y="372.995" width="374.491" height="227.005"/>
+    <rect style="fill: #c3e8ff" x="-100" y="352.995" width="96.4" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-100" y="352.995" width="96.4" height="20"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-98" y="366.995">fwRenderOgre</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="40.5431" y="395.01" width="86.25" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="40.5431" y="395.01" width="86.25" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="83.6681" y="414.01">SRender</text>
+    <rect style="fill: #ffffff" x="40.5431" y="423.01" width="86.25" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="40.5431" y="423.01" width="86.25" height="8"/>
+    <rect style="fill: #ffffff" x="40.5431" y="431.01" width="86.25" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="40.5431" y="431.01" width="86.25" height="8"/>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="-80" y="500" width="322.2" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-80" y="500" width="322.2" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="81.1" y="519">IRenderWindowInteractorManager</text>
+    <rect style="fill: #ffffff" x="-80" y="528" width="322.2" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-80" y="528" width="322.2" height="8"/>
+    <rect style="fill: #ffffff" x="-80" y="536" width="322.2" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-80" y="536" width="322.2" height="8"/>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="83.6681,465.187 83.6681,495.111 83.9047,495.111 83.4939,499.05 "/>
+    <polygon style="fill: #ffffff" points="83.6681,440.015 88.4681,454.015 83.6681,468.015 78.8681,454.015 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="83.6681,440.015 88.4681,454.015 83.6681,468.015 78.8681,454.015 "/>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="434.802" y="283.248" width="95.4" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="434.802" y="283.248" width="95.4" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="482.502" y="302.248">QWindow</text>
+    <rect style="fill: #ffffff" x="434.802" y="311.248" width="95.4" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="434.802" y="311.248" width="95.4" height="8"/>
+    <rect style="fill: #ffffff" x="434.802" y="319.248" width="95.4" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="434.802" y="319.248" width="95.4" height="8"/>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="482.605,473.823 482.605,459.097 482.801,459.097 482.801,433.199 "/>
+    <polygon style="fill: #ffffff" points="482.605,498.994 477.805,484.994 482.605,470.994 487.405,484.994 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="482.605,498.994 477.805,484.994 482.605,470.994 487.405,484.994 "/>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="482.502,346.49 482.502,365.721 482.801,365.721 482.801,387.188 "/>
+    <polygon style="fill: #ffffff" points="490.502,346.49 482.502,330.49 474.502,346.49 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="490.502,346.49 482.502,330.49 474.502,346.49 "/>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="261.446,522 260.21,522 322.47,522 323.47,522 "/>
+    <polygon style="fill: #ffffff" points="261.446,514 245.446,522 261.446,530 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="261.446,514 245.446,522 261.446,530 "/>
+  </g>
+  <g>
+    <rect style="fill: #ffc0cb" x="-99.9576" y="259.71" width="374.511" height="82.9884"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-99.9576" y="259.71" width="374.511" height="82.9884"/>
+    <rect style="fill: #ffc0cb" x="-99.9576" y="239.71" width="40" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-99.9576" y="239.71" width="40" height="20"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-97.9576" y="253.71">Ogre</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="9.16525" y="282.635" width="146.55" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="9.16525" y="282.635" width="146.55" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="82.4402" y="301.635">RenderWindow</text>
+    <rect style="fill: #ffffff" x="9.16525" y="310.635" width="146.55" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="9.16525" y="310.635" width="146.55" height="8"/>
+    <rect style="fill: #ffffff" x="9.16525" y="318.635" width="146.55" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="9.16525" y="318.635" width="146.55" height="8"/>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="441.901" y="388.194" width="81.8" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="441.901" y="388.194" width="81.8" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="482.801" y="407.194">Window</text>
+    <rect style="fill: #ffffff" x="441.901" y="416.194" width="81.8" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="441.901" y="416.194" width="81.8" height="8"/>
+    <rect style="fill: #ffffff" x="441.901" y="424.194" width="81.8" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="441.901" y="424.194" width="81.8" height="8"/>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="416.73,402.194 329.144,402.194 329.144,304.635 156.719,304.635 "/>
+    <polygon style="fill: #ffffff" points="441.901,402.194 427.901,406.994 413.901,402.194 427.901,397.394 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="441.901,402.194 427.901,406.994 413.901,402.194 427.901,397.394 "/>
+  </g>
+</svg>
