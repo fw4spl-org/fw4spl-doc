@@ -43,7 +43,6 @@ Overview
     - Adaptors
 - Tutorials
     - Material
-    - Interactions with services
     - Compositors
     - Transparency
 
@@ -391,7 +390,6 @@ Overview
     - Adaptors
 - Tutorials
     - Material
-    - Interactions with services
     - Compositors
     - Transparency
         
@@ -933,11 +931,11 @@ Default material
 *****************
 
 - *1 - Default* is the main material
-- It replaces the fixed function pipeline we had before:
+- It replaces the fixed function pipeline we had with VTK:
     - Flat/Gouraud/Diffuse shading
     - Point/WireFrame/Solid fill modes
     - Vertex color, diffuse texture
-- Supports OIT techniques
+- Supports OIT (Order Independent Transparency) techniques
 
 ----
 
@@ -989,7 +987,7 @@ Negato
 Generic scene - Adaptors
 ==================================================================
 
-Negato - Implementation details (1/2)
+Negato - Implementation details
 **************************************
 
 - The 3D image is uploaded entirely to the GPU in a 3D texture
@@ -1014,6 +1012,24 @@ Textures
  
 ----
 
+Generic scene - Adaptors
+==================================================================
+
+SShaderParameter
+*****************
+
+- Work on several data :
+    - ::fwData::Integer
+    - ::fwData::Float
+    - ::fwData::Boolean
+    - ::fwData::Color
+    - ::fwData::PointList
+    - ::fwData::TransformationMatrix3D
+    - ::fwData::Vector
+- Upload the data as a program uniform    
+
+----
+
 :data-x: r0
 :data-y: r-2700
 :data-rotate-z: r90
@@ -1031,14 +1047,13 @@ Overview
     - Adaptors
 - *Tutorials*
     - Material
-    - Interactions with services
     - Compositors
     - Transparency
-        
+
 ----
 
-:data-x: r-2000
-:data-y: r0
+:data-x: r0
+:data-y: r-2000
 :data-rotate-z: r0
 :class: title
 
@@ -1046,13 +1061,192 @@ Overview
 |
 |
 
-Tutorials
+Tutorials - Material
 ==================================================================
 
 ----
 
+Tutorials
+==================================================================
+
+1/ Mesh
+*********
+
+1. Grab the application skeleton on **OwnCloud/PartageRD/ogre-training**
+2. Add an ogre generic scene to display the liver mesh
+
+----
+
+Tutorials
+==================================================================
+
+2/ Texture
+***********
+
+1. Modify the previous application to load the liver texture with a *::ioVTK::SImageReader*
+2. Add a texture adaptor on the loaded image to map it on the liver mesh
+
+----
+
+Tutorials
+==================================================================
+
+3/ New Material
+***************
+
+1. Create a bundle and register a material "toto"
+    - Check registration with Ogre.log
+2. Create the material with a vertex shader and a fragment shader
+    - Vertex shader only transform the points
+    - Fragment shader lit pixels in green
+    
+- Tip to write the vertex shader:
+    - *gl_Position* output is automatically defined **RenderSystems/GL3Plus/src/GLSL/OgreGLSLShader.cpp:232**
+    
+----
+
+:class: text-small
+
+Tutorials
+==================================================================
+
+3/ New Material
+***************
+
+.. code::
+
+    //-----------------------------------------------
+
+    vertex_program toto_VP glsl
+    {
+        source toto_VP.glsl
+        default_params
+        {
+            param_named_auto u_worldViewProj worldviewproj_matrix
+        }
+    }
+
+    //----------------------------------------------
+
+    vertex_program toto_FP glsl
+    {
+        source toto_FP.glsl
+    }
+
+    //----------------------------------------------
+    material toto
+    {
+        technique
+        {
+            pass
+            {
+                vertex_program_ref toto_VP
+                {
+                }
+
+                fragment_program_ref toto_FP
+                {
+                }
+            }
+        }
+    }
+
+----
+
+Tutorials
+==================================================================
+
+4/ Material with a static texture
+***********************************
+
+- Modify the material to add a texture unit
+- Modify the vertex and fragment programs to forward the texture coordinates
+    - Possible vertex input attributes are: 
+        - *position* ( or *vertex*), 
+        - *normal*, 
+        - *colour*,
+        - *secondary_colour*,
+        - *tangent*,
+        - *binormal*,
+        - *uv#* (up to 8), 
+        - *blendIndices*, 
+        - *blendWeights*
+- Sample the texture in the fragment program
+
+----
+
+Tutorials
+==================================================================
+
+5/ Material with diffuse lighting
+***********************************
+
+- Modify the material to grab the light direction uniform
+
+http://www.ogre3d.org/docs/manual/manual_23.html#Using-Vertex_002fGeometry_002fFragment-Programs-in-a-Pass
+
+- Add the normal vertex input attribute
+- Multiply the pixel color with the dot product of the light direction and the fragment normal
+- Bonus: lit backfaces as well
+
+----
+
+Tutorials
+==================================================================
+
+6/ Material with user control
+******************************
+
+- Now the vertex shader wave points away along the normal
+- The fragment shader wave the base color 
+- Use the two types of uniform in Ogre to control the wave
+    a. Automatic - use one of the time uniforms
+    b. User-defined - use *SShaderParameter* adaptor
+
+http://www.ogre3d.org/docs/manual/manual_23.html#Using-Vertex_002fGeometry_002fFragment-Programs-in-a-Pass
+
+----
+
+Tutorials
+==================================================================
+
+7/ Passes
+******************************
+
+- Add a new pass in the material to render the liver a second time
+
+----
+
+:class: title
+
+|
+|
+|
+
+Tutorials - Compositors
+==================================================================
+
+----
+
+Tutorials
+==================================================================
+
+1/ Blur
+***********
+
+1. Create a compositor
+    - Don't forget to put it in a registered location !
+2. Apply a 5x5 Gaussian filter on the source image
+    - Sample the image with a texel offset [-5;5]
+    - Take into account the size of the image (**viewport_width**, **viewport_height**)
+    - Don't filter the texture image
+3. Enlarge your blur !
+    - "Cheat" by applying a bilinear filter on the source image
+    - Downscale the resolution of the render target used to perform the blur
+
+----
+
 :class: centered
-:data-y: r1500
 
 Thank you !
 =============
