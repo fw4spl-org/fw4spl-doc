@@ -41,10 +41,11 @@ Overview
     - Architecture
     - Basics
     - Adaptors
+    - Transparency
+- Perspectives
 - Tutorials
     - Material
     - Compositors
-    - Transparency
 
 ----
 
@@ -72,6 +73,7 @@ History
 	
 ----
 
+:data-y: r1500
 :class: text-small
 
 Ogre 3D
@@ -138,6 +140,16 @@ Architecture overview
            :width: 100%
 
 ----
+
+:data-y: r0
+:data-x: r-100
+:data-scale: .6
+
+----
+
+:data-x: r0
+:data-y: r1500
+:data-scale: 1
 
 Ogre 3D
 ==================
@@ -369,7 +381,180 @@ Compositors
     - full screen pass
 
 .. image:: images/compositor_sample.svg
-           :width: 100%
+           :width: 80%
+           
+----
+
+:data-x: r-900
+:data-y: r0
+:class: text-medium
+           
+.. code::
+
+    compositor Edges
+    {
+        technique
+        {
+            texture Scene target_width target_height PF_R8G8B8
+            texture Edge target_width_scaled 0.5 target_target_height_scaled 0.5 PF_FLOAT16_R
+
+            target Scene
+            {
+                input none
+                pass clear
+                {
+                }
+            
+                pass render_scene
+                {
+                }
+            }
+            
+            target Edges
+            {
+                input none
+
+                pass render_quad
+                {
+                    material EdgeDetection
+                    input 0 SceneWithEdges
+                }
+            }
+
+            target_output
+            {
+                input none
+
+                pass render_quad
+                {
+                    material BlendEdges
+                    input 0 Scene
+                    input 1 Edges
+                }
+            }
+        }
+    }
+
+----
+
+:data-x: r0
+:data-y: r1500
+
+Ogre 3D
+==================
+
+Compositors
+*****************************
+
+- Compositors can be chained together:
+
+.. code::
+
+    // Next.compositor
+    compositor Next
+    {
+        ...
+        target dummy
+        {
+            input previous
+            
+            ...
+        }
+        ...
+    }
+    
+.. code:: cpp
+
+    // .cpp
+    auto manager = ::Ogre::CompositorManager::getSingletonPtr();
+    manager->addCompositor(viewport, "Edges");
+    manager->addCompositor(viewport, "Next");
+    manager->setCompositorEnabled(viewport, "Edges", true);
+    manager->setCompositorEnabled(viewport, "Next", true);
+    
+----
+    
+Ogre 3D
+==================
+
+Compositors
+*****************************
+
+- render_scene passes can select a technique in the material
+    
+.. code::
+
+    // .compositor
+    target dummy
+    {
+        material_scheme tutuScheme
+
+        pass render_scene
+        {
+        }
+    }
+    
+----
+
+
+:data-x: r-800
+:data-y: r0
+
+.. code::
+
+    // .material
+    material toto
+    {
+        technique
+        {
+            pass
+            {
+                vertex_program_ref default_VP
+                {
+                }
+
+                fragment_program_ref default_FP
+                {
+                }
+            }
+        }
+
+        technique tutu
+        {
+            scheme tutuScheme
+
+            pass
+            {
+                vertex_program_ref tutu_VP
+                {
+                }
+
+                fragment_program_ref tutu_FP
+                {
+                }
+            }
+        }
+    }
+    
+----
+
+:data-x: r0
+:data-y: r1500
+
+Ogre 3D
+==================
+
+Compositors
+*****************************
+
+- Documentation:
+
+http://www.ogre3d.org/docs/manual/manual_29.html#Compositor-Scripts
+
+- Limitation:
+    - With the current v1.10, it is not possible to retrieve a depth buffer
+    - Forced to use an extra floating-point buffer  
+    - Supported with 2.0 and 2.1
 
 ----
 
@@ -388,10 +573,11 @@ Overview
     - Architecture
     - Basics
     - Adaptors
+    - Transparency
+- Perspectives
 - Tutorials
     - Material
     - Compositors
-    - Transparency
         
 ----
 
@@ -567,7 +753,7 @@ Generic scene
 ::fwRenderOgre::SRender
 ************************
 
-- Contains and manage the adaptors
+- Contains and manages the adaptors
 - Bridge between the adaptors and the widget
 - With **makeCurrent()**, allows the adaptors to set the current OpenGL context
 - With **requestRender()**, allows the adaptors to refresh the rendering
@@ -668,7 +854,7 @@ Generic scene
 Compositors
 *************
 
-- DefaultCompositor handles the "core" compositors, like those related to transparency
+- *DefaultCompositor* handles the "core" compositors, like those related to transparency
  
 - Each layer has a compositor chain managed by a *CompositorChainManager*, designed to receive custom compositors
 
@@ -704,6 +890,17 @@ Background
 
 ----
 
+Generic scene
+==================================================================
+
+Logging
+*************
+
+- The output log is redirected to the current working directory **Ogre.log**
+- Very important for debugging materials and shaders
+
+----
+
 :data-x: r-2000
 
 :class: title
@@ -724,7 +921,7 @@ STransform
 *************
 
 - Work on a *::fwData::TransformationMatrix3D*
-- Wraps a *::Ogre::SceneNode*
+- Wrap a *::Ogre::SceneNode*
 - A parent transform can be specified, thus allowing to build a scene graph implicitly
 
 .. code:: xml
@@ -897,7 +1094,7 @@ SMaterial
 
 - Work on a ::fwData::Material
 - Instantiated by SMesh or configured by XML
-- Wraps a *::Ogre::Material*
+- Wrap a *::Ogre::Material*
 
 .. code:: xml
 
@@ -921,21 +1118,6 @@ SMaterial
     - from a script on disk
     - into the resource group **"materialsTemplate"**
 - We create a copy of the template material, thus we can modify it without altering other objects which use this material
-
-----
-
-Generic scene - Adaptors
-==================================================================
-
-Default material
-*****************
-
-- *1 - Default* is the main material
-- It replaces the fixed function pipeline we had with VTK:
-    - Flat/Gouraud/Diffuse shading
-    - Point/WireFrame/Solid fill modes
-    - Vertex color, diffuse texture
-- Supports OIT (Order Independent Transparency) techniques
 
 ----
 
@@ -967,6 +1149,21 @@ Material scripts registration
         ::fwRenderOgre::Utils::addResourcesPath( RESOURCES_PATH );
     }
     
+----
+
+Generic scene - Adaptors
+==================================================================
+
+Default material
+*****************
+
+- *Default* is the main material
+- It replaces the fixed function pipeline we had with VTK:
+    - Flat/Gouraud/Diffuse shading
+    - Point/WireFrame/Solid fill modes
+    - Vertex color, diffuse texture
+- Supports OIT (Order Independent Transparency) techniques
+
 ----
 
 Generic scene - Adaptors
@@ -1007,8 +1204,9 @@ Textures
 *************
 
 - Work on a *::fwData::Image*
-- Wraps a ::Ogre::Texture
+- Wrap a ::Ogre::Texture
 - Currently only used as a diffuse texture
+- Static or dynamic texture
  
 ----
 
@@ -1019,14 +1217,153 @@ SShaderParameter
 *****************
 
 - Work on several data :
-    - ::fwData::Integer
-    - ::fwData::Float
-    - ::fwData::Boolean
-    - ::fwData::Color
-    - ::fwData::PointList
-    - ::fwData::TransformationMatrix3D
-    - ::fwData::Vector
+    - *::fwData::Integer*
+    - *::fwData::Float*
+    - *::fwData::Boolean*
+    - *::fwData::Color*
+    - *::fwData::PointList*
+    - *::fwData::TransformationMatrix3D*
+    - *::fwData::Vector*
 - Upload the data as a program uniform    
+
+----
+
+:data-x: r-2000
+
+:class: title
+
+|
+|
+|
+
+Transparency
+==================================================================
+
+----
+
+Transparency
+==================================================================
+
+Order Independent Transparency
+**********************************
+
+- GPU hardware only supports alpha blending
+    - Order dependent
+- We support four different OIT techniques with *Default* and *Negato* materials:
+    - Depth Peeling (exact but slow)
+    - Dual Depth Peeling (normally faster)
+    - Weighted-Order Independent Transparency (fastest)
+    - Hybrid Transparency (nice tradeoff)
+
+----
+
+Transparency
+==================================================================
+
+1/ Implementation
+**********************************
+
+- Use of compositors with lots of passes
+    - Example: one compositor pass for each peel in the Depth Peeling algorithm
+- The scene is rendered several times
+    - Specific code for the transparency
+    - Common code for the lighting 
+- Technique schemes are used to select the appropriate code
+    - The material must implement **all** the schemes to support all the OIT techniques !
+
+----
+
+Transparency
+==================================================================
+
+2/ Implementation
+**********************************
+
+- Share the common code:
+    - No standard **#include** in GLSL
+    - Use of **attach** in Ogre material program
+    - Example:
+    
+.. code::
+
+    fragment_program DepthPeeling_peel_Ambient_FP_glsl glsl
+    {
+        source DepthPeelingPeel_FP.glsl
+        attach DepthPeelingCommon_FP
+        attach MaterialColor_Ambient_FP
+        
+        default_params
+        {
+            param_named u_fragData0 int 0
+            param_named_auto u_vpWidth viewport_width
+            param_named_auto u_vpHeight viewport_height
+            param_named_auto u_diffuse surface_diffuse_colour
+        }
+    }
+
+----
+
+Transparency
+==================================================================
+
+3/ Implementation
+**********************************
+
+- Preprocess the common code:
+    - Use of **preprocessor_defines** in Ogre material program
+    - Example:
+
+.. code::
+
+    // .material
+    fragment_program Lighting_FP glsl
+    {
+        source Lighting.glsl
+        preprocessor_defines LIGHTING_ENABLED=1,NUM_LIGHTS=10
+    }
+
+.. code:: glsl
+
+    // Lighting.glsl
+    ...
+    #ifdef LIGHTING_ENABLED
+    uniform vec3 u_lightDir[NUM_LIGHTS];
+    #endif
+    ...
+    
+----
+
+Transparency
+==================================================================
+
+4/ Implementation
+**********************************
+
+- Lots of combination to handle for each scheme (more than 200 combinations) :
+    - lighting : Ambient/Flat/Gouraud/Phong
+    - vertex color : on/off
+    - primitive color : on/off
+    - diffuse texture : on/off
+    - edge/normal display
+- We switch the programs at runtime (in *SMaterial*)
+- The GLSL code is shared as much as possible (less than 20 .glsl) files
+- Still, around 200 material programs to define all the combinations !
+    
+----
+
+Transparency
+==================================================================
+
+5/ Implementation
+*******************
+
+- Generation of the material programs with a **Python** script using **Jinja** templating
+    - **materials/genMaterials.py**
+- Template: **materials/templates/Common.program.tpl**
+- Generated file: **materials/Common.program**
+- Less error-prone
+- Not easy to understand in a first place, but clearer at the end
+- Not extensible to materials defined 
 
 ----
 
@@ -1045,16 +1382,36 @@ Overview
     - Architecture
     - Basics
     - Adaptors
+    - Transparency
+- Perspectives
 - *Tutorials*
     - Material
     - Compositors
-    - Transparency
 
 ----
 
 :data-x: r0
 :data-y: r-2000
 :data-rotate-z: r0
+
+Perspectives
+==================================================================
+
+- Enhance new material integration with OIT
+- Unit testing
+- Volume rendering
+- SAO with transparency
+- Better visualizations for Augmented Reality
+- New adaptors
+- Helper drawing class
+- 3D Widgets
+- Diffuse/specular shading
+- Post Effects
+- Ogre 2.0/2.1 ?
+- ...
+
+----
+
 :class: title
 
 |
@@ -1075,6 +1432,13 @@ Tutorials
 1. Grab the application skeleton on **OwnCloud/PartageRD/ogre-training**
 2. Add an ogre generic scene to display the liver mesh
 
+.. raw:: html
+
+       <video width="640" height="360" controls>
+          <source src="../videos/ogre-training1.ogv">
+          Your browser does not support the video tag.
+       </video>
+
 ----
 
 Tutorials
@@ -1086,6 +1450,13 @@ Tutorials
 1. Modify the previous application to load the liver texture with a *::ioVTK::SImageReader*
 2. Add a texture adaptor on the loaded image to map it on the liver mesh
 
+.. raw:: html
+
+       <video width="640" height="360" controls>
+          <source src="../videos/ogre-training2.ogv">
+          Your browser does not support the video tag.
+       </video>
+       
 ----
 
 Tutorials
@@ -1095,10 +1466,10 @@ Tutorials
 ***************
 
 1. Create a bundle and register a material "toto"
-    - Check registration with Ogre.log
+    - Check registration with **Ogre.log**
 2. Create the material with a vertex shader and a fragment shader
-    - Vertex shader only transform the points
-    - Fragment shader lit pixels in green
+    - Vertex shader only transforms the points
+    - Fragment shader lits pixels in green
     
 - Tip to write the vertex shader:
     - *gl_Position* output is automatically defined **RenderSystems/GL3Plus/src/GLSL/OgreGLSLShader.cpp:232**
@@ -1156,10 +1527,25 @@ Tutorials
 Tutorials
 ==================================================================
 
+3/ New Material
+***************
+
+.. raw:: html
+
+       <video width="800" height="450" controls>
+          <source src="../videos/ogre-training3.ogv">
+          Your browser does not support the video tag.
+       </video>
+       
+----
+
+Tutorials
+==================================================================
+
 4/ Material with a static texture
 ***********************************
 
-- Modify the material to add a texture unit
+- Modify the material to add a texture unit and bind the sampler uniform
 - Modify the vertex and fragment programs to forward the texture coordinates
     - Possible vertex input attributes are: 
         - *position* ( or *vertex*), 
@@ -1171,8 +1557,24 @@ Tutorials
         - *uv#* (up to 8), 
         - *blendIndices*, 
         - *blendWeights*
+        
+----
+ 
+Tutorials
+==================================================================
+
+4/ Material with a static texture
+***********************************
+
 - Sample the texture in the fragment program
 
+.. raw:: html
+
+       <video width="640" height="360" controls>
+          <source src="../videos/ogre-training4.ogv">
+          Your browser does not support the video tag.
+       </video>
+       
 ----
 
 Tutorials
@@ -1187,8 +1589,15 @@ http://www.ogre3d.org/docs/manual/manual_23.html#Using-Vertex_002fGeometry_002fF
 
 - Add the normal vertex input attribute
 - Multiply the pixel color with the dot product of the light direction and the fragment normal
-- Bonus: lit backfaces as well
+- **Bonus:** lit backfaces as well
 
+.. raw:: html
+
+       <video width="640" height="360" controls>
+          <source src="../videos/ogre-training5.ogv">
+          Your browser does not support the video tag.
+       </video>
+       
 ----
 
 Tutorials
@@ -1197,8 +1606,8 @@ Tutorials
 6/ Material with user control
 ******************************
 
-- Now the vertex shader wave points away along the normal
-- The fragment shader wave the base color 
+- Now the vertex shader waves points away along the normal
+- The fragment shader waves the base color 
 - Use the two types of uniform in Ogre to control the wave
     a. Automatic - use one of the time uniforms
     b. User-defined - use *SShaderParameter* adaptor
@@ -1210,10 +1619,32 @@ http://www.ogre3d.org/docs/manual/manual_23.html#Using-Vertex_002fGeometry_002fF
 Tutorials
 ==================================================================
 
-7/ Passes
+6/ Material with user control
+******************************
+
+.. raw:: html
+
+       <video width="640" height="360" controls>
+          <source src="../videos/ogre-training6-1.ogv">
+          Your browser does not support the video tag.
+       </video>
+       
+       <video width="640" height="360" controls>
+          <source src="../videos/ogre-training6-2.ogv">
+          Your browser does not support the video tag.
+       </video>
+
+----
+
+Tutorials
+==================================================================
+
+7/ Rendering passes
 ******************************
 
 - Add a new pass in the material to render the liver a second time
+    - Multiplied over the previous pass, with a different color
+    - At a different location
 
 ----
 
@@ -1242,20 +1673,75 @@ Tutorials
     - Don't filter the texture image
 3. Enlarge your blur !
     - "Cheat" by applying a bilinear filter on the source image
-    - Downscale the resolution of the render target used to perform the blur
+    - Downscale the resolution (1/4) of the render target used to perform the blur
+4. **Bonus:** enhance the performance of the blur by using two passes: horizontal then vertical
 
+----
+
+Tutorials
+==================================================================
+
+1/ Blur
+***********
+
+.. raw:: html
+
+       <video width="800" height="450" controls>
+          <source src="../videos/ogre-training7.ogv">
+          Your browser does not support the video tag.
+       </video>
+       
+----
+
+Tutorials
+==================================================================
+
+2/ Depth of Field (non-optimal)
+*********************************
+
+- Use the model **sponza.vtk**
+- Add a target in the compositor where you render the scene to compute a blur factor
+- Add a new material technique that matches the scheme of this pass and compute the blur factor in the vertex shader, depending on the distance :
+
+.. code::
+    
+    blurFactor = clamp(abs(-posWorldView.z - focalDistance) / focalRange, 0.0, 1.0);
+
+- Add a last step in the compositor to modulate the blur according to the blur factor :
+
+.. code::
+
+    gl_FragColor = sharp + blurFactor * (blur - sharp);
+
+- Add a slider to modify the focalDistance  
+    
+----
+
+Tutorials
+==================================================================
+
+2/ Depth of Field (non-optimal)
+*********************************
+
+.. raw:: html
+
+       <video width="800" height="450" controls>
+          <source src="../videos/ogre-training8.ogv">
+          Your browser does not support the video tag.
+       </video>
+       
 ----
 
 :class: centered
 
-Thank you !
-=============
+That's all folks !
+===================
+|
 
 fw4spl at gmail.com
 
 fbridault at ircad.fr
 
-|
 |
 
 	Presentation made with Hovercraft_
