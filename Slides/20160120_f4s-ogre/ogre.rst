@@ -21,9 +21,8 @@ Ogre 3D in FW4SPL
 **Flavien Bridault**
 
 |
-|
 
-*Training - Strasbourg, 20th January 2016*
+*Training - Strasbourg, 22nd January 2016*
 
 ----
 
@@ -74,7 +73,7 @@ History
 ----
 
 :data-y: r1500
-:class: text-small
+:class: text-medium
 
 Ogre 3D
 ====================
@@ -143,12 +142,12 @@ Architecture overview
 
 :data-y: r0
 :data-x: r-100
-:data-scale: .6
+:data-scale: .75
 
 ----
 
 :data-x: r0
-:data-y: r1500
+:data-y: r1700
 :data-scale: 1
 
 Ogre 3D
@@ -387,7 +386,7 @@ Compositors
 
 :data-x: r-900
 :data-y: r0
-:class: text-medium
+:class: text-small
            
 .. code::
 
@@ -396,7 +395,7 @@ Compositors
         technique
         {
             texture Scene target_width target_height PF_R8G8B8
-            texture Edge target_width_scaled 0.5 target_target_height_scaled 0.5 PF_FLOAT16_R
+            texture Edges target_width_scaled 0.5 target_target_height_scaled 0.5 PF_FLOAT16_R
 
             target Scene
             {
@@ -417,7 +416,7 @@ Compositors
                 pass render_quad
                 {
                     material EdgeDetection
-                    input 0 SceneWithEdges
+                    input 0 Scene
                 }
             }
 
@@ -845,7 +844,7 @@ Interactors
 
 ----
 
-:data-x: r-1500
+:data-x: r-1800
 :data-y: r0
 
 Generic scene
