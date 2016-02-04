@@ -1153,15 +1153,59 @@ Material scripts registration
 Generic scene - Adaptors
 ==================================================================
 
-Default material
-*****************
+1/ Default material
+************************
 
 - *Default* is the main material
 - It replaces the fixed function pipeline we had with VTK:
     - Flat/Gouraud/Diffuse shading
-    - Point/WireFrame/Solid fill modes
+    - Point/WireFrame/Solid/Edge fill modes
     - Vertex color, diffuse texture
-- Supports OIT (Order Independent Transparency) techniques
+- Lots of combinations  !
+
+----
+
+Generic scene - Adaptors
+==================================================================
+
+2/ Default material
+**********************************
+
+- The GLSL code is shared as much as possible
+- Use of **preprocessor_defines** in Ogre material program
+
+.. code::
+
+    // .material
+    fragment_program Lighting_FP glsl
+    {
+        source Lighting.glsl
+        preprocessor_defines LIGHTING_ENABLED=1,NUM_LIGHTS=10
+    }
+
+.. code:: glsl
+
+    // Lighting.glsl
+    ...
+    #ifdef LIGHTING_ENABLED
+    uniform vec3 u_lightDir[NUM_LIGHTS];
+    #endif
+    ...
+
+----
+
+Generic scene - Adaptors
+==================================================================
+
+3/ Default material
+***********************
+
+- We switch the vertex and fragment programs at runtime in *SMaterial::updateShadingMode()*
+- Generation of the material programs definitions with a **Python** script using **Jinja** templating
+    - **materials/genDefaultMaterial.py**
+- Template: **materials/genTemplates/Default.program.tpl**
+- Generated file: **materials/core/Default.program**
+- Less error-prone
 
 ----
 
@@ -1248,7 +1292,7 @@ Order Independent Transparency
 
 - GPU hardware only supports alpha blending
     - Order dependent
-- We support four different OIT techniques with *Default* and *Negato* materials:
+- We support four different OIT techniques:
     - Depth Peeling (exact but slow)
     - Dual Depth Peeling (normally faster)
     - Weighted-Order Independent Transparency (fastest)
@@ -1259,7 +1303,7 @@ Order Independent Transparency
 Transparency
 ==================================================================
 
-1/ Implementation
+Implementation
 **********************************
 
 - Use of compositors with lots of passes
@@ -1269,100 +1313,97 @@ Transparency
     - Common code for the lighting 
 - Technique schemes are used to select the appropriate code
     - The material must implement **all** the schemes to support all the OIT techniques !
+    - Techniques are automatically generated thanks to *::fwRenderOgre::compositor::MaterialMgrListener*
 
 ----
 
 Transparency
 ==================================================================
 
-2/ Implementation
+Extensibility
 **********************************
 
-- Share the common code:
-    - No standard **#include** in GLSL
-    - Use of **attach** in Ogre material program
-    - Example:
-    
+- Define a technique called *depth* that will be used for depth-only passes, with a single a vertex program
+- Define your fragment shader code in seperated **.glsl**, in a function called **vec4 getFragmentColor()**
+    - The **main()** function will be defined by *Main_FP.glsl* which is replaced at runtime 
+
 .. code::
 
-    fragment_program DepthPeeling_peel_Ambient_FP_glsl glsl
+    fragment_program CustomProgram_FP glsl
     {
-        source DepthPeelingPeel_FP.glsl
-        attach DepthPeelingCommon_FP
-        attach MaterialColor_Ambient_FP
-        
-        default_params
+        source CustomProgram_FP.glsl
+    }
+
+    fragment_program Default/CustomProgram_FP glsl
+    {
+        source Main_FP.glsl
+        attach CustomProgram_FP
+    }
+
+----
+
+:data-x: r0
+:data-y: r-900
+
+.. code::
+
+    material custom
+    {
+        technique
         {
-            param_named u_fragData0 int 0
-            param_named_auto u_vpWidth viewport_width
-            param_named_auto u_vpHeight viewport_height
-            param_named_auto u_diffuse surface_diffuse_colour
+            pass
+            {
+                vertex_program_ref custom_VP
+                {
+                }
+
+                fragment_program_ref Default/CustomProgram_FP
+                {
+                }
+            }
+        }
+
+        technique depth
+        {
+            pass
+            {
+                vertex_program_ref customDepth_VP
+                {
+                }
+            }
         }
     }
 
 ----
 
-Transparency
+:data-x: r-2000
+:data-y: r0
+
+:class: title
+
+|
+|
+|
+
+Perspectives
 ==================================================================
 
-3/ Implementation
-**********************************
-
-- Preprocess the common code:
-    - Use of **preprocessor_defines** in Ogre material program
-    - Example:
-
-.. code::
-
-    // .material
-    fragment_program Lighting_FP glsl
-    {
-        source Lighting.glsl
-        preprocessor_defines LIGHTING_ENABLED=1,NUM_LIGHTS=10
-    }
-
-.. code:: glsl
-
-    // Lighting.glsl
-    ...
-    #ifdef LIGHTING_ENABLED
-    uniform vec3 u_lightDir[NUM_LIGHTS];
-    #endif
-    ...
-    
 ----
 
-Transparency
+Perspectives
 ==================================================================
 
-4/ Implementation
-**********************************
-
-- Lots of combination to handle for each scheme (more than 200 combinations) :
-    - lighting : Ambient/Flat/Gouraud/Phong
-    - vertex color : on/off
-    - primitive color : on/off
-    - diffuse texture : on/off
-    - edge/normal display
-- We switch the programs at runtime (in *SMaterial*)
-- The GLSL code is shared as much as possible (less than 20 .glsl) files
-- Still, around 200 material programs to define all the combinations !
-    
-----
-
-Transparency
-==================================================================
-
-5/ Implementation
-*******************
-
-- Generation of the material programs with a **Python** script using **Jinja** templating
-    - **materials/genMaterials.py**
-- Template: **materials/templates/Common.program.tpl**
-- Generated file: **materials/Common.program**
-- Less error-prone
-- Not easy to understand in a first place, but clearer at the end
-- Not extensible to materials defined 
+- Unit testing
+- Volume rendering
+- SAO with transparency
+- Better visualizations for Augmented Reality
+- New adaptors
+- Helper drawing class
+- 3D Widgets
+- Diffuse/specular shading
+- Post Effects
+- Ogre 2.0/2.1 ?
+- ...
 
 ----
 
@@ -1392,24 +1433,6 @@ Overview
 :data-x: r0
 :data-y: r-2000
 :data-rotate-z: r0
-
-Perspectives
-==================================================================
-
-- Enhance new material integration with OIT
-- Unit testing
-- Volume rendering
-- SAO with transparency
-- Better visualizations for Augmented Reality
-- New adaptors
-- Helper drawing class
-- 3D Widgets
-- Diffuse/specular shading
-- Post Effects
-- Ogre 2.0/2.1 ?
-- ...
-
-----
 
 :class: title
 
