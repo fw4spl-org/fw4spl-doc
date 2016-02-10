@@ -106,6 +106,7 @@ Dependencies
 - Get into fw4spl-deps folder and update to the latest stable version
 
 .. code:: bash
+
     $ cd fw4spl-deps
     $ git checkout fw4spl_0.10.2.3
 
@@ -241,7 +242,7 @@ Extensions
 
 **fw4spl** has two extension repositories:
 
--  `fw4spl-ext <https://github.com/fw4spl-org/fw4spl-ext/>`_: contains additional functionalities and proofs of concept
+- `fw4spl-ext <https://github.com/fw4spl-org/fw4spl-ext/>`_: contains additional functionalities and proofs of concept
 - `fw4spl-ar <https://github.com/fw4spl-org/fw4spl-ar/>`_: contains functionalities for augmented reality (video tracking, calibration)
 
 Dependencies
