@@ -28,6 +28,9 @@ class AxiomDirective(Directive):
 
                 def_list = nodes.definition_list()
                 def_item = nodes.definition_list_item()
+                
+                lineno = self.state_machine.abs_line_number() - 1
+                def_item.line = lineno
 
                 term = nodes.term()
                 def_text = nodes.Text( self.tag_name + str(" %d") % self.__class__.count)
