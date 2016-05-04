@@ -24,7 +24,7 @@ L'implication en terme de développement d'un service est loin d'être anodine. 
 
 Ensuite pour être notifié des changements, il faut créer les connections à la main, indépendamment de l'attribut autoConnect du service, car la fonction virtuelle *IService::getObjSrvConnections()* ne travaille que sur le composite lui-même. Entre un service qui travaille directement sur une image ou un service qui travaille sur une image dans un composite, il y aura donc des différences notables en terme de setup avant de pouvoir travailler sur la donnée. Du point de vue l'XML, il est facile de déterminer si le service se connecte à l'image avec l'attribut *autoConnect* alors que dans le 2e cas il faut bien souvent regarder dans le code du service.
 
-A cause de la complexité de l'organisation des données dans les composite, une dérive a conduit à utiliser directement les UID des objets au lieu des clés de composite. Le design devient alors définitivement caduque : le service a une donnée "principale", parfois difficile à déterminer et pioche ensuite des objets à sa guise dans un *pool* global, rendant ainsi le périmètre d'action d'un service encore plus difficile à lire. Sans compter que certains services mixent les clés et les UID...
+À cause de la complexité de l'organisation des données dans les composite, une dérive a conduit à utiliser directement les UID des objets au lieu des clés de composite. Le design devient alors définitivement caduque : le service a une donnée "principale", parfois difficile à déterminer et pioche ensuite des objets à sa guise dans un *pool* global, rendant ainsi le périmètre d'action d'un service encore plus difficile à lire. Sans compter que certains services mixent les clés et les UID...
 
 1.3. Swapper
 --------------
@@ -114,7 +114,7 @@ Dans l'exemple suivant, le service *updaterReconst* travaille sur la donnée dif
         <inout key="reconstruction" uid="reconst" />
     </service>
     
-Une donnée différée est créé, supprimée ou modifiée par un service travaillant sur cette donnée **en sortie**. Pour rendre cette donnée disponible aux autres services, la méthode *::fwServices::OSR::registerService* est utilisée. Celle-ci envoie un signal qui est intercepté par l'AppConfig2, qui peut démarrer ensuite les services concernés si toutes les conditions sont remplies.
+Une donnée différée est créée, supprimée ou modifiée par un service travaillant sur cette donnée **en sortie**. Pour rendre cette donnée disponible aux autres services, la méthode *::fwServices::OSR::register* est utilisée. Celle-ci envoie un signal qui est intercepté par l'AppConfig2, qui peut démarrer ensuite les services concernés si toutes les conditions sont remplies.
     
 La fonctionnalité proposée par le SSwapper est donc toujours présent, mais intégrée à l'AppConfig2, d'une manière proche des scènes génériques VTK, Ogre ou 2D. Dans le futur, il serait souhaitable d'homogénéiser ce comportement avec du code commun. Celui-ci pourrait également être utilisé si nécessaire dans le cadre de l'écriture d'une application sans le XML, en C++ ou un autre langage pour ne pas avoir à gérer cette problématique manuellement.
           
