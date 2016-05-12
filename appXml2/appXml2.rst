@@ -54,8 +54,8 @@ Une AppConfig2 xml ne travaille plus sur une seule donnée également. Les objet
 
     <config>
 
-        <object uid="modelSeries" type="::fwMedData::ModelSeries" />
-        <object uid="image" type="::fwData::Image" />
+        <object id="modelSeries" type="::fwMedData::ModelSeries" />
+        <object id="image" type="::fwData::Image" />
         ...
 
 Un service propose une liste d'entrées (*in*), de sorties (*out*), et d'entrées/sorties(*inout*). Cette différence dans l'accès permet de mieux identifier comment les données sont employées et de sécuriser leur utilisation (les *in* ne sont accessibles qu'en *const*). Le parsing de ces entrées/sorties est réalisé par l'AppConfig, supprimant ainsi une partie du travail répétitif de parsing et de récupération des données. Les données sont accessibles par le service à l'aide de méthodes simples comme *getInput<>(const KeyType key)*, *getOutput(const KeyType key)*, etc...
@@ -65,13 +65,13 @@ Au niveau du xml de l'AppConfig2, cela change également l'écriture d'un servic
 .. code-block :: xml
 
         <service uid="imageReader" impl="::uiIO::editor::SIOSelector">
-            <out key="target" uid="image" />
+            <out key="target" id="image" />
             <type mode="reader" />
         </service>
             
         <service uid="mesher50ServiceUID" impl="::opVTKMesh::SVTKMesher">
-            <in key="image" uid="image" autoConnect="yes" />
-            <out key="modelSeries" uid="modelSeries" />
+            <in key="image" id="image" autoConnect="yes" />
+            <out key="modelSeries" id="modelSeries" />
             <config>
                 <percentReduction>50</percentReduction>
             </config>
@@ -104,14 +104,14 @@ Dans l'exemple suivant, le service *updaterReconst* travaille sur la donnée dif
 
 .. code-block :: xml
     
-    <object uid="reconst" type="::fwData::Reconstruction" src="deferred" />
+    <object id="reconst" type="::fwData::Reconstruction" src="deferred" />
 
     <service uid="updaterReconst" impl="::ctrlSelection::updater::SObjFromSlot">
-        <out key="target" uid="reconst" />
+        <out key="target" id="reconst" />
     </service>
             
     <service uid="organMaterial" impl="::uiReconstruction::OrganMaterialEditor">
-        <inout key="reconstruction" uid="reconst" />
+        <inout key="reconstruction" id="reconst" />
     </service>
     
 Une donnée différée est créée, supprimée ou modifiée par un service travaillant sur cette donnée **en sortie**. Pour rendre cette donnée disponible aux autres services, la méthode *::fwServices::OSR::register* est utilisée. Celle-ci envoie un signal qui est intercepté par l'AppConfig2, qui peut démarrer ensuite les services concernés si toutes les conditions sont remplies.
@@ -126,7 +126,7 @@ Dans un certain nombre de cas, il est souhaitable qu'un service travaillant sur 
 .. code-block :: xml
 
     <service uid="organMaterial" impl="::uiReconstruction::OrganMaterialEditor">
-        <inout key="reconstruction" uid="reconst" optional="yes"/>
+        <inout key="reconstruction" id="reconst" optional="yes"/>
     </service>
     
 Dans ce contexte, un service pourra être notifié de l'apparition, de la modification ou de la disparition d'un objet grâce à la nouvelle méthode *IService::swapping(const KeyType&, ::fwData::Object::sptr)*.
