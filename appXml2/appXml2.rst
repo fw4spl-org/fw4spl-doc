@@ -2,8 +2,7 @@ AppXml2
 ****************************************
 
 Ce document résume les modifications proposées dans le cadre des travaux qui ont été regroupés sous la bannière "AppXml2". 
-En réalité il s'agit davantage d'une refonte de l'approche objets/services qui a ensuite été appliquée
-à un nouveau type d'application Xml.
+En réalité il s'agit davantage d'une refonte de l'approche objets/services qui a ensuite été appliquée à un nouveau type d'application Xml.
 
 1. Description de l'existant
 ===========================================
@@ -110,7 +109,7 @@ Dans l'exemple suivant, le service *updaterReconst* travaille sur la donnée dif
         <out key="target" id="reconst" />
     </service>
             
-    <service uid="organMaterial" impl="::uiReconstruction::OrganMaterialEditor">
+    <service uid="organMaterial" impl="::uiReconstruction::organMtlEditor">
         <inout key="reconstruction" id="reconst" />
     </service>
     
@@ -125,11 +124,11 @@ Dans un certain nombre de cas, il est souhaitable qu'un service travaillant sur 
 
 .. code-block :: xml
 
-    <service uid="organMaterial" impl="::uiReconstruction::OrganMaterialEditor">
+    <service uid="organMaterial" impl="::uiReconstruction::organMtlEditor">
         <inout key="reconstruction" id="reconst" optional="yes"/>
     </service>
     
-Dans ce contexte, un service pourra être notifié de l'apparition, de la modification ou de la disparition d'un objet grâce à la nouvelle méthode *IService::swapping(const KeyType&, ::fwData::Object::sptr)*.
+Dans ce contexte, un service pourra être notifié de l'apparition, de la modification ou de la disparition d'un objet grâce à la nouvelle méthode *IService::swapping(const KeyType&)*.
     
 2.5. Connections
 -------------------
@@ -142,7 +141,7 @@ Ainsi le code suivant:
 
     <connect>
         <signal>listOrganEditor/reconstructionSelected</signal>
-        <slot>updaterReconstUID/addOrSwap</slot>
+        <slot>updaterReconst/addOrSwap</slot>
     </connect>
 
     <proxy channel="modelSeriesNormalChannel">
@@ -156,7 +155,7 @@ devient :
 
     <connect>
         <signal>listOrganEditor/reconstructionSelected</signal>
-        <slot>updaterReconstUID/addOrSwap</slot>
+        <slot>updaterReconst/addOrSwap</slot>
     </connect>
 
     <connect channel="modelSeriesNormalChannel">
@@ -167,9 +166,450 @@ devient :
 
 Dans le cadre d'un service utilisant une donnée différée, il faut noter que ces connections ne sont créés/détruites que lorsque ce service est démarré/stoppé par l'AppConfig2.
 
-2.6. Debug
+2.6. Enregistrement des services
+--------------------------------------
+
+Jusqu'à présent, chaque service utilise une macro pour s'enregistrer dans une factory. Cet enregistrement est utile pour trois fonctions:
+
+1. Instantiation du service par type,
+2. Vérification de l'objet associé à un service lors de l'association effective au sein de l'OSR,
+3. Listing des services (en filtrant ou non par interface de base), qui travaillent sur un type de donnée en particulier; par exemple obtenir les ::io::Reader travaillant sur des ::fwData::Image.
+
+Plus précisément, ceci se réalise par exemple de la façon suivante :
+
+.. code-block :: cpp
+
+    fwServicesRegisterMacro( ::io::IReader, ::ioVTK::SReader, ::fwData::Image );
+
+Nous nous sommes donc légitimement posé la question du devenir de cette macro avec l'avènement des données multiples sur un service. Faut-il enregistrer le type de toutes les données ? Faut-il la supprimer ? Pour l'instant, nous avons choisi le status quo. Voici pourquoi.
+
+Pour la fonction n°1, nous n'avons pas besoin de modifier quoique ce soit. La macro pourrait même ne pas définir le type d'objet à associer, cela ne changerait rien.
+
+Pour la fonction n°2, si nous n'enregistrons pas le type de chaque donnée, nous perdons la vérification qui se fait lors de l'enregistrement du service dans l'OSR, juste après sa création. C'est ce qui se passait jusque là... avec toutefois un gros bémol, puisque ce n'était uniquement le cas pour les services travaillant sur une seule donnée ! Pour tous les objets travaillant sur plusieurs données, que ce soit en utilisant les clés d'un *::fwData::Composite*, ou directement en passant par les UID, cette vérification n'était pas faite à cet instant. En revanche, lors de l'utilisation de la donnée, au *start()*, à l'*update()* ou dans un slot, un *dynamic_cast()* était obligatoire et vérifiait donc finalement le type de la donnée. Donc au final si nous n'enregistrons pas le type de chaque donnée, nous retardons simplement le moment où une erreur potentielle de type est levée pour les services travaillant sur une donnée unique. Pour les services travaillant sur plusieurs données, cela ne change rien, l'erreur ne sera remontée qu'au moment de leur utilisation.
+
+Pour la fonction n°3, en ne modifiant rien, nous gardons le comportement intact. Il est toujours possible de lister tous les *IReader* par exemple. Enregistrer tous les types de données d'un service n'aurait pas vraiment de sens pour cette fonction. Quel est l'intérêt de récupérer tous les *::arServices::ISimulator* travaillant sur une *::fwData::Image*, sachant que parmi ces services, l'un va travailler également sur un *::fwData::Mesh* et deux *::fwMedData::ModelSeries*, l'autre sur deux autres *::fwData::Image* et un *::fwData::Composite*, etc... ? Cela n'apporterait aucune information exploitable. En réalité cela n'a de sens que si le service travaille sur un seul type de donnée; donc en gardant la macro telle quelle nous remplissons toujours cette fonction.
+
+La seule évolution envisageable serait éventuellement de séparer la fonction n°1 et la fonction n°3 en deux macros distinctes. Pour la fonction n°2, nous évaluerons à l'usage s'il est problématique ou non de remonter les erreurs tardivement.
+
+2.7. Debug
 ------------
 
 Pour aider au débogage du démarrage des services, des logs ont été ajouté au niveau INFO, indiquant par exemple qu'un service n'a pas été démarré car une ou plusieurs ne sont pas disponibles (en précisant lesquelles), ou encore qu'un service a été démarré/stoppé à cause d'une création/destruction de donnée.
 
 De façon générale, les erreurs sont remontées de façon plus explicite en essayant de préciser un contexte, notamment l'identifiant de la configuration en particulier, pour aider à comprendre les erreurs sans avoir à lancer un débogueur.
+
+2.8. Versions
+----------------
+
+**AppXml2** est une évolution majeure sur la branche *fw4spl_0.11.0*. La compatibilité avec **appXml** restera assurée tout au long du cyle sur *fw4spl_0.11*. Nous prévoyons de supprimer appXml à partir de la branche *fw4spl_0.12.0*.
+
+3. Guide de migration
+===========================
+
+Nous présentons dans la suite un ensemble de règles à appliquer pour migrer une application et/ou des activités.
+
+3.1 Comment faire une appConfig utilisant appXml2 ?
+----------------------------------------------------
+
+Tout d'abord dans le **Properties.cmake**, il faut remplacer les occurrences de appXml par appXml2. Par exemple :
+
+.. code-block :: cmake
+
+    set( NAME Application )
+    set( VERSION 0.1 )
+    set( TYPE APP )
+    set( DEPENDENCIES  )
+    set( REQUIREMENTS
+        dataReg
+        ...
+        fwlauncher
+        appXml
+    )
+
+    bundleParam(appXml PARAM_LIST config PARAM_VALUES ApplicationConfig)
+
+devient:
+
+.. code-block :: cmake
+
+    set( NAME Application )
+    set( VERSION 0.1 )
+    set( TYPE APP )
+    set( DEPENDENCIES  )
+    set( REQUIREMENTS
+        dataReg
+        ...
+        fwlauncher
+        appXml2
+    )
+
+    bundleParam(appXml2 PARAM_LIST config PARAM_VALUES ApplicationConfig)
+
+Ensuite dans le **plugin.xml**, quand vous déclarez le point d'extension de la configuration XML il faut simplement modifier *AppConfig* par *AppConfig2* :
+
+.. code-block :: xml
+
+    <extension implements="::fwServices::registry::AppConfig">
+        <id>ApplicationConfig</id>
+        <config>
+        ...
+
+en :
+
+.. code-block :: xml
+
+    <extension implements="::fwServices::registry::AppConfig2">
+        <id>ApplicationConfig</id>
+        <config>
+        ...
+
+Notez évidemment que appXml2 et AppConfig2 seront renommés en appXml et AppConfig sur la branche 0.12, après la suppression de l'actuel appXml.
+
+3.2 Comment déclarer les objets et les services ?
+--------------------------------------------------
+
+Auparavant la configuration XML d'un appConfig contenait une unique balise object, qui comme nous l'avons noté au début de ce document, désignait la plupart du temps un composite. Suivaient imbriqués dans cette balise, les services, puis les clés du composite, avec d'éventuels Composite et donc à nouveau des services à l'intérieur, etc... Par exemple :
+
+.. code-block :: xml
+
+    <config>
+        <object uid="root" type="::fwData::Composite">
+
+            <service uid="srv1" ... />
+            <service uid="srv2" ... >
+                <config>
+                    <inputImageKey>imageKey</inputImageKey>
+                    <outputMesh>mesh</outputMesh>
+                </config>
+            </service>
+
+            <item key="subCompositeKey">
+                <object uid="subComposite" type="::fwData::Composite">
+
+                    <item key="meshKey">
+                        <object uid="mesh" type="::fwData::Mesh" >
+                            <service uid="meshSrv" ... />
+                        </object>
+                    </item>
+
+                </object>
+            </item>
+
+            <item key="imageKey">
+                <object uid="image" type="::fwData::Image" >
+                    <service uid="imageSrv" ... />
+                </object>
+            </item>
+
+            <start uid="srv1" />
+            <start uid="srv2" />
+            <start uid="meshSrv" />
+            <start uid="imageSrv" />
+
+        </object>
+    </config>
+
+Dans cet exemple, vous pouvez remarquez la mauvaise pratique dans le service *srv2*, qui mixe l'utilisation d'une clé et d'un UID. Pour pouvoir n'utiliser que des clés dans ce service, il aurait fallu faire une référence dans le composite "root", ce qui alourdit très rapidement le fichier si cela est répété plusieurs fois.
+
+Avec AppConfig2, tout est mis à plat, fini le décodage des imbrications. Une configuration travaille sur un ensemble d'objets puis un ensemble de services; ceux-ci vont ensuite déclarer chacun quelles données ils utilisent. L'exemple précédent devient ainsi :
+
+.. code-block :: xml
+
+    <config>
+        <object id="mesh" type="::fwData::Mesh">
+        <object id="image" type="::fwData::Image">
+
+        <service uid="srv1" ... />
+
+        <service uid="srv2" ... >
+            <in key="inputImage" id="image" />
+            <inout key="outputMesh" id="mesh" />
+        </service>
+
+        <service uid="meshSrv" ... >
+            <in key="skin" id="mesh" />
+        </service>
+
+        <service uid="imageSrv" ... >
+            <in key="scan" id="mesh" />
+        </service>
+
+        <start uid="srv1" />
+        <start uid="srv2" />
+        <start uid="meshSrv" />
+        <start uid="imageSrv" />
+
+    </config>
+
+Objectivement, vous pouvez observer que le résultat est plus concis. Les deux *composites* utilitaires qui servaient juste à contenir les vraies données ont disparu. Et nous ne les regretterons pas. Tous les objets sont regroupés, suivis des services; il n'est ainsi plus nécessaire de chercher les services au milieu des items des *composites*.
+
+Chaque service référence les données qu'il utilise avec un identifiant unique, que nous nommons simplement par l'attribut *id*. Il s'agit de l'identifiant de la donnée dans la configuration XML courante. Il n'y a plus d'alternative comme auparavant. Toutefois, pour l'instant il est toujours possible d'utiliser directement l'UID de l'objet mais cela sera proscrit dans le futur. Le service utilise une clé, autrement dit un alias, pour désigner cette donnée dans son code. L'ajout de cette clé, si tant est bien sûr qu'elle possède un nom intelligible, permet également de mieux comprendre l'utilisation qui est faite de la donnée, même dans le cas d'une donnée unique. 
+
+Enfin l'ajout des types d'accès (*in*, *inout*, *out*) aident également à mieux comprendre le rôle rempli par chacune des données. 
+
+3.3 Comment accéder aux objets d'un service ?
+-----------------------------------------------
+
+Pour accéder aux données d'un service, il existe trois nouvelles méthodes différentes pour récupérer respectivement une entrée (*in*), une entrée/sortie(*inout*) ou une sortie (*out*):
+
+.. code-block :: cpp
+
+    template<class DATATYPE> CSPTR(DATATYPE) getInput( const KeyType &key) const;
+    template<class DATATYPE>  SPTR(DATATYPE) getInOut( const KeyType &key) const;
+    template<class DATATYPE>  SPTR(DATATYPE) getOutput(const KeyType &key) const;
+
+Notez bien que *getInput()* renvoie un pointeur intelligent **const**. Et oui la fête est finie, on arrête de faire n'importe quoi avec n'importe qui ! Et ce n'est qu'un début, d'autres améliorations viendront plus tard, nous l'espérons, pour éviter les problèmes d'accès concurrentiels.
+
+Pour éviter de modifier tous les services actuels, les anciennes méthodes fonctionnent toujours, mais avec un comportement adapté aux changements :
+
+.. code-block :: cpp
+
+    ::fwData::Object::sptr getObject();
+    template< class DATATYPE > SPTR(DATATYPE) getObject();
+
+Si un service utilise plusieurs données, alors *getObject()* renverra simplement le premier objet déclaré dans la liste des données du service dans l'XML. Si un service ne travaille sur aucune donnée (les *::gui::view::IView* par exemple) alors *getObject()* renverra un objet **dummy** de type *::fwData::Composite* créé spécialement par l'AppConfig courante.
+
+3.4 Dois-je modifier le code de mon service ?
+-------------------------------------------------
+
+Mon service ne fonctionne pas
+________________________________
+
+Il y a plusieurs raisons pour lesquelles votre service pourrait ne plus fonctionner. La plus courante concerne le cas où le service utilise plusieurs données avec des clés de composite. Le composite ayant disparu, ça se passera forcément mal. 
+
+Dans ce cas ou dans un autre la première question à vous poser est la suivante : est-ce que mon service est vraiment utile ? Dans la négative, c'est simple supprimez-le. Dans l'affirmative, dommage, vous n'avez pas le choix, oui vous devez faire des modifications. 
+
+Mon service fonctionne
+__________________________
+
+C'est à vous de voir. Si vous utilisez un seul objet et que tout fonctionne bien, rien ne vous oblige à changer quoique ce soit. Tant que nous devons assurer la compatibilité avec appXml, il vaut mieux même éviter. Toutefois, si votre service est utilisé **uniquement** dans des applications appXml2 et/ou si votre service utilise plusieurs données avec des UID, alors vous pouvez envisager de migrer le service sur la nouvelle API, le passage vers 0.12 en sera facilité, et cela vous permettra sans doute d'avoir un code de gestion des données simplifié.
+
+Que faire ?
+_______________
+
+1. Récupération d'un pointeur sur une donnée
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Le parsing des données n'est plus nécessaire, servez-vous en à bon escient. Exemple classique :
+
+.. code-block :: xml
+
+    <service uid="..." type="...">
+        <imageKey>CTImage</imageKey>
+    </service>
+
+.. code-block :: cpp
+
+    void SService::configuring()
+    {
+        ConfigType cfg = m_configuration->findConfigurationElement("imageKey");
+        SLM_ASSERT("Missing element 'imageKey'", cfg );
+
+        m_imageKey = cfg->getValue();
+        SLM_ASSERT("Missing 'imageKey' data", !m_imageKey.empty());
+    }
+
+    void SService::starting()
+    {
+        ::fwData::Composite::sptr comp = this->getObject<::fwData::Composite>();
+        ::fwData::Image::ptr image = comp->at("image");
+    }
+
+Dans appXml2, cela se réduit en (à ajuster évidemment pour l'accesseur) :
+
+.. code-block :: xml
+
+    <service uid="..." type="...">
+        <inout key="image" id="CTImage" />
+    </service>
+
+.. code-block :: cpp
+
+    void SService::starting()
+    {
+        ::fwData::Image::ptr image = this->getObject("image");
+    }
+
+2. Connexions pour N données
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Auparavant, il était nécessaire de connecter manuellement chaque donnée. 
+
+.. code-block :: xml
+
+    <service uid="..." type="...">
+        <imageKey>CTImage</imageKey>
+        <meshUID>segmentation</meshUID>
+    </service>
+
+.. code-block :: cpp
+
+    void SService::SService()
+    {
+        m_connections = ::fwServices::helper::SigSlotConnection::New();
+    }
+
+    void SService::starting()
+    {
+        ::fwData::Composite::sptr comp = this->getObject<::fwData::Composite>();
+        ::fwData::Image::ptr image = comp->at("image");
+
+        auto obj = ::fwTools::fwID::getObject(m_objectUid);
+        ::fwData::Mesh::sptr mesh = ::fwData::Object::dynamicCast(obj);
+
+        m_connections->connect(image, s_BUFFER_MODIFIED_SIG, 
+                               this->getSptr(), s_UPDATE_IMAGE_SLOT);
+        m_connections->connect(mesh, s_VERTEX_MODIFIED_SIG_SIG, 
+                               this->getSptr(), s_UPDATE_VERTEX_SLOT);
+    }
+
+    void SService::stopping()
+    {
+        m_connections->disconnect();
+    }
+
+Avec appXml2, il est fortement recommandé d'utiliser la nouvelle méthode *getAutoConnections()* qui repose sur l'attribut *autoConnect*. Cela donne encore plus d'indices dans le XML, sur les interactions du service avec ses données. Notez par ailleurs que l'attribut *autoConnect* peut-être spécifié globalement au niveau du service pour s'appliquer à toutes les données :
+
+.. code-block :: xml
+
+    <service uid="..." type="...">
+        <inout key="image" id="CTImage" autoConnect="yes" />
+        <inout key="mesh" id="segmentation" autoConnect="yes" />
+    </service>
+
+.. code-block :: cpp
+
+    ::fwServices::IService::KeyConnectionsMap SService::getAutoConnections() const
+    {
+        KeyConnectionsMap connections;
+        connections.push( "image", ::fwData::Image::s_BUFFER_MODIFIED_SIG, 
+                          s_UPDATE_IMAGE_SLOT );
+        connections.push( "mesh", ::fwData::Mesh::s_VERTEX_MODIFIED_SIG,
+                          s_UPDATE_VERTEX_SLOT );
+        return connections;
+    }
+
+N'hésitez pas à utiliser des static const string pour stocker le nom des clés et surtout documentez ce qui doit être connecté ou non dans la doxygen du service. 
+
+3. Gérer la compatibilité
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Si votre service est utilisé dans des applications appXml et appXml2 (cas peu probable en dehors de nos dépôts internes) alors il faut faire attention et faire les modifications en vérifiant bien de ne pas casser son utilisation en appXml. Pour vous aider, il existe la méthode suivante qui vous permettre d'écrire du code spécifique :
+
+.. code-block :: cpp
+
+    static bool ::fwServices::IService::isVersion2();
+
+Cherchez ses utilisations dans le code et vous trouverez des exemples d'utilisation pour le parsing par exemple.
+
+
+
+3.4 Ciel un swapper ! 
+---------------------------
+
+Ok les choses sérieuses commencent... Pour illustrer la migration d'une configuration comprenant un swapper, prenons le cas du **Tuto09MesherWithGenericScene** (certains identifiants ou types ont été raccourcis pour que le code ne déborde pas de la page) :
+
+.. code-block :: xml
+
+    <service uid="updaterReconst" impl="::ctrlSelection::updater::SObjFromSlot">
+        <compositeKey>reconstruction</compositeKey>
+    </service>
+
+    <service uid="mgr" impl="...::SwapperSrv" autoConnect="yes">
+        <mode type="stop" />
+        <config>
+            <object id="reconstruction" type="::fwData::Reconstruction">
+                <service uid="organMtlEditor" impl="...::organMtlEditor"/>
+                <service uid="repEditor" impl="...::RepresentationEditor"/>
+
+                <connect>
+                    <signal>repEditor/normalsModeModified</signal>
+                    <slot>modelSeriesAdaptorUid/updateNormalMode</slot>
+                </connect>
+            </object>
+        </config>
+    </service>
+
+    <item key="modelSeries">
+        <object uid="modelSeriesUID" type="::fwMedData::ModelSeries">
+            <service uid="listOrganEditor" impl="..::SModelSeriesList">
+                <columns>
+                    <organ_name>@organ_name</organ_name>
+                </columns>
+            </service>
+        </object>
+    </item>
+
+    <connect>
+        <signal>listOrganEditor/reconstructionSelected</signal>
+        <slot>updaterReconst/addOrSwap</slot>
+    </connect>
+
+    <start uid="updaterReconst" />
+    <start uid="mgr" />
+
+Dans cet exemple, on souhaite *simplement* afficher les éditeurs de matériau *organMtlEditor* et de reconstruction *repEditor* pour la sélection courante. Le service *listOrganEditor* signale le service *updaterReconst* qui ajoute une clé nommée *reconstruction* dans le composite. Cet objet n'aura jamais d'UID utilisable dans ce XML. Pour pouvoir utiliser cette donnée, le seul moyen est donc de recourir à un **SSwapper**, qui va démarrer les services d'édition quand la clé est ajoutée, et les supprimera quand la clé est supprimée.
+
+Or avec AppXml2, et c'est en grande partie ce pour quoi il a été conçu, ce comportement de démarrage et d'arrêt automatique de services est intégré à l'AppConfig et ne nécessite pas de service utilitaire comme SSwapper. Ce mécanisme repose sur l'utilisation de **donnée à création différée**. Jusqu'à présent, lorsque vous déclarez une donnée dans appXml2 (ou appXml), celle-ci est créée par l'AppConfig (sauf si vous avez spécifié *src="ref"*). Le principe de la donnée différée, c'est simplement d'indiquer à l'AppConfig qu'elle ne doit pas créer la donnée, car celle-ci sera produite par un service.
+
+Ainsi le cas du **Tuto09MesherWithGenericScene** se simplifie de la façon suivante :
+
+.. code-block :: xml
+
+    <object id="reconstId" type="::fwData::Reconstruction" src="deferred"/>
+
+    <service uid="listOrganEditor" impl="..::SModelSeriesList">
+        <in key="modelSeries" id="modelSeriesId" />
+        <columns>
+            <organ_name>@organ_name</organ_name>
+        </columns>
+    </service>
+
+    <service uid="updaterReconst" impl="::ctrlSelection::updater::SObjFromSlot">
+        <out key="object" id="reconstId" />
+    </service>
+
+    <service uid="organMtlEditor" impl="::uiReconstruction::organMtlEditor">
+        <inout key="reconstruction" id="reconstId" />
+    </service>
+
+    <service uid="repEditor" impl="::uiReconstruction::RepresentationEditor">
+        <inout key="reconstruction" id="reconstId" />
+    </service>
+
+    <connect>
+        <signal>listOrganEditor/reconstructionSelected</signal>
+        <slot>updaterReconstId/addOrSwap</slot>
+    </connect>
+
+    <connect>
+        <signal>repEditor/normalsModeModified</signal>
+        <slot>modelSeriesAdaptorId/updateNormalMode</slot>
+    </connect>
+
+Il faut donc commencer par déclarer la donnée reconstruction avec l'attribut *src="deferred"*. Les deux éditeurs sont extraits du *SSwapper* qui a disparu. Ensuite on indique à ces deux éditeurs qu'ils travaillent sur cette donnée... et c'est terminé ! Ils seront démarrés, leurs signaux/slots connectés lorsque *updaterReconstId* créera la donnée du point de vue de l'AppConfig. Ce service utilise en effet la reconstruction **en sortie**, il n'a donc pas besoin de la donnée pour démarrer puisqu'il indique ainsi que c'est lui qui va la produire. 
+
+Pour information, *SObjFromSlot* enregistre la donnée dans son code en appelant :
+
+.. code-block :: cpp
+
+    :fwServices::OSR::registerService(objectSptr, 
+                                      "object", 
+                                      ::fwServices::IService::AccessType::OUTPUT, 
+                                      this->getSptr());
+
+L'AppConfig est signalée et déclenche alors les actions en conséquence.
+
+3.5 Les données optionnelles
+------------------------------
+
+Dans l'exemple précédent, nous avons vu qu'une donnée en **out** différée n'empêchait pas le service de démarrer. Il est possible d'avoir ce comportement également sur les données en **in** et **inout** en précisant dans l'XML qu'elles sont optionnelles :
+
+.. code-block :: cpp
+
+    <service uid="organMtlEditor" impl="::uiReconstruction::organMtlEditor">
+        <inout key="reconstruction" id="reconstId" optional="yes"/>
+    </service>
+
+Pour être notifié de l'arrivée de la donnée, vous pouvez utiliser *IService::swapping(const KeyType&)*. Toutefois cela complique forcément la gestion des données, et si c'est possible, il est plutôt recommandé d'écrire des services ne travaillant que sur des données présentes. Actuellement, les données optionnelles sont utilisées pour les services qui agissent comme des managers de service comme *::fwRenderVTK::SRender*, *::scene2D:Render*, etc...
+
