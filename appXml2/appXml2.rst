@@ -316,8 +316,8 @@ Avec AppConfig2, tout est mis à plat, fini le décodage des imbrications. Une c
 .. code-block :: xml
 
     <config>
-        <object id="mesh" type="::fwData::Mesh">
-        <object id="image" type="::fwData::Image">
+        <object id="mesh" type="::fwData::Mesh" />
+        <object id="image" type="::fwData::Image" />
 
         <service uid="srv1" ... />
 
