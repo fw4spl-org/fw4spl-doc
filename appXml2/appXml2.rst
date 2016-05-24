@@ -34,13 +34,17 @@ Pour répondre à cette problématique, un service de services a été ajouté :
 
 L'expérience sur plusieurs années a montré que la mise en place de ce service est toujours problématique, et pourtant elle est indispensable dans de nombreux cas.
 
+1.4. ${GENERIC_UID}
+---------------------
+
+L'utilisation des AppConfig qui peuvent être instanciées plusieurs fois (exemple les activités) ont toujours induit l'utilisation d'une variable de substitution appelée *${GENERIC_UID}*. Cette variable est ajoutée par le développeur du XML à chaque identifiant unique de service, objet, ou canal de communication. Cette manipulation alourdit la lecture des fichiers XML. Elle est également source d'erreurs, car elle dépend du développeur qui doit vérifier que sa configuration comprend bien toutes les substitutions requises pour être instanciée plusieurs fois.
 
 2. Propositions
 ====================
 
 2.1. Nouveau bundle
 ----------------------
-Pour intégrer les propositions suivantes tout en gardant la compatibilité avec l'ancien système, nous proposons d'introduire un nouveau bundle appXml2. Conjointement, une AppConfig2, un AppConfigManager2 sont créés pour supporter toutes les modifications liées au Xml.
+Pour intégrer les propositions suivantes tout en gardant la compatibilité avec l'ancien système, nous proposons d'introduire un nouveau bundle appXml2. Conjointement, une AppConfig2, un AppConfigManager2 sont créés pour supporter toutes les modifications liées au XML.
 
 2.2. Un service travaille sur N données
 -------------------------------------------
@@ -192,14 +196,36 @@ Pour la fonction n°3, en ne modifiant rien, nous gardons le comportement intact
 
 La seule évolution envisageable serait éventuellement de séparer la fonction n°1 et la fonction n°3 en deux macros distinctes. Pour la fonction n°2, nous évaluerons à l'usage s'il est problématique ou non de remonter les erreurs tardivement.
 
-2.7. Debug
+2.7. Suppression des *${GENERIC_UID}*
+---------------------------------------
+
+Il n'est plus nécessaire d'utiliser les *${GENERIC_UID}*. L'AppConfig2 se charge lui-même des substitutions, en reconnaissant les tags XML qui désigne des identifiants uniques. 
+
+Le seul désavantage à l'heure actuelle est la nécessité de différencier les identifiants et les simples chaînes de caratères lors du remplacement de paramètres pour les lanceurs de configuration. Cela revient à spécifier un tag **uid** au lieu de **by** :
+
+.. code-block :: xml
+
+    <service uid="configLauncher" impl="::gui::action::SConfigLauncher">
+        <config>
+            <appConfig id="configuration">
+                <parameters>
+                    <parameter replace="ICON_PATH" by="${ICON_PATH}" />
+                    <parameter replace="orientation" by="frontal" />
+                    <parameter replace="object" uid="object1" />
+                    <parameter replace="channel" uid="channel1" />
+                </parameters>
+            </appConfig>
+        </config>
+    </service>
+
+2.8. Debug
 ------------
 
 Pour aider au débogage du démarrage des services, des logs ont été ajouté au niveau INFO, indiquant par exemple qu'un service n'a pas été démarré car une ou plusieurs ne sont pas disponibles (en précisant lesquelles), ou encore qu'un service a été démarré/stoppé à cause d'une création/destruction de donnée.
 
 De façon générale, les erreurs sont remontées de façon plus explicite en essayant de préciser un contexte, notamment l'identifiant de la configuration en particulier, pour aider à comprendre les erreurs sans avoir à lancer un débogueur.
 
-2.8. Versions
+2.9. Versions
 ----------------
 
 **AppXml2** est une évolution majeure sur la branche *fw4spl_0.11.0*. La compatibilité avec **appXml** restera assurée tout au long du cyle sur *fw4spl_0.11*. Nous prévoyons de supprimer appXml à partir de la branche *fw4spl_0.12.0*.
@@ -344,9 +370,9 @@ Avec AppConfig2, tout est mis à plat, fini le décodage des imbrications. Une c
 
 Objectivement, vous pouvez observer que le résultat est plus concis. Les deux *composites* utilitaires qui servaient juste à contenir les vraies données ont disparu. Et nous ne les regretterons pas. Tous les objets sont regroupés, suivis des services; il n'est ainsi plus nécessaire de chercher les services au milieu des items des *composites*.
 
-Chaque service référence les données qu'il utilise avec un identifiant unique, que nous nommons simplement par l'attribut *id*. Il s'agit de l'identifiant de la donnée dans la configuration XML courante. Il n'y a plus d'alternative comme auparavant. Toutefois, pour l'instant il est toujours possible d'utiliser directement l'UID de l'objet mais cela sera proscrit dans le futur. Le service utilise une clé, autrement dit un alias, pour désigner cette donnée dans son code. L'ajout de cette clé, si tant est bien sûr qu'elle possède un nom intelligible, permet également de mieux comprendre l'utilisation qui est faite de la donnée, même dans le cas d'une donnée unique. 
+Chaque service référence les données qu'il utilise avec un identifiant unique, que nous nommons simplement par l'attribut *id*. Il s'agit de l'identifiant de la donnée dans la configuration XML courante. Il n'y a plus d'alternative comme auparavant. Toutefois, pour l'instant il est toujours possible d'utiliser directement l'UID de l'objet mais cela sera proscrit dans le futur. Le service utilise une clé, autrement dit un alias, pour désigner cette donnée dans son code. L'ajout de cette clé, si tant est bien sûr qu'elle possède un nom intelligible, permet également de mieux comprendre l'utilisation qui est faite de la donnée, même dans le cas d'une donnée unique. L'ajout des types d'accès (*in*, *inout*, *out*) aident également à mieux comprendre le rôle rempli par chacune des données. 
 
-Enfin l'ajout des types d'accès (*in*, *inout*, *out*) aident également à mieux comprendre le rôle rempli par chacune des données. 
+Enfin n'oubliez pas de ne plus utiliser de *${GENERIC_UID}* et de remplacer les tags **by** par **uid** dans les remplacements des paramètres de lancement de configuration.
 
 3.3 Comment accéder aux objets d'un service ?
 -----------------------------------------------
