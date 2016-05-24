@@ -45,9 +45,9 @@ Pour intégrer les propositions suivantes tout en gardant la compatibilité avec
 2.2. Un service travaille sur N données
 -------------------------------------------
 
-Nous proposons de supprimer l'indirection du composite et d'assumer le fait qu'un service travaille sur plusieurs données. 
+Nous proposons de supprimer l'indirection du composite au niveau de l'AppConfig et d'assumer le fait qu'un service travaille sur plusieurs données. Nous ne supprimons pas pour autant la donnée *::fwData::Composite* qui reste toujours utile.
 
-Une AppConfig2 xml ne travaille plus sur une seule donnée également. Les objets sont spécifiés en tête de configuration :
+Une AppConfig2 xml ne travaille donc plus sur une unique donnée. Tous les objets sont spécifiés en tête de configuration :
 
 .. code-block :: xml
 
@@ -92,6 +92,7 @@ Dans la continuité, une nouvelle méthode *IService::getAutoConnections()* est 
         return connections;
     }
     
+
 2.3. Données différées
 ------------------------
 
@@ -369,7 +370,66 @@ Pour éviter de modifier tous les services actuels, les anciennes méthodes fonc
 
 Si un service utilise plusieurs données, alors *getObject()* renverra simplement le premier objet déclaré dans la liste des données du service dans l'XML. Si un service ne travaille sur aucune donnée (les *::gui::view::IView* par exemple) alors *getObject()* renverra un objet **dummy** de type *::fwData::Composite* créé spécialement par l'AppConfig courante.
 
-3.4 Dois-je modifier le code de mon service ?
+3.4 Comment gérer un nombre indéterminé d'objets dans un service ?
+--------------------------------------------------------------------
+
+Il se peut que vous ayiez besoin d'avoir une liste d'objets de même type en entrée. Dans ce cas, la solution pourrait être de définir en entrée toutes les clés : 
+
+.. code-block :: xml
+
+        <service uid="srv" ... >
+            <in key="matrix1" uid="matrixFromTag21" />
+            <in key="matrix2" uid="matrixFromTag103" />
+            <in key="matrix3" uid="matrixFromTag104" />
+            ...
+            <in key="matrixN" uid="matrixFromTag3" />
+        </service>
+
+Toutefois récupérer les objets dans le service s'avèrerait fastidieux car le nombre de clés n'est pas connu à l'avance et il faudrait donc "tester" l'existence ou non des clés.
+
+Pour éviter cette gestion fastidieuse, vous pouvez utilisez la fonctionnalité des groupes de clés :
+
+.. code-block :: xml
+
+        <service uid="srv" ... >
+            <in group="matrix" />
+                <key uid="matrixFromTag21" />
+                <key uid="matrixFromTag103" />
+                <key uid="matrixFromTag104" />
+                ...
+                <key uid="matrixFromTag3" />
+            </in>
+        </service>
+
+Ces objets peuvent ensuite être récupérés dans le cpp à l'aide des fonctions :
+
+.. code-block :: cpp
+
+    template<class DATATYPE> CSPTR(DATATYPE) getInput( const KeyType &keybase, 
+                                                       size_t index) const;
+    template<class DATATYPE>  SPTR(DATATYPE) getInOut( const KeyType &keybase, 
+                                                       size_t index) const;
+    template<class DATATYPE>  SPTR(DATATYPE) getOutput(const KeyType &keybase, 
+                                                       size_t index) const;
+
+    size_t getKeyGroupSize(const KeyType &keybase) const;
+
+Par exemple:
+
+.. code-block :: cpp
+
+    ::fwData::Object::csptr obj1 = this->getInput("matrix", 1);
+    ::fwData::Object::csptr obj2 = this->getInput("matrix2");
+
+    const size_t groupSize = this->getKeyGroupSize("matrix");
+    for(int i = 0; i < groupSize; ++i)
+    {
+        auto obj = this->getInput("matrix", i);
+        ...
+    }
+
+
+3.5 Dois-je modifier le code de mon service ?
 -------------------------------------------------
 
 Mon service ne fonctionne pas
@@ -504,7 +564,7 @@ Cherchez ses utilisations dans le code et vous trouverez des exemples d'utilisat
 
 
 
-3.4 Ciel un swapper ! 
+3.6 Ciel un swapper ! 
 ---------------------------
 
 Ok les choses sérieuses commencent... Pour illustrer la migration d'une configuration comprenant un swapper, prenons le cas du **Tuto09MesherWithGenericScene** (certains identifiants ou types ont été raccourcis pour que le code ne déborde pas de la page) :
@@ -600,7 +660,7 @@ Pour information, *SObjFromSlot* enregistre la donnée dans son code en appelant
 
 L'AppConfig est signalée et déclenche alors les actions en conséquence.
 
-3.5 Les données optionnelles
+3.7 Les données optionnelles
 ------------------------------
 
 Dans l'exemple précédent, nous avons vu qu'une donnée en **out** différée n'empêchait pas le service de démarrer. Il est possible d'avoir ce comportement également sur les données en **in** et **inout** en précisant dans l'XML qu'elles sont optionnelles :
