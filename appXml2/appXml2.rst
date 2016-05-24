@@ -53,8 +53,8 @@ Une AppConfig2 xml ne travaille plus sur une seule donnée également. Les objet
 
     <config>
 
-        <object id="modelSeries" type="::fwMedData::ModelSeries" />
-        <object id="image" type="::fwData::Image" />
+        <object uid="modelSeries" type="::fwMedData::ModelSeries" />
+        <object uid="image" type="::fwData::Image" />
         ...
 
 Un service propose une liste d'entrées (*in*), de sorties (*out*), et d'entrées/sorties(*inout*). Cette différence dans l'accès permet de mieux identifier comment les données sont employées et de sécuriser leur utilisation (les *in* ne sont accessibles qu'en *const*). Le parsing de ces entrées/sorties est réalisé par l'AppConfig, supprimant ainsi une partie du travail répétitif de parsing et de récupération des données. Les données sont accessibles par le service à l'aide de méthodes simples comme *getInput<>(const KeyType key)*, *getOutput(const KeyType key)*, etc...
@@ -64,13 +64,13 @@ Au niveau du xml de l'AppConfig2, cela change également l'écriture d'un servic
 .. code-block :: xml
 
         <service uid="imageReader" impl="::uiIO::editor::SIOSelector">
-            <out key="target" id="image" />
+            <out key="target" uid="image" />
             <type mode="reader" />
         </service>
             
         <service uid="mesher50ServiceUID" impl="::opVTKMesh::SVTKMesher">
-            <in key="image" id="image" autoConnect="yes" />
-            <out key="modelSeries" id="modelSeries" />
+            <in key="image" uid="image" autoConnect="yes" />
+            <out key="modelSeries" uid="modelSeries" />
             <config>
                 <percentReduction>50</percentReduction>
             </config>
@@ -103,14 +103,14 @@ Dans l'exemple suivant, le service *updaterReconst* travaille sur la donnée dif
 
 .. code-block :: xml
     
-    <object id="reconst" type="::fwData::Reconstruction" src="deferred" />
+    <object uid="reconst" type="::fwData::Reconstruction" src="deferred" />
 
     <service uid="updaterReconst" impl="::ctrlSelection::updater::SObjFromSlot">
-        <out key="target" id="reconst" />
+        <out key="target" uid="reconst" />
     </service>
             
     <service uid="organMaterial" impl="::uiReconstruction::organMtlEditor">
-        <inout key="reconstruction" id="reconst" />
+        <inout key="reconstruction" uid="reconst" />
     </service>
     
 Une donnée différée est créée, supprimée ou modifiée par un service travaillant sur cette donnée **en sortie**. Pour rendre cette donnée disponible aux autres services, la méthode *::fwServices::OSR::register* est utilisée. Celle-ci envoie un signal qui est intercepté par l'AppConfig2, qui peut démarrer ensuite les services concernés si toutes les conditions sont remplies.
@@ -125,7 +125,7 @@ Dans un certain nombre de cas, il est souhaitable qu'un service travaillant sur 
 .. code-block :: xml
 
     <service uid="organMaterial" impl="::uiReconstruction::organMtlEditor">
-        <inout key="reconstruction" id="reconst" optional="yes"/>
+        <inout key="reconstruction" uid="reconst" optional="yes"/>
     </service>
     
 Dans ce contexte, un service pourra être notifié de l'apparition, de la modification ou de la disparition d'un objet grâce à la nouvelle méthode *IService::swapping(const KeyType&)*.
@@ -316,22 +316,22 @@ Avec AppConfig2, tout est mis à plat, fini le décodage des imbrications. Une c
 .. code-block :: xml
 
     <config>
-        <object id="mesh" type="::fwData::Mesh" />
-        <object id="image" type="::fwData::Image" />
+        <object uid="mesh" type="::fwData::Mesh" />
+        <object uid="image" type="::fwData::Image" />
 
         <service uid="srv1" ... />
 
         <service uid="srv2" ... >
-            <in key="inputImage" id="image" />
-            <inout key="outputMesh" id="mesh" />
+            <in key="inputImage" uid="image" />
+            <inout key="outputMesh" uid="mesh" />
         </service>
 
         <service uid="meshSrv" ... >
-            <in key="skin" id="mesh" />
+            <in key="skin" uid="mesh" />
         </service>
 
         <service uid="imageSrv" ... >
-            <in key="scan" id="mesh" />
+            <in key="scan" uid="mesh" />
         </service>
 
         <start uid="srv1" />
@@ -420,7 +420,7 @@ Dans appXml2, cela se réduit en (à ajuster évidemment pour l'accesseur) :
 .. code-block :: xml
 
     <service uid="..." type="...">
-        <inout key="image" id="CTImage" />
+        <inout key="image" uid="CTImage" />
     </service>
 
 .. code-block :: cpp
@@ -473,8 +473,8 @@ Avec appXml2, il est fortement recommandé d'utiliser la nouvelle méthode *getA
 .. code-block :: xml
 
     <service uid="..." type="...">
-        <inout key="image" id="CTImage" autoConnect="yes" />
-        <inout key="mesh" id="segmentation" autoConnect="yes" />
+        <inout key="image" uid="CTImage" autoConnect="yes" />
+        <inout key="mesh" uid="segmentation" autoConnect="yes" />
     </service>
 
 .. code-block :: cpp
@@ -518,7 +518,7 @@ Ok les choses sérieuses commencent... Pour illustrer la migration d'une configu
     <service uid="mgr" impl="...::SwapperSrv" autoConnect="yes">
         <mode type="stop" />
         <config>
-            <object id="reconstruction" type="::fwData::Reconstruction">
+            <object uid="reconstruction" type="::fwData::Reconstruction">
                 <service uid="organMtlEditor" impl="...::organMtlEditor"/>
                 <service uid="repEditor" impl="...::RepresentationEditor"/>
 
@@ -556,30 +556,30 @@ Ainsi le cas du **Tuto09MesherWithGenericScene** se simplifie de la façon suiva
 
 .. code-block :: xml
 
-    <object id="reconstId" type="::fwData::Reconstruction" src="deferred"/>
+    <object uid=" reconstUid" type="::fwData::Reconstruction" src="deferred"/>
 
     <service uid="listOrganEditor" impl="..::SModelSeriesList">
-        <in key="modelSeries" id="modelSeriesId" />
+        <in key="modelSeries" uid="modelSeriesId" />
         <columns>
             <organ_name>@organ_name</organ_name>
         </columns>
     </service>
 
     <service uid="updaterReconst" impl="::ctrlSelection::updater::SObjFromSlot">
-        <out key="object" id="reconstId" />
+        <out key="object" uid=" reconstUid" />
     </service>
 
     <service uid="organMtlEditor" impl="::uiReconstruction::organMtlEditor">
-        <inout key="reconstruction" id="reconstId" />
+        <inout key="reconstruction" uid=" reconstUid" />
     </service>
 
     <service uid="repEditor" impl="::uiReconstruction::RepresentationEditor">
-        <inout key="reconstruction" id="reconstId" />
+        <inout key="reconstruction" uid=" reconstUid" />
     </service>
 
     <connect>
         <signal>listOrganEditor/reconstructionSelected</signal>
-        <slot>updaterReconstId/addOrSwap</slot>
+        <slot>updater reconstUid/addOrSwap</slot>
     </connect>
 
     <connect>
@@ -587,7 +587,7 @@ Ainsi le cas du **Tuto09MesherWithGenericScene** se simplifie de la façon suiva
         <slot>modelSeriesAdaptorId/updateNormalMode</slot>
     </connect>
 
-Il faut donc commencer par déclarer la donnée reconstruction avec l'attribut *src="deferred"*. Les deux éditeurs sont extraits du *SSwapper* qui a disparu. Ensuite on indique à ces deux éditeurs qu'ils travaillent sur cette donnée... et c'est terminé ! Ils seront démarrés, leurs signaux/slots connectés lorsque *updaterReconstId* créera la donnée du point de vue de l'AppConfig. Ce service utilise en effet la reconstruction **en sortie**, il n'a donc pas besoin de la donnée pour démarrer puisqu'il indique ainsi que c'est lui qui va la produire. 
+Il faut donc commencer par déclarer la donnée reconstruction avec l'attribut *src="deferred"*. Les deux éditeurs sont extraits du *SSwapper* qui a disparu. Ensuite on indique à ces deux éditeurs qu'ils travaillent sur cette donnée... et c'est terminé ! Ils seront démarrés, leurs signaux/slots connectés lorsque *updater reconstUid* créera la donnée du point de vue de l'AppConfig. Ce service utilise en effet la reconstruction **en sortie**, il n'a donc pas besoin de la donnée pour démarrer puisqu'il indique ainsi que c'est lui qui va la produire. 
 
 Pour information, *SObjFromSlot* enregistre la donnée dans son code en appelant :
 
@@ -608,7 +608,7 @@ Dans l'exemple précédent, nous avons vu qu'une donnée en **out** différée n
 .. code-block :: cpp
 
     <service uid="organMtlEditor" impl="::uiReconstruction::organMtlEditor">
-        <inout key="reconstruction" id="reconstId" optional="yes"/>
+        <inout key="reconstruction" uid=" reconstUid" optional="yes"/>
     </service>
 
 Pour être notifié de l'arrivée de la donnée, vous pouvez utiliser *IService::swapping(const KeyType&)*. Toutefois cela complique forcément la gestion des données, et si c'est possible, il est plutôt recommandé d'écrire des services ne travaillant que sur des données présentes. Actuellement, les données optionnelles sont utilisées pour les services qui agissent comme des managers de service comme *::fwRenderVTK::SRender*, *::scene2D:Render*, etc...
