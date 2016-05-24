@@ -16,12 +16,12 @@ Ce constat historique a mené à l'introduction d'une nouvelle donnée, le **com
 
 Nous l'aurons compris toute application hors des cas triviaux comme les tutoriels utilise donc inévitablement un composite comme donnée principale et de nombreux services travaillent sur des composites, donc des données multiples.
 
-1.2. Récupération des données et connections
+1.2. Récupération des données et connexions
 ----------------------------------------------
 
 L'implication en terme de développement d'un service est loin d'être anodine. Pour chaque service, il faut déclarer quelles clés utiliser dans la configuration du service. Il faut donc parser une string dans l'implémentation de *IService::configuring()*, la stocker puis récupérer la donnée associée dans le composite dans *IService::starting()*. 
 
-Ensuite pour être notifié des changements, il faut créer les connections à la main, indépendamment de l'attribut autoConnect du service, car la fonction virtuelle *IService::getObjSrvConnections()* ne travaille que sur le composite lui-même. Entre un service qui travaille directement sur une image ou un service qui travaille sur une image dans un composite, il y aura donc des différences notables en terme de setup avant de pouvoir travailler sur la donnée. Du point de vue l'XML, il est facile de déterminer si le service se connecte à l'image avec l'attribut *autoConnect* alors que dans le 2e cas il faut bien souvent regarder dans le code du service.
+Ensuite pour être notifié des changements, il faut créer les connexions à la main, indépendamment de l'attribut autoConnect du service, car la fonction virtuelle *IService::getObjSrvConnections()* ne travaille que sur le composite lui-même. Entre un service qui travaille directement sur une image ou un service qui travaille sur une image dans un composite, il y aura donc des différences notables en terme de setup avant de pouvoir travailler sur la donnée. Du point de vue l'XML, il est facile de déterminer si le service se connecte à l'image avec l'attribut *autoConnect* alors que dans le 2e cas il faut bien souvent regarder dans le code du service.
 
 À cause de la complexité de l'organisation des données dans les composite, une dérive a conduit à utiliser directement les UID des objets au lieu des clés de composite. Le design devient alors définitivement caduque : le service a une donnée "principale", parfois difficile à déterminer et pioche ensuite des objets à sa guise dans un *pool* global, rendant ainsi le périmètre d'action d'un service encore plus difficile à lire. Sans compter que certains services mixent les clés et les UID...
 
@@ -82,7 +82,7 @@ Au niveau du xml de l'AppConfig2, cela change également l'écriture d'un servic
 
 L'écriture du xml est potentiellement plus verbeuse si de nombreux services utilisent la même donnée mais localement il est plus aisé d'identifier quelles sont les données utilisées par un service. À terme, il va de soit qu'aucun service ne devra accéder à des données autrement que par ce mécanisme et l'accès par UID sera à proscrire.
 
-Dans la continuité, une nouvelle méthode *IService::getAutoConnections()* est implémentable pour définir, pour chaque clé, les connections à effectuer avec le service. L'attribut *autoConnect* est spécifiable globalement à toutes les données ou individuellement.
+Dans la continuité, une nouvelle méthode *IService::getAutoConnections()* est implémentable pour définir, pour chaque clé, les connexions à effectuer avec le service. L'attribut *autoConnect* est spécifiable globalement à toutes les données ou individuellement.
 
 .. code-block :: cpp
 
@@ -135,7 +135,7 @@ Dans un certain nombre de cas, il est souhaitable qu'un service travaillant sur 
     
 Dans ce contexte, un service pourra être notifié de l'apparition, de la modification ou de la disparition d'un objet grâce à la nouvelle méthode *IService::swapping(const KeyType&)*.
     
-2.5. Connections
+2.5. connexions
 -------------------
 
 Pour simplifier l'écriture du xml, nous avons choisi de fusionner les balises *<connect>* et *<proxy>* dans le cadre de l'AppConfig2. La balise *<proxy>* est supprimée tandis qu'il a été ajouté la possibilité d'ajouter plusieurs signaux et un nom de canal sur la balise *<connect>*. En terme d'implémentation nous n'avons donc gardé, en réalité, que les proxys qui sont exposés dans le xml via la balise *<connect>*.
@@ -169,7 +169,7 @@ devient :
     </connect>
             
 
-Dans le cadre d'un service utilisant une donnée différée, il faut noter que ces connections ne sont créés/détruites que lorsque ce service est démarré/stoppé par l'AppConfig2.
+Dans le cadre d'un service utilisant une donnée différée, il faut noter que ces connexions ne sont créés/détruites que lorsque ce service est démarré/stoppé par l'AppConfig2.
 
 2.6. Enregistrement des services
 --------------------------------------
