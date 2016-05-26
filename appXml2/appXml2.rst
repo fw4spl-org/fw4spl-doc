@@ -61,7 +61,7 @@ Une AppConfig2 xml ne travaille donc plus sur une unique donnée. Tous les objet
         <object uid="image" type="::fwData::Image" />
         ...
 
-Un service propose une liste d'entrées (*in*), de sorties (*out*), et d'entrées/sorties(*inout*). Cette différence dans l'accès permet de mieux identifier comment les données sont employées et de sécuriser leur utilisation (les *in* ne sont accessibles qu'en *const*). Le parsing de ces entrées/sorties est réalisé par l'AppConfig, supprimant ainsi une partie du travail répétitif de parsing et de récupération des données. Les données sont accessibles par le service à l'aide de méthodes simples comme *getInput<>(const KeyType key)*, *getOutput(const KeyType key)*, etc...
+Un service propose une liste d'entrées (*in*), de sorties (*out*), et d'entrées/sorties(*inout*). Cette différence dans l'accès permet de mieux identifier comment les données sont employées et de sécuriser leur utilisation (les *in* ne sont accessibles qu'en *const*). Le parsing de ces entrées/sorties est réalisé par l'AppConfig, supprimant ainsi une partie du travail répétitif de parsing et de récupération des données. Les données sont accessibles par le service à l'aide de méthodes simples comme *getInput<>(const KeyType key)*, *getOutput<>(const KeyType key)*, etc...
 
 Au niveau du xml de l'AppConfig2, cela change également l'écriture d'un service : il n'est plus inclus dans une balise <object> et il doit donc préciser chaque donnée utilisée :
 
@@ -135,7 +135,7 @@ Dans un certain nombre de cas, il est souhaitable qu'un service travaillant sur 
     
 Dans ce contexte, un service pourra être notifié de l'apparition, de la modification ou de la disparition d'un objet grâce à la nouvelle méthode *IService::swapping(const KeyType&)*.
     
-2.5. connexions
+2.5. Connexions
 -------------------
 
 Pour simplifier l'écriture du xml, nous avons choisi de fusionner les balises *<connect>* et *<proxy>* dans le cadre de l'AppConfig2. La balise *<proxy>* est supprimée tandis qu'il a été ajouté la possibilité d'ajouter plusieurs signaux et un nom de canal sur la balise *<connect>*. En terme d'implémentation nous n'avons donc gardé, en réalité, que les proxys qui sont exposés dans le xml via la balise *<connect>*.
@@ -235,8 +235,8 @@ De façon générale, les erreurs sont remontées de façon plus explicite en es
 
 Nous présentons dans la suite un ensemble de règles à appliquer pour migrer une application et/ou des activités.
 
-3.1 Comment faire une appConfig utilisant appXml2 ?
-----------------------------------------------------
+3.1 Comment créer une appConfig utilisant appXml2 ?
+--------------------------------------------------------
 
 Tout d'abord dans le **Properties.cmake**, il faut remplacer les occurrences de appXml par appXml2. Par exemple :
 
@@ -302,8 +302,8 @@ Auparavant la configuration XML d'un appConfig contenait une unique balise objec
     <config>
         <object uid="root" type="::fwData::Composite">
 
-            <service uid="srv1" ... />
-            <service uid="srv2" ... >
+            <service uid="srv1" impl="::namespace::SServiceImpl" />
+            <service uid="srv2" impl="::generator::SMesh" >
                 <config>
                     <inputImageKey>imageKey</inputImageKey>
                     <outputMesh>mesh</outputMesh>
@@ -346,9 +346,9 @@ Avec AppConfig2, tout est mis à plat, fini le décodage des imbrications. Une c
         <object uid="mesh" type="::fwData::Mesh" />
         <object uid="image" type="::fwData::Image" />
 
-        <service uid="srv1" ... />
+        <service uid="srv1" type="::namespace::SServiceImpl" />
 
-        <service uid="srv2" ... >
+        <service uid="srv2" type="::generator::SMesh" >
             <in key="inputImage" uid="image" />
             <inout key="outputMesh" uid="mesh" />
         </service>
@@ -372,9 +372,30 @@ Objectivement, vous pouvez observer que le résultat est plus concis. Les deux *
 
 Chaque service référence les données qu'il utilise avec un identifiant unique, que nous nommons simplement par l'attribut *id*. Il s'agit de l'identifiant de la donnée dans la configuration XML courante. Il n'y a plus d'alternative comme auparavant. Toutefois, pour l'instant il est toujours possible d'utiliser directement l'UID de l'objet mais cela sera proscrit dans le futur. Le service utilise une clé, autrement dit un alias, pour désigner cette donnée dans son code. L'ajout de cette clé, si tant est bien sûr qu'elle possède un nom intelligible, permet également de mieux comprendre l'utilisation qui est faite de la donnée, même dans le cas d'une donnée unique. L'ajout des types d'accès (*in*, *inout*, *out*) aident également à mieux comprendre le rôle rempli par chacune des données. 
 
-Enfin n'oubliez pas de ne plus utiliser de *${GENERIC_UID}* et de remplacer les tags **by** par **uid** dans les remplacements des paramètres de lancement de configuration.
+Enfin de façon plus générale, n'oubliez pas de ne plus utiliser de *${GENERIC_UID}* et de remplacer les tags **by** par **uid** dans les remplacements des paramètres de lancement de configuration. Par ailleurs les services ne se déclarent plus en précisant **type** et **impl**. Seul **type** est précisé, mais il correspond à la vraie classe devant être instanciée, pour être plus cohérent avec la déclaration des objets. Autrement dit, ce qui était dans **impl** doit être copié dans **type** et ensuite **impl** doit être supprimé.
 
-3.3 Comment accéder aux objets d'un service ?
+
+3.3 Comment choisir entre Input, InOut et Output ?
+----------------------------------------------------
+
+Pour convertir vos services ou en écrire de nouveaux, il vous faut déterminer le type d'accesseur pour chaque donnée. 
+
+1. Lecture seule
+_________________
+
+Pour les données accessibles en lecture seule, c'est simple, il faut prendre *in*. Toutefois dans le cadre de la migration, il se peut que la conversion soit difficile à cause de l'apparition du *const*. Si c'est possible, faites les modifications nécessaires, dans le cas contraire vous devrez prendre InOut temporairement et prendre note de changer cela plus tard.
+
+2. Ecriture seule
+__________________
+
+Il est important de comprendre que les out sont des données qui vont être **produites**. Ce sont donc nécessairement des données *deferred* dans l'AppConfig. Là où l'on pourrait penser par exemple que nos lecteurs accèdent à leur donnée en *out*, en fait ce n'est pas le cas. Ceux-ci travaillent en effet sur une donnée qui est déjà allouée et ils ne font que la modifier. En revanche les services qui extraient des objets au sein de *composites* ou des fields utilisent des vraies *out*.
+
+3. Modification
+_________________
+
+Si vous n'êtebs ni dans le premier, ni dans le deuxième cas, alors nécessairement vous êtes en *inout*.
+
+3.4 Comment accéder aux objets d'un service ?
 -----------------------------------------------
 
 Pour accéder aux données d'un service, il existe trois nouvelles méthodes différentes pour récupérer respectivement une entrée (*in*), une entrée/sortie(*inout*) ou une sortie (*out*):
@@ -396,7 +417,44 @@ Pour éviter de modifier tous les services actuels, les anciennes méthodes fonc
 
 Si un service utilise plusieurs données, alors *getObject()* renverra simplement le premier objet déclaré dans la liste des données du service dans l'XML. Si un service ne travaille sur aucune donnée (les *::gui::view::IView* par exemple) alors *getObject()* renverra un objet **dummy** de type *::fwData::Composite* créé spécialement par l'AppConfig courante.
 
-3.4 Comment gérer un nombre indéterminé d'objets dans un service ?
+Règle de codage
+________________
+
+Si vous réutilisez plus d'une fois un nom de clé d'objet, alors il est recommandé d'utiliser une *string* en *static const* dans votre fichier source. Il n'est pas utile de le mettre en membre statique de classe puisqu'il ne sera normalement pas utilisé à l'extérieur de la classe.
+
+3.5 Comment documenter les objets d'un service ?
+--------------------------------------------------
+
+Le guide de style préconise de documenter les données d'un service dans la section XML de la doxygen du service, au-dessus de la classe. Jusqu'à trois sous-sections doivent être ajoutées pour chaque catégorie de données, et pour chaque donnée, le nom de la clé et le type de la donnée (entre crochets) doivent être décrits.
+
+    .. code-block:: cpp
+
+         *
+         * @section XML XML Configuration
+         *
+         * @code{.xml}
+                <service impl="::namespace::SService">
+                    <in key="data1" uid="model" />
+                    <inout key="data2" uid="mesh" />
+                    <out key="data3" uid="image2" />
+                    <out key="data4" uid="image1" />
+                    <option1>12</option1>
+                    <option2>12</option2>
+                </service>
+           @endcode
+         * @subsection Input Input
+         * - \b data1 [::fwMedData::ModelSeries]: blablabla.
+         * @subsection In-Out In-Out
+         * - \b data2 [::fwData::Mesh]: blablabla.
+         * @subsection Output Output
+         * - \b data3 [::fwData::Image]: blablabla.
+         * - \b data4 [::fwData::Image]: blablabla.
+         * @subsection Configuration Configuration
+         * - \b option1 : first option.
+         * - \b option2(optional) : second option.
+         */
+
+3.6 Comment gérer un nombre indéterminé d'objets dans un service ?
 --------------------------------------------------------------------
 
 Il se peut que vous ayiez besoin d'avoir une liste d'objets de même type en entrée. Dans ce cas, la solution pourrait être de définir en entrée toutes les clés : 
@@ -455,7 +513,7 @@ Par exemple:
     }
 
 
-3.5 Dois-je modifier le code de mon service ?
+3.7 Dois-je modifier le code de mon service ?
 -------------------------------------------------
 
 Mon service ne fonctionne pas
@@ -590,7 +648,7 @@ Cherchez ses utilisations dans le code et vous trouverez des exemples d'utilisat
 
 
 
-3.6 Ciel un swapper ! 
+3.8 Ciel un swapper ! 
 ---------------------------
 
 Ok les choses sérieuses commencent... Pour illustrer la migration d'une configuration comprenant un swapper, prenons le cas du **Tuto09MesherWithGenericScene** (certains identifiants ou types ont été raccourcis pour que le code ne déborde pas de la page) :
@@ -686,7 +744,7 @@ Pour information, *SObjFromSlot* enregistre la donnée dans son code en appelant
 
 L'AppConfig est signalée et déclenche alors les actions en conséquence.
 
-3.7 Les données optionnelles
+3.9 Les données optionnelles
 ------------------------------
 
 Dans l'exemple précédent, nous avons vu qu'une donnée en **out** différée n'empêchait pas le service de démarrer. Il est possible d'avoir ce comportement également sur les données en **in** et **inout** en précisant dans l'XML qu'elles sont optionnelles :
