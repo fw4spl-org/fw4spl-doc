@@ -85,37 +85,64 @@ Example 3 : Function documentation
     documented entity, it is often recommended to use the group feature (``@name``). With this feature you will build a
     logical view of the class interfaces.
 
-.. rule :: Document service configuration
+.. rule :: Document service
 
-    The xml configuration of a service must be properly documented. It should indicate every parameter that can
-    be passed, no matter if it is optional or not. Example :
+    The service must be properly documented. 
 
-    .. code-block:: cpp
-
-        /**
-         * @code{.xml}
-        <adaptor id="points" class="::namespace::SService">
-            <config option1="default" option2="false"/>
-        </adaptor>
-         @endcode
-         * - \b option1 : first option.
-         * - \b option2(optional) : second option.
-         */
-
-.. rule :: Signals and Slots
-
-    The signals and slots must be documented. The class doxygen should indicate the signals and slots keys and how to
-    use them.
+    This should include first a brief description, then a long description if necessary.
 
     .. code-block:: cpp
 
         /**
-         * @brief   This editor allows to draw a slider with an integer data.
+         * @brief This is the short description.
+         * 
+         * This is the long description.
+         *
+
+    After that the signals and slots must be documented in two distinct sections.
+
+    .. code-block:: cpp
+
+         *
          * @section Signals Signals
-         * - \b valueChanged(int): This editor emits the signal "valueChanged" with the changed slider value.
+         * - \b signal2(::fwData::Mesh::sptr) : Emitted when the mesh has changed.
+         * - \b signal1(std::int64_t) : Emitted when ...
          *
          * @section Slots Slots
-         * - \b setValue(int, bool): This slot allows to update the slider value.
-         * - \b setMinValue(int): This slot allows to set minimum value.
-         * - \b setMaxValue(int): This slot allows to set maximum value.
+         * - \b modified() : Modify the data.
+         *
+
+    Last the xml configuration of the service must be described into a dedicated section. 
+    It should indicate first the input, input/outputs and outputs in three subsections. The type and the name of the data should appear along with a short description.
+    A fourth subsection  describes the rest of the parameters, and tells if it they are optional or not.
+
+    .. code-block:: cpp
+
+         *
+         * @section XML XML Configuration
+         *
+         * @code{.xml}
+                <service impl="::namespace::SService">
+                    <in key="data1" uid="model" />
+                    <inout key="data2" uid="mesh" />
+                    <out key="data3" uid="image2" />
+                    <out key="data4" uid="image1" />
+                    <option1>12</option1>
+                    <option2>12</option2>
+                </service>
+           @endcode
+         * @subsection Input Input
+         * - \b data1 [::fwMedData::ModelSeries]: blablabla.
+         * @subsection In-Out In-Out
+         * - \b data2 [::fwData::Mesh]: blablabla.
+         * @subsection Output Output
+         * - \b data3 [::fwData::Image]: blablabla.
+         * - \b data4 [::fwData::Image]: blablabla.
+         * @subsection Configuration Configuration
+         * - \b option1 : first option.
+         * - \b option2(optional) : second option.
+         *
          */
+
+    Please follow the template above as much as possible to keep the documentation as clear and homogeneous as possible.
+
