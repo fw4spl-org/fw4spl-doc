@@ -571,7 +571,7 @@ Dans appXml2, cela se réduit en (à ajuster évidemment pour l'accesseur) :
 
     void SService::starting()
     {
-        ::fwData::Image::ptr image = this->getObject("image");
+        ::fwData::Image::ptr image = this->getInput("image");
     }
 
 2. Connexions pour N données
