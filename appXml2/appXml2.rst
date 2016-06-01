@@ -230,7 +230,7 @@ Se transforme en :
 .. code-block :: xml
 
     <service uid="configLauncher" impl="::gui::action::SConfigLauncher">
-        <appConfig id="configuration">
+        <appConfig id="configuration" />
         <inout key="object" uid="object1" />
         <parameter replace="ICON_PATH" by="${ICON_PATH}" />
         <parameter replace="orientation" by="frontal" />
