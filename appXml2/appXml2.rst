@@ -201,7 +201,14 @@ La seule évolution envisageable serait éventuellement de séparer la fonction 
 
 Il n'est plus nécessaire d'utiliser les *${GENERIC_UID}*. L'AppConfig2 se charge lui-même des substitutions, en reconnaissant les tags XML qui désigne des identifiants uniques. 
 
-Le seul désavantage à l'heure actuelle est la nécessité de différencier les identifiants et les simples chaînes de caratères lors du remplacement de paramètres pour les lanceurs de configuration. Cela revient à spécifier un tag **uid** au lieu de **by** :
+Le seul désavantage à l'heure actuelle est la nécessité de différencier les identifiants et les simples chaînes de caratères lors du remplacement de paramètres pour les lanceurs de configuration. Cela revient à spécifier un tag **uid** au lieu de **by**. En clair, s'il s'agit d'un nom de canal de connexion ou d'un wid (le fameux *WID_PARENT*), alors vous devez mettre **uid**, sinon ce sera **by**. Quant aux identifiants d'objets, ils sont de toute façon traités différemment comme nous allons le voir dans la section suivante.
+
+2.8. Utilisation des objets pour les lanceurs de configuration
+----------------------------------------------------------------
+
+Les services *::gui::action::SConfigLauncher* et *::fwServices::SConfigController* référencent désormais les objets qu'ils vont remplacer, au lieu de simplement effectuer une substitution. Cela est nécessaire pour les objets deferred, car l'identifiant de ces objets n'est pas connu en dehors de l'AppConfig courante (c'était déjà le cas auparavant, on passait par un path *camp* pour récupérer la clé de composite). Ceci permet également de bénéficier du start automatique avec ces objets. 
+
+Au niveau de la configuration, là où l'on utilisait une ligne de substitution d'un identifiant d'objet, il faut une ligne de clé d'objet en *inout* (tous les paramètres d'objets seront effectivement considérés en lecture/écriture car on ne peut pas le déterminer à priori, et cela n'a pas vraiment de sens pour la substitution). Le nom de la clé d'objet correspond au nom de la variable à substituer dans la configuration cible. Ainsi le code précédent :
 
 .. code-block :: xml
 
@@ -211,21 +218,34 @@ Le seul désavantage à l'heure actuelle est la nécessité de différencier les
                 <parameters>
                     <parameter replace="ICON_PATH" by="${ICON_PATH}" />
                     <parameter replace="orientation" by="frontal" />
-                    <parameter replace="object" uid="object1" />
-                    <parameter replace="channel" uid="channel1" />
+                    <parameter replace="object" by="object1" />
+                    <parameter replace="channel" by="channel1" />
                 </parameters>
             </appConfig>
         </config>
     </service>
 
-2.8. Debug
+Se transforme en :
+
+.. code-block :: xml
+
+    <service uid="configLauncher" impl="::gui::action::SConfigLauncher">
+        <appConfig id="configuration">
+        <inout key="object" uid="object1" />
+        <parameter replace="ICON_PATH" by="${ICON_PATH}" />
+        <parameter replace="orientation" by="frontal" />
+        <parameter replace="channel" uid="channel1" />
+    </service>
+
+
+2.9. Debug
 ------------
 
 Pour aider au débogage du démarrage des services, des logs ont été ajouté au niveau INFO, indiquant par exemple qu'un service n'a pas été démarré car une ou plusieurs ne sont pas disponibles (en précisant lesquelles), ou encore qu'un service a été démarré/stoppé à cause d'une création/destruction de donnée.
 
 De façon générale, les erreurs sont remontées de façon plus explicite en essayant de préciser un contexte, notamment l'identifiant de la configuration en particulier, pour aider à comprendre les erreurs sans avoir à lancer un débogueur.
 
-2.9. Versions
+2.10. Versions
 ----------------
 
 **AppXml2** est une évolution majeure sur la branche *fw4spl_0.11.0*. La compatibilité avec **appXml** restera assurée tout au long du cyle sur *fw4spl_0.11*. Nous prévoyons de supprimer appXml à partir de la branche *fw4spl_0.12.0*.
@@ -756,4 +776,9 @@ Dans l'exemple précédent, nous avons vu qu'une donnée en **out** différée n
     </service>
 
 Pour être notifié de l'arrivée de la donnée, vous pouvez utiliser *IService::swapping(const KeyType&)*. Toutefois cela complique forcément la gestion des données, et si c'est possible, il est plutôt recommandé d'écrire des services ne travaillant que sur des données présentes. Actuellement, les données optionnelles sont utilisées pour les services qui agissent comme des managers de service comme *::fwRenderVTK::SRender*, *::scene2D:Render*, etc...
+
+3.10 Les lanceurs de configuration
+----------------------------------
+
+Si vous utilisez un service *SConfigLauncher* ou *SConfigController*, alors vous devez modifier leur configuration comme indiqué aux sections 2.7 et 2.8.
 
