@@ -118,7 +118,7 @@ Dans l'exemple suivant, le service *updaterReconst* travaille sur la donnée dif
         <inout key="reconstruction" uid="reconst" />
     </service>
     
-Une donnée différée est créée, supprimée ou modifiée par un service travaillant sur cette donnée **en sortie**. Pour rendre cette donnée disponible aux autres services, la méthode *::fwServices::OSR::register* est utilisée. Celle-ci envoie un signal qui est intercepté par l'AppConfig2, qui peut démarrer ensuite les services concernés si toutes les conditions sont remplies.
+Une donnée différée est créée, supprimée ou modifiée par un service travaillant sur cette donnée **en sortie**. Pour rendre cette donnée disponible aux autres services, la méthode *::IService::registerOutput* est utilisée. Celle-ci envoie un signal qui est intercepté par l'AppConfig2, qui peut démarrer ensuite les services concernés si toutes les conditions sont remplies.
     
 La fonctionnalité proposée par le SSwapper est donc toujours présent, mais intégrée à l'AppConfig2, d'une manière proche des scènes génériques VTK, Ogre ou 2D. Dans le futur, il serait souhaitable d'homogénéiser ce comportement avec du code commun. Celui-ci pourrait également être utilisé si nécessaire dans le cadre de l'écriture d'une application sans le XML, en C++ ou un autre langage pour ne pas avoir à gérer cette problématique manuellement.
           
@@ -753,14 +753,11 @@ Ainsi le cas du **Tuto09MesherWithGenericScene** se simplifie de la façon suiva
 
 Il faut donc commencer par déclarer la donnée reconstruction avec l'attribut *src="deferred"*. Les deux éditeurs sont extraits du *SSwapper* qui a disparu. Ensuite on indique à ces deux éditeurs qu'ils travaillent sur cette donnée... et c'est terminé ! Ils seront démarrés, leurs signaux/slots connectés lorsque *updater reconstUid* créera la donnée du point de vue de l'AppConfig. Ce service utilise en effet la reconstruction **en sortie**, il n'a donc pas besoin de la donnée pour démarrer puisqu'il indique ainsi que c'est lui qui va la produire. 
 
-Pour information, *SObjFromSlot* enregistre la donnée dans son code en appelant :
+Par exemple, *SObjFromSlot* enregistre la donnée de la manière suivante :
 
 .. code-block :: cpp
 
-    :fwServices::OSR::registerService(objectSptr, 
-                                      "object", 
-                                      ::fwServices::IService::AccessType::OUTPUT, 
-                                      this->getSptr());
+    this->registerOutput("object", objectSptr);
 
 L'AppConfig est signalée et déclenche alors les actions en conséquence.
 
