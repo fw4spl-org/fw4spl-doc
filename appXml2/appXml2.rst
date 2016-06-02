@@ -522,13 +522,13 @@ Par exemple:
 
 .. code-block :: cpp
 
-    ::fwData::Object::csptr obj1 = this->getInput("matrix", 1);
-    ::fwData::Object::csptr obj2 = this->getInput("matrix2");
+    ::fwData::Object::csptr obj1 = this->getInput< ::fwData::Object>("group", 1);
+    ::fwData::Object::csptr obj2 = this->getInput< ::fwData::Object>("group2");
 
-    const size_t groupSize = this->getKeyGroupSize("matrix");
+    const size_t groupSize = this->getKeyGroupSize("group");
     for(int i = 0; i < groupSize; ++i)
     {
-        auto obj = this->getInput("matrix", i);
+        auto obj = this->getInput< ::fwData::Object>("group", i);
         ...
     }
 
@@ -591,7 +591,7 @@ Dans appXml2, cela se réduit en (à ajuster évidemment pour l'accesseur) :
 
     void SService::starting()
     {
-        ::fwData::Image::ptr image = this->getInput("image");
+        ::fwData::Image::ptr image = this->getInput< ::fwData::Image>("image");
     }
 
 2. Connexions pour N données
