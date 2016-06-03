@@ -169,7 +169,7 @@ devient :
     </connect>
             
 
-Dans le cadre d'un service utilisant une donnée différée, il faut noter que ces connexions ne sont créés/détruites que lorsque ce service est démarré/stoppé par l'AppConfig2.
+Dans le cadre d'un service utilisant une donnée différée, il faut noter que ces connexions ne sont créées/détruites que lorsque ce service est démarré/stoppé par l'AppConfig2.
 
 2.6. Enregistrement des services
 --------------------------------------
@@ -190,7 +190,7 @@ Nous nous sommes donc légitimement posé la question du devenir de cette macro 
 
 Pour la fonction n°1, nous n'avons pas besoin de modifier quoique ce soit. La macro pourrait même ne pas définir le type d'objet à associer, cela ne changerait rien.
 
-Pour la fonction n°2, si nous n'enregistrons pas le type de chaque donnée, nous perdons la vérification qui se fait lors de l'enregistrement du service dans l'OSR, juste après sa création. C'est ce qui se passait jusque là... avec toutefois un gros bémol, puisque ce n'était uniquement le cas pour les services travaillant sur une seule donnée ! Pour tous les objets travaillant sur plusieurs données, que ce soit en utilisant les clés d'un *::fwData::Composite*, ou directement en passant par les UID, cette vérification n'était pas faite à cet instant. En revanche, lors de l'utilisation de la donnée, au *start()*, à l'*update()* ou dans un slot, un *dynamic_cast()* était obligatoire et vérifiait donc finalement le type de la donnée. Donc au final si nous n'enregistrons pas le type de chaque donnée, nous retardons simplement le moment où une erreur potentielle de type est levée pour les services travaillant sur une donnée unique. Pour les services travaillant sur plusieurs données, cela ne change rien, l'erreur ne sera remontée qu'au moment de leur utilisation.
+Pour la fonction n°2, si nous n'enregistrons pas le type de chaque donnée, nous perdons la vérification qui se fait lors de l'enregistrement du service dans l'OSR, juste après sa création. C'est ce qui se passait jusque là... avec toutefois un gros bémol, puisque ce n'était uniquement le cas que pour les services travaillant sur une seule donnée ! Pour tous les objets travaillant sur plusieurs données, que ce soit en utilisant les clés d'un *::fwData::Composite*, ou directement en passant par les UID, cette vérification n'était pas faite à cet instant. En revanche, lors de l'utilisation de la donnée, au *start()*, à l'*update()* ou dans un slot, un *dynamic_cast()* était obligatoire et vérifiait donc finalement le type de la donnée. Donc au final si nous n'enregistrons pas le type de chaque donnée, nous retardons simplement le moment où une erreur potentielle de type est levée pour les services travaillant sur une donnée unique. Pour les services travaillant sur plusieurs données, cela ne change rien, l'erreur ne sera remontée qu'au moment de leur utilisation.
 
 Pour la fonction n°3, en ne modifiant rien, nous gardons le comportement intact. Il est toujours possible de lister tous les *IReader* par exemple. Enregistrer tous les types de données d'un service n'aurait pas vraiment de sens pour cette fonction. Quel est l'intérêt de récupérer tous les *::arServices::ISimulator* travaillant sur une *::fwData::Image*, sachant que parmi ces services, l'un va travailler également sur un *::fwData::Mesh* et deux *::fwMedData::ModelSeries*, l'autre sur deux autres *::fwData::Image* et un *::fwData::Composite*, etc... ? Cela n'apporterait aucune information exploitable. En réalité cela n'a de sens que si le service travaille sur un seul type de donnée; donc en gardant la macro telle quelle nous remplissons toujours cette fonction.
 
@@ -388,7 +388,7 @@ Avec AppConfig2, tout est mis à plat, fini le décodage des imbrications. Une c
 
     </config>
 
-Objectivement, vous pouvez observer que le résultat est plus concis. Les deux *composites* utilitaires qui servaient juste à contenir les vraies données ont disparu. Et nous ne les regretterons pas. Tous les objets sont regroupés, suivis des services; il n'est ainsi plus nécessaire de chercher les services au milieu des items des *composites*.
+Objectivement, vous pouvez observer que le résultat est plus concis. Les deux *composites* utilitaires qui servaient juste à contenir les vraies données ont disparus. Et nous ne les regretterons pas. Tous les objets sont regroupés, suivis des services; il n'est ainsi plus nécessaire de chercher les services au milieu des items des *composites*.
 
 Chaque service référence les données qu'il utilise avec un identifiant unique, que nous nommons simplement par l'attribut *id*. Il s'agit de l'identifiant de la donnée dans la configuration XML courante. Il n'y a plus d'alternative comme auparavant. Toutefois, pour l'instant il est toujours possible d'utiliser directement l'UID de l'objet mais cela sera proscrit dans le futur. Le service utilise une clé, autrement dit un alias, pour désigner cette donnée dans son code. L'ajout de cette clé, si tant est bien sûr qu'elle possède un nom intelligible, permet également de mieux comprendre l'utilisation qui est faite de la donnée, même dans le cas d'une donnée unique. L'ajout des types d'accès (*in*, *inout*, *out*) aident également à mieux comprendre le rôle rempli par chacune des données. 
 
@@ -413,7 +413,7 @@ Il est important de comprendre que les out sont des données qui vont être **pr
 3. Modification
 _________________
 
-Si vous n'êtebs ni dans le premier, ni dans le deuxième cas, alors nécessairement vous êtes en *inout*.
+Si vous êtes ni dans le premier, ni dans le deuxième cas, alors nécessairement vous êtes en *inout*.
 
 3.4 Comment accéder aux objets d'un service ?
 -----------------------------------------------
