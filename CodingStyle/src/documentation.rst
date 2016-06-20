@@ -122,7 +122,7 @@ Example 3 : Function documentation
          * @section XML XML Configuration
          *
          * @code{.xml}
-                <service impl="::namespace::SService">
+                <service type="::namespace::SService">
                     <in key="data1" uid="model" />
                     <inout key="data2" uid="mesh" />
                     <out key="data3" uid="image2" />
