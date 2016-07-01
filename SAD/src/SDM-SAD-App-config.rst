@@ -47,37 +47,36 @@ The following part corresponds to the configuration XML file of the previous :re
 
 .. code-block:: xml
 
-    <object uid="image" type ="::fwData::MyData">
+    <object uid="image" type ="::fwData::MyData" />
 
-        <service uid="frame" impl="DefaultFrame" type="IFrame" >
-            <!-- service configuration -->
-        </service>
+    <service uid="frame" impl="DefaultFrame" type="IFrame">
+        <!-- service configuration -->
+    </service>
 
-        <service uid="view" impl="MyCustomImageView"
-                 type="::fwRender::IRender" >
-            <!-- service configuration -->
-        </service>
+    <service uid="view" impl="MyCustomImageView" type="::fwRender::IRender">
+        <in key="object" uid="image" />
+        <!-- service configuration -->
+    </service>
 
-        <service uid="reader" impl="MyCustomImageReader"
-                 type="::io::IReader" >
-            <!-- service configuration -->
-        </service>
+    <service uid="reader" impl="MyCustomImageReader" type="::io::IReader" >
+        <in key="object" uid="image" />
+        <!-- service configuration -->
+    </service>
 
-        <!-- view listen now image modification -->
-        <connect>
-            <signal>image/objectModified</signal>
-            <slot>view/receive</slot>
-        </connect>
+    <!-- view listen now image modification -->
+    <connect>
+        <signal>image/objectModified</signal>
+        <slot>view/receive</slot>
+    </connect>
 
-        <start uid="frame" />
-        <start uid="view"/>
-        <start uid="reader"/>
+    <start uid="frame" />
+    <start uid="view"/>
+    <start uid="reader"/>
 
-        <!-- Read the image on filesystem and notify 
-             the view to refresh is content -->
-        <update uid ="reader"/>
+    <!-- Read the image on filesystem and notify 
+         the view to refresh is content -->
+    <update uid ="reader"/>
 
-    </ object >
 
 This simple example shows how it is possible to build an application with several objects and services
 using only a program and its configurations files.
@@ -88,7 +87,7 @@ Example
 
 .. code-block:: xml
 
-    <extension implements="::fwServices::registry::AppConfig">
+    <extension implements="::fwServices::registry::AppConfig2">
         <id>myAppConfigId</id>
         <parameters>
             <param name="appName" default="my Application" />
@@ -96,78 +95,76 @@ Example
         </parameters>
         <desc>Image Viewer</desc>
         <config>
-        
-            <object type="::fwData::Composite">
 
-                <!--
-                    Description service of the GUI:
-                    The ::gui::frame::SDefaultFrame service automatically positions the various
-                    containers in the application main window.
-                    Here, it declares a container for the 3D rendering service.
-                -->
-                <service uid="myFrame" impl="::gui::frame::SDefaultFrame">
-                    <gui>
-                        <frame>
-                            <name>${appName}</name>
-                            <icon>${appIconPath}</icon>
-                            <minSize width="800" height="600" />
-                        </frame>
-                    </gui>
-                    <registry>
-                        <!-- Associate the container for the rendering service. -->
-                        <view sid="myRendering" />
-                    </registry>
-                </service>
+            <object uid="myImage" type="::fwData::Image" />
 
-                <item key="myImage">
-                    <object uid="myImageUid" type="::fwData::Image">
-                        <!--
-                            Reading service:
-                            The <file> tag defines the path of the image to load. Here, it is a relative 
-                            path from the repository in which you launch the application.
-                        -->
-                        <service uid="myReaderPathFile" impl="::ioVTK::SImageReader">
-                            <file>./TutoData/patient1.vtk</file>
-                        </service>
+            <!--
+                Description service of the GUI:
+                The ::gui::frame::SDefaultFrame service automatically positions the various
+                containers in the application main window.
+                Here, it declares a container for the 3D rendering service.
+            -->
+            <service uid="myFrame" type="::gui::frame::SDefaultFrame">
+                <gui>
+                    <frame>
+                        <name>${appName}</name>
+                        <icon>${appIconPath}</icon>
+                        <minSize width="800" height="600" />
+                    </frame>
+                </gui>
+                <registry>
+                    <!-- Associate the container for the rendering service. -->
+                    <view sid="myRendering" />
+                </registry>
+            </service>
 
-                        <!--
-                            Visualization service of a 3D medical image:
-                            This service will render the 3D image.
-                        -->
-                        <service uid="myRendering" impl="::vtkSimpleNegato::SRenderer" />
-                    </object>
-                </item>
+            <!--
+                Reading service:
+                The <file> tag defines the path of the image to load. Here, it is a relative
+                path from the repository in which you launch the application.
+            -->
+            <service uid="myReaderPathFile" type="::ioVTK::SImageReader">
+               <inout key="target" uid="myImage" />
+               <file>./TutoData/patient1.vtk</file>
+            </service>
 
-                <!--
-                    Definition of the starting order of the different services:
-                    The frame defines the 3D scene container, so it must be started first.
-                    The services will be stopped the reverse order compared to the starting one.
-                -->
-                <start uid="myFrame" />
-                <start uid="myReaderPathFile" />
-                <start uid="myRendering" />
+            <!--
+                Visualization service of a 3D medical image:
+                This service will render the 3D image.
+            -->
+            <service uid="myRendering" type="::vtkSimpleNegato::SRenderer">
+               <in key="image" uid="myImage" />
+            </service>
 
-                <!--
-                    Definition of the service to update:
-                    The reading service load the data on the update.
-                    The render update must be called after the reading of the image.
-                -->
-                <update uid="myReaderPathFile" />
-                <update uid="myRendering" />
+            <!--
+                Definition of the starting order of the different services:
+                The frame defines the 3D scene container, so it must be started first.
+                The services will be stopped the reverse order compared to the starting one.
+            -->
+            <start uid="myFrame" />
+            <start uid="myReaderPathFile" />
+            <start uid="myRendering" />
 
-            </object>
+            <!--
+                Definition of the service to update:
+                The reading service load the data on the update.
+                The render update must be called after the reading of the image.
+            -->
+            <update uid="myReaderPathFile" />
+            <update uid="myRendering" />
 
         </config>
     </extension>
-    
 
+Parameters
+~~~~~~~~~~~
 
 id 
-~~~~
+****
 The id is the configuration identifier, and is thus unique to each configuration.
 
 parameters (optional)
-~~~~~~~~~~~~~~~~~~~~~~
+***********************
 The parameters is a list of the parameters used by the configuration.
     
 param: 
@@ -181,44 +178,32 @@ param:
         default value for the parameter, it is used if the value is not given by the config launcher.
             
 desc (optional)
-~~~~~~~~~~~~~~~~
+****************
 The description of the application.
 
-config
-~~~~~~~
-The config tag includes the services and objects to launch.
-    
-object
-*******
-It defines an object of the AppConfig. We usually use a ::fwData::Composite in order to add sub-objects.
-An object can contain a list of services. Some object objects can have a specific configuration : 
-::fwData::TransformationMatrix3D, ::fwData::Float, ::fwData::List, ...
-    
-    uid (optional):
-        Unique identifier of the object (::fwTools::fwID). If it is not defined, it will be automatically generated.
-    type:
-        Object type (ex: ``::fwData::Image``, ``::fwData::Composite``)
-    src (optional, "new" by default)
-        Defines if the object should be created (``new``) or if it already exists in the application (``ref``). 
-        In the last case, the uid must be the same as the first declaration of this object (with ``new``).
-    
-service:
-    It represents a service working on the object
-        
-    uid (optional): 
-        Unique identifier of the service. If it is not defined, it will be automatically generated.
-    impl: 
-        Service implementation type (ex: ``::ioVTK::SImageReader``)
-    type (optional):
-        Service type (ex: ``::io::IReader``)
-    autoConnect (optional, "no" by default):
-        Defines if the service receives the signals of the working object
-    worker (optional):
-        Allows to run the service in another worker (see :ref:`Multithreading`)
-    
-Some services needs a specific configuration, it is usually described in the doxygen of the method ``configuring()``.
 
-    
+Object
+~~~~~~~~
+the <object> tags define the objects of the AppConfig.
+
+uid (optional):
+    Unique identifier of the object (::fwTools::fwID). If it is not defined, it will be automatically generated.
+type:
+    Object type (ex: ``::fwData::Image``, ``::fwData::Composite``)
+src (optional, "new" by default)
+     possible values: "new", "ref", "deferred"
+     
+     "new" 
+         defines that the object should be created
+     "ref" 
+         defines that the object already exists in the application. The uid must be the same as the first declaration 
+         of this object (with "new").
+     "deferred"
+          defines that the object will be created later (by a service).
+
+Specific object configuration
+******************************
+
 matrix (optional):
     It works only for ``::fwData::TransformationMatrix3D`` objects. It defines the value of the matrix.
 
@@ -245,22 +230,6 @@ value (optional):
         <value>42</value>
     </object>
 
-
-item (optional):
-    It defines a sub-object of a composite. It can only be used if the parent object is a ``::fwData::Composite``.
-        
-    key:
-        key of the object in the composite
-            
-    object: 
-        The 'item' tag can only contain 'object' tags that represents the composite sub-object
-        
-.. code-block:: xml
-
-    <item key="myImage">
-        <object uid="myImageUid" type="::fwData::Image" />
-    </item>
-
 colors (optional):
     Only ``::fwData::TransferFunction`` contains this tag. It allows to fill the transfer function values.
     
@@ -277,39 +246,96 @@ colors (optional):
         </colors>
     </object>
     
-
-connect (optional): 
-    allows to connect a signal to one or more slot(s). The signal and slots must be compatible.
+item (optional): 
+    It defines a sub-object of a composite or a field of any other object. 
     
+    key: 
+        key of the object
+        
+    object: 
+        the 'item' tag can only contain 'object' tags that represents the sub-object
+        
 .. code-block:: xml
 
-    <connect>
+    <item key="myImage">
+        <object uid="myImageUid" type="::fwData::Image" />
+    </item>
+
+Service
+~~~~~~~~~
+The <service> tags represent a service working on the object(s). Services list the data the use and how they access them.
+Some services needs a specific configuration, it is usually described in the doxygen.
+
+uid (optional): 
+    Unique identifier of the service. If it is not defined, it will be automatically generated.
+impl: 
+    Service implementation type (ex: ``::ioVTK::SImageReader``)
+type (optional):
+    Service type (ex: ``::io::IReader``)
+autoConnect (optional, "no" by default):
+    Defines if the service receives the signals of the working object
+worker (optional):
+    Allows to run the service in another worker (see :ref:`Multithreading`)
+
+.. code-block:: xml
+
+    <service uid="mesher" type="::opMesh::SMesher">
+        <in key="image" uid="imageId" />
+        <out key="mesh" uid="meshId" />
+    </service>
+
+in: 
+    input object, it is const and cannot be modified
+inout: 
+    input object that can be modified
+out: 
+    output object, it must be created by the service and registered with the 'setOutput(key, obj)' method.
+    The output object must be declared as "deferred" in the \<object\> declaration.
+    
+    key 
+        Object key used to retreive the object into the service
+    uid 
+        Uid of the object declared in the <object> tag
+    optional(optional, default "no", values: "yes" or "no")
+        If "yes", the service can be started even if the object is not present. 
+        The output objects are always optional.
+        
+        
+.. code-block:: cpp
+
+    ::fwData::Image::csptr image = this->getInput< ::fwData::Image >("image");
+    ::fwData::Mesh::sptr mesh = ::fwData::Mesh::New();
+    // mesher .....
+    this->setOutput("mesh", mesh);
+
+Connection
+~~~~~~~~~~~
+connect (optional):
+     allows to connect one or more signal(s) to one or more slot(s). The signals and slots must be compatible.
+
+    channel (optional): 
+        name of the channel use for the connections.
+        
+.. code-block:: xml
+
+    <connect channel="myChannel">
         <signal>object_uid/signal_name</signal>
         <slot>service_uid/slot_name</slot>
     </connect>
 
 
-proxy (optional):
-    Allows to connect one or more signal(s) to one or more slot(s). The signals and slots must be compatible. 
-    
-    channel:
-        Name of the channel use for the proxy. 
-
-.. code-block:: xml
-
-     <proxy channel="myChannel">
-         <signal>object_uid/signal_name</signal>
-         <slot>service_uid/slot_name</slot>
-     </proxy>
-
-
-start:
-    defines the service to start when the AppConfig is launched. The services will be automatically stopped in 
-    the reverse order when the AppConfig is stopped.
-    
+Start-up
+~~~~~~~~~~
+start: 
+    defines the service to start when the AppConfig is launched. The services will be automatically stopped in the 
+    reverse order when the AppConfig is stopped.
+ 
 .. code-block:: xml
 
     <start uid="service_uid" />
+
+**The service using "deferred" object as input will be automatically started when the object is created.**
+
 
 update: 
     defines the service to update when the AppConfig is launched.
