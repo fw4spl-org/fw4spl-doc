@@ -2,13 +2,25 @@
 fw4spl-ar
 ***********
 
-This repository contains functionalities for augmented reality.
+This repository contains functionalities for augmented reality. It is hosted on GitHub_.
+
+.. _GitHub: https://github.com/fw4spl-org/fw4spl-ar
 
 ---------
 Features
 ---------
- - video calibration
- - optical tag tracking
+
+This repository brings features for **Augmented Reality**:
+
+- webcam, network video and local video playing based on QtMultimedia_,
+- mono and stereo camera calibration,
+- ArUco_ optical markers tracking,
+- openIGTLink_ support through clients and servers services,
+- TimeLine data, allowing to store buffers of various data (video, matrices, markers, etc...). These can be used to synchronize these data accross time.
+
+.. _QtMultimedia: http://doc.qt.io/qt-5/qtmultimedia-index.html
+.. _ArUco: https://sourceforge.net/projects/aruco/
+.. _openIGTLink: http://openigtlink.org/
 
 ------------
 Applications
@@ -17,7 +29,7 @@ Applications
 ARCalibration
 ~~~~~~~~~~~~~~
 
-**ARCalibration** is an application dedicated to the camera calibration.
+**ARCalibration**  is a user-friendly application to calibrate mono and stereo cameras. This software is a must-have since camera calibration is a mandatory step in any AR application.
 
 .. figure:: ../media/calibration.png
     :align: center
@@ -29,8 +41,14 @@ ARCalibration
 
     Stereo camera extrinsic calibration.
 
+Examples
+~~~~~~~~~~~~
 
-VideoTracking
-~~~~~~~~~~~~~~
+==============================  ================================================================
+ Name                           Concept
+==============================  ================================================================
+Ex01VideoTracking                Basic marker tracking on a video
+Ex02TimeLine                     Basic producer-consumer pattern sample with timeLine data
+Ex03Igtl                         Example of some of the *openIGTLink* features
+==============================  ================================================================
 
-**VideoTracking** is a basic application for optical tag tracking.
