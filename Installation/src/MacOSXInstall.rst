@@ -7,13 +7,9 @@ Prerequisites for MacOSX users
 If not already installed:
 
 #. Install `Xcode <https://itunes.apple.com/fr/app/xcode/id497799835?mt=12>`_
-
 #. Install `git <https://git-scm.com/downloads>`_
-
 #. Install `Python 2.7 <https://www.python.org/downloads/>`_
-
 #. Install `CMake <http://www.cmake.org/download/>`_
-
 #. Install `Ninja <https://github.com/martine/ninja/releases>`_ : to use instead of **make**.
 
 For an easy install, you can use the `Hombrew project <http://brew.sh/>`_  to install missing packages.
@@ -97,7 +93,7 @@ For the third party libraries the following repository have to be `cloned <http:
     $ cd ~/Dev/Deps/Src
     $ git clone https://github.com/fw4spl-org/fw4spl-deps.git fw4spl-deps
     $ cd fw4spl-deps
-    $ git checkout fw4spl_0.10.2.3
+    $ git checkout fw4spl_0.11.0
 
 To build the dependencies, you must configure the project with cmake into the Build folder
 
@@ -115,7 +111,6 @@ Or open cmake gui editor, see :ref:`build_tools` instructions.
 Some CMake variables have to be change:
 
 - *CMAKE_INSTALL_PREFIX*: set the install location.
-
 - *CMAKE_BUILD_TYPE*: set the build type 'Debug' or 'Release'
 
 .. image:: ../media/osx_cmake_binpkgs.png
@@ -145,7 +140,7 @@ For the FW4SPL source code the following repository have to be `cloned <http://g
     $ cd ~/Dev/Src
     $ git clone https://github.com/fw4spl-org/fw4spl.git fw4spl
     $ cd fw4spl
-    $ git checkout fw4spl_0.10.2.3
+    $ git checkout fw4spl_0.11.0
 
 .. note::
     For the source compilation we use ``ninja`` instead of ``make``. But if you prefer to use make, replace all the ``ninja`` command with ``make`` and remove ``-G Ninja`` in the cmake command.
@@ -168,7 +163,6 @@ Some CMake variables have to be change:
 - *CMAKE_INSTALL_PREFIX*: set the install location.
 
 - *EXTERNAL_LIBRARIES*: set the install path of the third part libraries.
-
 - *CMAKE_BUILD_TYPE*: set to Debug or Release
 
 You can re-edit cmake configuration :
@@ -195,26 +189,25 @@ Then, build dependencies with ninja.
     $ ninja all
     
 
-
 Launch an application
 -------------------------
 
 To build a specific or several applications the CMake argument ``PROJECTS_TO_BUILD`` can be set.
 Use ``;`` so separate each application name.
 
-After an successful compilation the application can be launched with the launcher program from a terminal.
-Therefore the profile.xml of the application in the build folder has to be passed as argument to the launcher:
+After an successful compilation the application can be launched with the *fwlauncher* program from a terminal.
+Therefore the profile.xml of the application in the build folder has to be passed as argument to the *fwlauncher*:
 
 .. code:: bash
 
-    $ bin/launcher Bundles/MyApplication_Version/profile.xml
+    $ bin/fwlauncher Bundles/MyApplication_Version/profile.xml
     
 Example: 
 
 .. code:: bash
 
     $ cd ~/Dev/Build
-    $ bin/launcher Bundles/VRRender_0-9/profile.xml
+    $ bin/fwlauncher Bundles/VRRender_0-9/profile.xml
 
 .. note::
 
@@ -224,76 +217,32 @@ Example:
     Do NOT compile debug and release in the same Build and Install folder
     
     
-Extension
----------
+Extensions
+----------
 
-**fw4spl** has two extension repositories: 
+**fw4spl** has two main extension repositories:
 
--  `fw4spl-ext <https://github.com/fw4spl-org/fw4spl-ext/>`_: contains additional functionalities and proofs of concept
-- `fw4spl-ar <https://github.com/fw4spl-org/fw4spl-ar/>`_: contains functionalities for augmented reality (video tracking, calibration)
-
-Dependencies
-~~~~~~~~~~~~
-
-If you want to use this extension, you need to clone the deps repositories: 
-
-- `fw4spl-ext-deps <https://github.com/fw4spl-org/fw4spl-ext-deps.git>`_: contains the scripts to compile the external libraries used by fw4spl-ext
-
-.. code:: bash
-
-    $ cd ~/Dev/Deps/Src
-    $ git clone https://github.com/fw4spl-org/fw4spl-ext-deps.git fw4spl-ext-deps
-    $ cd fw4spl-ext-deps
-    $ git checkout fw4spl_0.10.2.3
-
-- `fw4spl-ar-deps <https://github.com/fw4spl-org/fw4spl-ar-deps.git>`_: contains the scripts to compile the external libraries used by fw4spl-ar
-
-.. code:: bash
-
-    $ cd ~/Dev/Deps/Src
-    $ git clone https://github.com/fw4spl-org/fw4spl-ar-deps.git fw4spl-ar-deps
-    $ cd fw4spl-ar-deps
-    $ git checkout fw4spl_0.10.2.3
-
-You must re-edit cmake configuration to add this repository:
-
-.. code:: bash
-
-    $ cd ~/Dev/Deps/Build
-    $ ccmake .
-
-Modify *ADDITIONAL_DEPS*: set the source location of fw4spl-ar-deps and fw4spl-ext-deps separated by ';'
-
-.. code:: bash
-
-    ~/Dev/Deps/Src/fw4spl-ext-deps/;~/Dev/Deps/Src/fw4spl-ar-deps/
-
-Source
-~~~~~~
-
-If you want to use fw4spl extension, you need this repositories: 
-
-- `fw4spl-ext <https://github.com/fw4spl-org/fw4spl-ext.git>`_: extension of fw4spl repository, contains additional functionalities and proofs of concept
+- `fw4spl-ar <https://github.com/fw4spl-org/fw4spl-ar.git>`_: extension of fw4spl repository, contains functionalities for augmented reality (video tracking for instance).
 
 .. code:: bash
 
     $ cd Dev/Src
-    $ git clone https://github.com/fw4spl-org/fw4spl-ext.git fw4spl-ext
-    $ cd fw4spl-ext
-    $ git checkout fw4spl_0.10.2.3
+    $ git clone https://github.com/fw4spl-org/fw4spl-ar.git fw4spl-ar
+    $ cd fw4spl-ar
+    $ git checkout fw4spl_0.11.0
 
-- `fw4spl-ar <https://github.com/fw4spl-org/fw4spl-ar.git>`_: another extension of fw4spl, contains functionalities for augmented reality (video tracking)
+- `fw4spl-ogre <https://github.com/fw4spl-org/fw4spl-ogre.git>`_: another extension of fw4spl, contains a 3D backend using `Ogre3D <http://www.ogre3d.org/>`_.
 
 .. code:: bash
 
     $ cd ../../Build
     $ ccmake .
 
-Modify *ADDITIONAL_PROJECTS*: set the source location of fw4spl-ar and fw4spl-ext separated by ';'
+Modify *ADDITIONAL_PROJECTS*: set the source location of fw4spl-ar and fw4spl-ogre separated by ';'
 
 .. code:: bash
 
-    ~/Dev/Src/fw4spl-ext/;~/Dev/Src/fw4spl-ar/
+    ~/Dev/Src/fw4spl-ar/;~/Dev/Src/fw4spl-ogre/
 
 Recommended softwares
 -------------------------
