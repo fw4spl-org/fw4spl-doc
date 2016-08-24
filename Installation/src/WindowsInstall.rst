@@ -33,19 +33,29 @@ Good practice in FW4SPL recommend to separate source files, build and install fo
 So to prepare the development environment:
 
 * Create a development folder (Dev)
+
 * Create a build folder (Dev\\Build)
+
     * Add a sub folder for Debug and Release.
+    
 * Create a source folder (Dev\\Src)
+
 * Create a install folder (Dev\\Install)
+
     * Add a sub folder for Debug and Release.
 
 To prepare the third party environment:
 
 * Create a third party folder (BinPkgs)
+
 * Create a build folder (BinPkgs\\Build)
+
     * Add a sub folder for Debug and Release.
+    
 * Create a source folder (BinPkgs\\Src)
+
 * Create an install folder (BinPkgs\\Install)
+
     * Add a sub folder for Debug and Release.
 
 .. .. image:: media/Directories.png
