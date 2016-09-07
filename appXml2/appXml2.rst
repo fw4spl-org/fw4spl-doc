@@ -424,7 +424,6 @@ Pour accéder aux données d'un service, il existe trois nouvelles méthodes dif
 
     template<class DATATYPE> CSPTR(DATATYPE) getInput( const KeyType &key) const;
     template<class DATATYPE>  SPTR(DATATYPE) getInOut( const KeyType &key) const;
-    template<class DATATYPE>  SPTR(DATATYPE) getOutput(const KeyType &key) const;
 
 Notez bien que *getInput()* renvoie un pointeur intelligent **const**. Et oui la fête est finie, on arrête de faire n'importe quoi avec n'importe qui ! Et ce n'est qu'un début, d'autres améliorations viendront plus tard, nous l'espérons, pour éviter les problèmes d'accès concurrentiels.
 
@@ -513,9 +512,6 @@ Ces objets peuvent ensuite être récupérés dans le cpp à l'aide des fonction
                                                        size_t index) const;
     template<class DATATYPE>  SPTR(DATATYPE) getInOut( const KeyType &keybase, 
                                                        size_t index) const;
-    template<class DATATYPE>  SPTR(DATATYPE) getOutput(const KeyType &keybase, 
-                                                       size_t index) const;
-
     size_t getKeyGroupSize(const KeyType &keybase) const;
 
 Par exemple:
@@ -575,7 +571,7 @@ Le parsing des données n'est plus nécessaire, servez-vous en à bon escient. E
 
     void SService::starting()
     {
-        ::fwData::Composite::sptr comp = this->getObject<::fwData::Composite>();
+        ::fwData::Composite::sptr comp = this->getObject< ::fwData::Composite>();
         ::fwData::Image::ptr image = comp->at("image");
     }
 
@@ -615,7 +611,7 @@ Auparavant, il était nécessaire de connecter manuellement chaque donnée.
 
     void SService::starting()
     {
-        ::fwData::Composite::sptr comp = this->getObject<::fwData::Composite>();
+        ::fwData::Composite::sptr comp = this->getObject< ::fwData::Composite>();
         ::fwData::Image::ptr image = comp->at("image");
 
         auto obj = ::fwTools::fwID::getObject(m_objectUid);
@@ -757,7 +753,7 @@ Par exemple, *SObjFromSlot* enregistre la donnée de la manière suivante :
 
 .. code-block :: cpp
 
-    this->registerOutput("object", objectSptr);
+    this->setOutput("object", objectSptr);
 
 L'AppConfig est signalée et déclenche alors les actions en conséquence.
 

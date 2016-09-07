@@ -4,7 +4,7 @@
 [*Tuto01Basic*] Create an application
 ***************************************
 
-The first tutorial represents a basic application that launch a simple empty frame. 
+The first tutorial represents a basic application that launches a simple empty frame. 
 
 .. figure:: ../media/tuto01Basic.png
     :scale: 50
@@ -14,7 +14,7 @@ The first tutorial represents a basic application that launch a simple empty fra
 Prerequisites
 --------------
 
-Before to read this tutorial, you should have seen :
+Before reading this tutorial, you should have seen :
  * :ref:`Object-service concept<Object-Service_example>`
  * :ref:`App-config`
  * :ref:`Component`
@@ -76,7 +76,7 @@ This file contains the minimal requirements to launch an application with a Qt u
 plugin.xml
 ~~~~~~~~~~~
 
-This file is in the ``rc/`` directory of the application. It defines the services to run.
+This file is located in the ``rc/`` directory of the application. It defines the services to run.
  
 .. code-block:: xml
 

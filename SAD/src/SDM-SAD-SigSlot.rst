@@ -336,17 +336,18 @@ Moreover the abstract class ``fwService::IService`` inherits from the ``HasSlots
 
       
 To automatically connect object signals and service slots, it is possible to override the method
-``IService::getObjSrvConnections()``. Please note that to be effective the attribute "autoconnect" 
+``IService::getAutoConnections()``. Please note that to be effective the attribute "autoconnect" 
 of the service must be set to "yes" in the xml configuration (see :ref:`App-config`).
 The default implementation of this method connect the ``s_MODIFIED_SIG`` object signal to the 
 ``s_UPDATE_SLOT`` slot.
 
 .. code-block:: c++
 
-    IService::KeyConnectionsType IService::getObjSrvConnections() const
+    IService::KeyConnectionsMap IService::getAutoConnections() const
     {
-        KeyConnectionsType connections;
-        connections.push_back( std::make_pair( ::fwData::Object::s_MODIFIED_SIG, s_UPDATE_SLOT ) );
+        KeyConnectionsMap connections;
+        connections.push( "data1", ::fwData::Object::s_MODIFIED_SIG, s_UPDATE_SLOT ) );
+        connections.push( "data2", ::fwData::Object::s_MODIFIED_SIG, s_UPDATE_SLOT ) );
         return connections;
     }
 

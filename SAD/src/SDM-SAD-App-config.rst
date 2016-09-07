@@ -167,14 +167,14 @@ parameters (optional)
 ***********************
 The parameters is a list of the parameters used by the configuration.
     
-param: 
+- param: 
     defines the parameter
         
-    name: 
+    - name: 
         parameter name, used as ``${paramName}`` in the configuration. It will be replaced by the string 
         defined by the service, activity or application that launchs the configuration.
         
-    default (optional): 
+    - default (optional): 
         default value for the parameter, it is used if the value is not given by the config launcher.
             
 desc (optional)
@@ -186,25 +186,21 @@ Object
 ~~~~~~~~
 the <object> tags define the objects of the AppConfig.
 
-uid (optional):
+- uid (optional):
     Unique identifier of the object (::fwTools::fwID). If it is not defined, it will be automatically generated.
-type:
+- type:
     Object type (ex: ``::fwData::Image``, ``::fwData::Composite``)
-src (optional, "new" by default)
+- src (optional, "new" by default)
      possible values: "new", "ref", "deferred"
      
-     "new" 
-         defines that the object should be created
-     "ref" 
-         defines that the object already exists in the application. The uid must be the same as the first declaration 
-         of this object (with "new").
-     "deferred"
-          defines that the object will be created later (by a service).
+     - **"new"** : defines that the object should be created
+     - **"ref"** : defines that the object already exists in the application. The uid must be the same as the first declaration of this object (with "new").
+     - **"deferred"** : defines that the object will be created later (by a service).
 
 Specific object configuration
 ******************************
 
-matrix (optional):
+- matrix (optional):
     It works only for ``::fwData::TransformationMatrix3D`` objects. It defines the value of the matrix.
 
 .. code-block:: xml
@@ -220,9 +216,8 @@ matrix (optional):
         </matrix>
     </object>
 
-value (optional):
-    Only these objects contain this tag : ``::fwData::Boolean``, ``::fwData::Integer``, ``::fwData::Float`` and ``::fwData::String``. It 
-    allows to define the value of the object.
+- value (optional): 
+    Only these objects contain this tag : ``::fwData::Boolean``, ``::fwData::Integer``, ``::fwData::Float`` and ``::fwData::String``. It allows to define the value of the object.
     
 .. code-block:: xml
 
@@ -230,7 +225,7 @@ value (optional):
         <value>42</value>
     </object>
 
-colors (optional):
+- colors (optional): 
     Only ``::fwData::TransferFunction`` contains this tag. It allows to fill the transfer function values.
     
 .. code-block:: xml
@@ -246,14 +241,12 @@ colors (optional):
         </colors>
     </object>
     
-item (optional): 
+- item (optional): 
     It defines a sub-object of a composite or a field of any other object. 
     
-    key: 
-        key of the object
+    - **key:** key of the object
         
-    object: 
-        the 'item' tag can only contain 'object' tags that represents the sub-object
+    - **object:** the 'item' tag can only contain 'object' tags that represents the sub-object
         
 .. code-block:: xml
 
@@ -266,15 +259,15 @@ Service
 The <service> tags represent a service working on the object(s). Services list the data the use and how they access them.
 Some services needs a specific configuration, it is usually described in the doxygen.
 
-uid (optional): 
+- uid (optional): 
     Unique identifier of the service. If it is not defined, it will be automatically generated.
-impl: 
+- impl: 
     Service implementation type (ex: ``::ioVTK::SImageReader``)
-type (optional):
+- type (optional):
     Service type (ex: ``::io::IReader``)
-autoConnect (optional, "no" by default):
+- autoConnect (optional, "no" by default):
     Defines if the service receives the signals of the working object
-worker (optional):
+- worker (optional):
     Allows to run the service in another worker (see :ref:`Multithreading`)
 
 .. code-block:: xml
@@ -284,21 +277,17 @@ worker (optional):
         <out key="mesh" uid="meshId" />
     </service>
 
-in: 
+- in: 
     input object, it is const and cannot be modified
-inout: 
+- inout: 
     input object that can be modified
-out: 
-    output object, it must be created by the service and registered with the 'setOutput(key, obj)' method.
+- out: 
+    output object, it must be created by a service and registered with the 'setOutput(key, obj)' method.
     The output object must be declared as "deferred" in the \<object\> declaration.
     
-    key 
-        Object key used to retreive the object into the service
-    uid 
-        Uid of the object declared in the <object> tag
-    optional(optional, default "no", values: "yes" or "no")
-        If "yes", the service can be started even if the object is not present. 
-        The output objects are always optional.
+    - **key** : object key used to retrieve the object into the service
+    - **uid** : unique identifier of the object declared in the <object> tag
+    - **optional** : (optional, default "no", values: "yes" or "no") If "yes", the service can be started even if the object is not present. By definition, the output objects are always optional.
         
         
 .. code-block:: cpp
@@ -310,10 +299,10 @@ out:
 
 Connection
 ~~~~~~~~~~~
-connect (optional):
+- connect (optional):
      allows to connect one or more signal(s) to one or more slot(s). The signals and slots must be compatible.
 
-    channel (optional): 
+    - channel (optional): 
         name of the channel use for the connections.
         
 .. code-block:: xml
@@ -326,7 +315,7 @@ connect (optional):
 
 Start-up
 ~~~~~~~~~~
-start: 
+- start: 
     defines the service to start when the AppConfig is launched. The services will be automatically stopped in the 
     reverse order when the AppConfig is stopped.
  
@@ -337,7 +326,7 @@ start:
 **The service using "deferred" object as input will be automatically started when the object is created.**
 
 
-update: 
+- update: 
     defines the service to update when the AppConfig is launched.
 
 .. code-block:: xml
