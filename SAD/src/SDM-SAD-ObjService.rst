@@ -143,7 +143,7 @@ The calling sequence to manage a service is:
     mySrv->stop(); // stop the service
 
 .. note::
-    FW4SPL extensively uses `std::shared_ptr <http://en.cppreference.com/w/cpp/memory/shared_ptr>`_ to handle objects and services. The basic declaration macros of data and services define a typedef *sptr* as an alias to *std::shared_ptr<this_class>* and a typedef *csptr* as an alias to *std::shared_ptr<const this_class>*.
+    FW4SPL extensively uses `std::shared_ptr <http://en.cppreference.com/w/cpp/memory/shared_ptr>`_ to handle objects and services. The basic declaration macros of data and services define a typedef ``sptr`` as an alias to ``std::shared_ptr<this_class>`` and a typedef ``csptr`` as an alias to ``std::shared_ptr<const this_class>``.
 
 Create a service
 ~~~~~~~~~~~~~~~~
@@ -316,7 +316,7 @@ Thus, to retrieve the registered objects of a service, there are two different m
       // ...
     };
 
-For instance, if we have a *::fwData::Image* registered as *"image"* key with *INOUT* access type, and a *::fwData::Mesh* registered as *"mesh"* key with *IN* access 
+For instance, if we have a ``::fwData::Image`` registered as ``"image"`` key with ``INOUT`` access type, and a ``::fwData::Mesh`` registered as ``"mesh"`` key with ``IN`` access 
 type we can retrieve them in a method of the service this way:
 
 .. code-block :: cpp
@@ -332,7 +332,7 @@ How to choose between the different access type for a given data ?
 1. Read-only (*IN*)
     - If you don't modify the data and so that means you can deal with a const pointer on the data, then this is the right choice.
 2. Write-only (*OUT*)
-    - This is a special case when the service will actually create the data. The data doesn't exist before the service creation. At some point, during start(), or update() or elsewhere, the data is allocated, filled and registered in the OSR :
+    - This is a special case when the service will actually create the data. The data doesn't exist before the service creation. At some point, during ``start()``, or ``update()`` or elsewhere, the data is allocated, filled and registered in the OSR :
     
 .. code-block :: cpp
 

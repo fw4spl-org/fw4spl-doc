@@ -11,4 +11,5 @@ Installation
    src/WindowsInstall
    src/LinuxInstall
    src/MacOSXInstall
+   src/AndroidInstall
 
