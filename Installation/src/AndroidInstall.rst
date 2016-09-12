@@ -1,5 +1,5 @@
 Installation for Android
---------------------------
+=========================
 
 .. figure:: ../media/fw4spl-droid_logo.png
 
@@ -9,7 +9,7 @@ This page summarizes the steps to build FW4SPL on Android.
     **Work in progress**
 
 Android environnement
-~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------
 
 The following tools are necessary:
 
@@ -23,7 +23,7 @@ The following tools are necessary:
     Since **OSX** 10.10 (Yosemite), `JDK 8 <http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html>`_ is the minimal requirement.
 
 SDK install
-~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------
 
 The SDK is a set of libraries and development tools necessary to build, test and debug and Android application.
 The initial archive you will download contains only the basic tools of the SDK. It doesn't contain any version of the API (Android Platform) and doesn't provide the whole set of tools you actually need to develop an application.
@@ -58,7 +58,7 @@ The initial archive you will download contains only the basic tools of the SDK. 
 
    ./tools/android update sdk —no-ui
 
-After that, you have to download at least one version of the API and one **Platform-tools** version. The latter one contains the build tools (adb, etc...) and are updated independently of the SDK. More informations can be found `here <http://developer.android.com/tools/help/sdk-manager.html>`_.
+After that, you have to download at least one version of the API and one **Platform-tools** version. The latter contains the build tools (adb, etc...) and are updated independently of the SDK. More informations can be found `here <http://developer.android.com/tools/help/sdk-manager.html>`_.
 
 .. warning::
     For the Windows users, it can be interesting to check that adb is well installed for your device by using the peripheral manager. If it's not the case, please try to update the drivers of your tablet/phone.
@@ -66,7 +66,7 @@ After that, you have to download at least one version of the API and one **Platf
 .. figure:: ../media/WindowPeriphericManager.png
 
 NDK install
-~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------
 
 The NDK is the tool allowing people to develop some parts of your application using *native* code (C/C ++).
 It also contains the system headers necessary to link successfully your librairies with the latest releases :
@@ -90,7 +90,7 @@ You have to ensure to have the latest version of the SDK. Indeed, the NDK is com
 More informations can be found `here <https://developer.android.com/tools/sdk/ndk/index.html>`_.
 
 Configuration for FW4SPL
-~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------
 
 In order to obtain an Android development environment compatible with FW4SPL and its third-party libraries, you must fulfill the conditions below.
 
@@ -127,7 +127,7 @@ Please remember that JAVA_HOME is the root folder of the JDK and not the binary 
     :end-before: Project configuration
 
 Toolchain
-~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The toolchain allows to cross-compile for Android by specifying all the necessary variables (compiler, target system, etc ...). Currently, the toolchain we use is a modified version of this `toochain <https://github.com/taka-no-me/android-cmake>`_ from the github user `taka-no-me <https://github.com/taka-no-me>`_ (fork of the OpenCV project). 
 
@@ -139,7 +139,7 @@ The toolchain allows to cross-compile for Android by specifying all the necessar
 
 
 Project configuration
-~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To build the dependencies, you must configure the project with CMake into the Build folder. As any CMake based project, there are three different ways to perform that.
 
