@@ -29,7 +29,8 @@ Qt is an external library used in FW4SPL. For the successful compilation of Qt w
 
 - http://wiki.qt.io/Building_Qt_5_from_Git
 
-Follow the instructions there to install the necessary packages on your system for **Build essentials**, **libxcb** and **QtMultimedia**. For the latter, please note that we use gstreamer-1.0 by default, so please replace ``libgstreamer0.10-dev`` and ``libgstreamer-plugins-base0.10-dev`` by ``libgstreamer1.0-dev`` and ``libgstreamer-plugins-base1.0-dev``. You can safely ignore instructions for QtWebKit and QtWebEngine, we don't build them. 
+Follow the instructions there to install the necessary packages on your system for **Build essentials**, **libxcb** and **QtMultimedia**. For the latter, please note that we use gstreamer-1.0 by default, so please replace ``libgstreamer0.10-dev`` and ``libgstreamer-plugins-base0.10-dev`` by ``libgstreamer1.0-dev`` and ``libgstreamer-plugins-base1.0-dev``. You can safely ignore instructions for QtWebKit and QtWebEngine, we don't build them.
+Since we build Qt with openssl support you also need to install ``libssl-dev`` (be sure that the version is equal or upper to 1.0.0).
 
 .. include:: CommonDeps.rst
 
