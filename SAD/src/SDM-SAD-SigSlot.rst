@@ -282,7 +282,7 @@ Then, signals can be used as below:
 Signals and slots used in objects and services
 -------------------------------------------------------
 
-Slots are used in both objects and services, whereas signals are only used in services. The abstract
+Signals are used in both objects and services, whereas slots are only used in services. The abstract
 class ``fwData::Object`` inherits from the ``HasSignals`` class as a basis to use signals :
 
 .. code-block:: c++
@@ -336,7 +336,7 @@ Moreover the abstract class ``fwService::IService`` inherits from the ``HasSlots
 
       
 To automatically connect object signals and service slots, it is possible to override the method
-``IService::getAutoConnections()``. Please note that to be effective the attribute "autoconnect" 
+``IService::getAutoConnections()``. Please note that to be effective the attribute "autoConnect" 
 of the service must be set to "yes" in the xml configuration (see :ref:`App-config`).
 The default implementation of this method connect the ``s_MODIFIED_SIG`` object signal to the 
 ``s_UPDATE_SLOT`` slot.

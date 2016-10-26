@@ -4,7 +4,7 @@
 [*Tuto02DataServiceBasic*] Display an image
 *********************************************
 
-The secons tutorial represents a basic application that display a medical 3D image. 
+The second tutorial represents a basic application that display a medical 3D image. 
 
 .. figure:: ../media/tuto02DataServiceBasic.png
     :scale: 50

@@ -29,7 +29,7 @@ Source
 
 - Now you have to configure the project. You can use one of the three tools explained above. 
 
-Also, for FW4SPL, we recommend to use the `Ninja <https://martine.github.io/ninja/>`_ generator. It builds faster, and it is much better for everyday use because it is fast as hell to check the files you need to compile. In other words, with Ninja the compilation starts instantly whereas Make spends a dozen of seconds to check what should be compiled before actually compiling something. So if you plan to develop with FW4SPL, go with Ninja. If you only want to give a single try, you can live with the standard "Unix Makefiles" generator.
+Also, for FW4SPL, we recommend to use the `Ninja <https://ninja-build.org/>`_ generator. It builds faster, and it is much better for everyday use because it is fast as hell to check the files you need to compile. In other words, with Ninja the compilation starts instantly whereas Make spends a dozen of seconds to check what should be compiled before actually compiling something. So if you plan to develop with FW4SPL, go with Ninja. If you only want to give a single try, you can live with the standard "Unix Makefiles" generator.
 
 To use make, here with ``ccmake`` :
 
@@ -46,7 +46,7 @@ To use ninja :
 - Change the following cmake arguments
     - ``CMAKE_INSTALL_PREFIX``: set the install location (~/Dev/Install/Debug or Release)
     - ``CMAKE_BUILD_TYPE``: set to Debug or Release
-    - ``EXTERNAL_LIBRARIES``: set the install path of the third party libraries you compiled before.(ex : ~/Dev/Deps/Install/Debug)
+    - ``EXTERNAL_LIBRARIES``: set the install path of the third party libraries you compiled before.(ex : ~/Deps/Install/Debug)
     - ``PROJECT_TO_BUILD``: set the list of the projects you want to build (ex: VRRender, Tuto01Basic ...), each project should be separated by ";"
     - ``PROJECT_TO_INSTALL``: set the name of the application to install
 

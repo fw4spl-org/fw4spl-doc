@@ -23,13 +23,16 @@ Its functionalities can be also extended by writing new components in C++, which
 
 This document will introduce the general architecture of FW4SPL.
 
-Annexes
--------
+..
+    Commented out for now as the mentioned documents do not exist yet
+    
+    Annexes
+    -------
 
--  *Srclib list:* this document lists all libraries with a brief description.
--  *Object list:* this document lists all data with a brief description.
--  *Service list:* this document lists all services and bundles with a brief description.
--  *Third party:* this document contains a description of libraries used to
-   support this architecture and its functions.
--  *OSR diagram:* this document introduces how to represent an application
-   configuration as a diagram.
+    -  *Srclib list:* this document lists all libraries with a brief description.
+    -  *Object list:* this document lists all data with a brief description.
+    -  *Service list:* this document lists all services and bundles with a brief description.
+    -  *Third party:* this document contains a description of libraries used to
+       support this architecture and its functions.
+    -  *OSR diagram:* this document introduces how to represent an application
+       configuration as a diagram.

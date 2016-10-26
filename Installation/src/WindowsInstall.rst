@@ -18,7 +18,7 @@ If not already installed:
 
 6. Install `jom <http://wiki.qt.io/Jom>`_
 
-7. Install `ninja <https://github.com/martine/ninja/releases>`_
+7. Install `ninja <https://github.com/ninja-build/ninja/releases>`_
 
 Qt is an external library used in FW4SPL. For the successful compilation of Qt for FW4SPL, please see the following requirements:
 

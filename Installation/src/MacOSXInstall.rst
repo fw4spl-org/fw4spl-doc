@@ -10,7 +10,7 @@ If not already installed:
 #. Install `git <https://git-scm.com/downloads>`_
 #. Install `Python 2.7 <https://www.python.org/downloads/>`_
 #. Install `CMake <http://www.cmake.org/download/>`_
-#. Install `Ninja <https://github.com/martine/ninja/releases>`_ : to use instead of **make**.
+#. Install `Ninja <https://github.com/ninja-build/ninja/releases>`_ : to use instead of **make**.
 
 For an easy install, you can use the `Hombrew project <http://brew.sh/>`_  to install missing packages.
         

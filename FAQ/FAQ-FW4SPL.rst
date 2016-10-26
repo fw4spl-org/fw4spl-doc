@@ -72,7 +72,7 @@ First, you can watch the log of the application. Under Windows platform, log mes
 
 You can increase or decrease the log level of a sub-project in the CMake configuration, by setting the **advanced** variable **SPYLOG_LEVEL_<PROJECT>** (thus you to press 't' in *ccmake* or click of the 'advanced' checkbox in *cmake-gui* to show it).
 
-The allowed values are : ['trace', 'debug', 'info', 'error', 'fatal', 'warning', 'disable']. the value 'trace' gives the maximun of log, 'disable' disables log. The default value is 'error', which is enough in most case. 'warning' can be useful in some cases. Lower levels are really designed to be activated punctually when debugging a specific piece of code.
+The allowed values are : ['trace', 'debug', 'info', 'error', 'fatal', 'warning', 'disable']. the value 'trace' gives the maximum of log, whereas 'disable' disables log. The default value is 'error', which is enough in most cases. 'warning' can be useful in some cases. Lower levels are really designed to be activated punctually when debugging a specific piece of code.
 
 .. note::
     Printing many log messages ( by activating trace on all sub-projects for ex. ) can be very time consuming for the application.

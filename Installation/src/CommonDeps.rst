@@ -96,8 +96,8 @@ In this case, you give all the necessary variables on the command-line in one sh
 
 .. code:: bash
 
-    $ cd ~/Dev/Deps/Build/Debug
-    $ cmake ../Src/fw4spl-deps -DCMAKE_INSTALL_PREFIX=~/Dev/Deps/Install/Debug -DCMAKE_BUILD_TYPE=Debug
+    $ cd ~/Deps/Build/Debug
+    $ cmake ../../Src/fw4spl-deps -DCMAKE_INSTALL_PREFIX=~/Deps/Install/Debug -DCMAKE_BUILD_TYPE=Debug
 
 2. NCurses based editor
 """""""""""""""""""""""""""""
@@ -106,12 +106,12 @@ This editor allows to set the required each variable in a more interactive way :
 
 .. code:: bash
 
-    $ cd ~/Dev/Deps/Build/Debug
-    $ ccmake ../Src/fw4spl-deps
+    $ cd ~/Deps/Build/Debug
+    $ ccmake ../../Src/fw4spl-deps
     
 Then change the following CMake variables:
 
-- ``CMAKE_INSTALL_PREFIX``: set the install location, here ``~/Dev/Deps/Install/Debug``
+- ``CMAKE_INSTALL_PREFIX``: set the install location, here ``~/Deps/Install/Debug``
 - ``CMAKE_BUILD_TYPE``: set the build type 'Debug' or 'Release'
 
 Press *"c"* to configure and then *"g"* to generate the makefiles.
@@ -123,12 +123,12 @@ Press *"c"* to configure and then *"g"* to generate the makefiles.
 
 .. code:: bash
 
-    $ cd ~/Dev/Deps/Build/Debug
-    $ cmake-gui ../Src/fw4spl-deps
+    $ cd ~/Deps/Build/Debug
+    $ cmake-gui ../../Src/fw4spl-deps
     
 Like ccmake, change the following CMake variables:
 
-- ``CMAKE_INSTALL_PREFIX``: set the install location, here ``~/Dev/Deps/Install/Debug``
+- ``CMAKE_INSTALL_PREFIX``: set the install location, here ``~/Deps/Install/Debug``
 - ``CMAKE_BUILD_TYPE``: set the build type 'Debug' or 'Release'
     
 Click on "configure" then "generate".
