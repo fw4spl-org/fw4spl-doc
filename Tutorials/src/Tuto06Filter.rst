@@ -22,8 +22,6 @@ Structure
 =============
 
 
-
-
 Properties.cmake
 ------------------
 
@@ -43,15 +41,14 @@ This file describes the project information and requirements :
         io
         ioVTK
         uiIO
-        visuVTK
         visuVTKQt
         vtkSimpleNegato
         opImageFilter # bundle containing the action to performs a threshold
         launcher
-        appXml
+        appXml2
     )
 
-    bundleParam(appXml PARAM_LIST config PARAM_VALUES FilterConfig)
+    bundleParam(appXml2 PARAM_LIST config PARAM_VALUES FilterConfig)
 
 
 .. note::
@@ -73,130 +70,127 @@ This file is in the ``rc/`` directory of the application. It defines the service
         <requirement id="servicesReg" />
         <requirement id="visuVTKQt" />
 
-        <extension implements="::fwServices::registry::AppConfig">
+        <extension implements="::fwServices::registry::AppConfig2">
             <id>FilterConfig</id>
             <config>
 
-                <!-- Root object -->
-                <object type="::fwData::Composite">
+                <object uid="myImage1" type="::fwData::Image" />
+                <object uid="myImage2" type="::fwData::Image" />
 
-                    <!-- Windows & Main Menu -->
-                    <service uid="myFrame" impl="::gui::frame::SDefaultFrame">
-                        <gui>
-                            <frame>
-                                <name>Filter</name>
-                                <icon>Bundles/Tuto06Filter_0-1/tuto.ico</icon>
-                                <minSize width="720" height="600" />
-                            </frame>
-                            <menuBar />
-                        </gui>
-                        <registry>
-                            <menuBar sid="myMenuBar" start="yes" />
-                            <view sid="myDefaultView" start="yes" />
-                        </registry>
-                    </service>
+                <!-- Windows & Main Menu -->
+                <service uid="myFrame" type="::gui::frame::SDefaultFrame">
+                    <gui>
+                        <frame>
+                            <name>Filter</name>
+                            <icon>@BUNDLE_PREFIX@/Tuto06Filter_0-1/tuto.ico</icon>
+                            <minSize width="720" height="600" />
+                        </frame>
+                        <menuBar />
+                    </gui>
+                    <registry>
+                        <menuBar sid="myMenuBar" start="yes" />
+                        <view sid="myDefaultView" start="yes" />
+                    </registry>
+                </service>
 
-                    <service uid="myMenuBar" impl="::gui::aspect::SDefaultMenuBar">
-                        <gui>
-                            <layout>
-                                <menu name="File" />
-                                <menu name="Filter" />
-                            </layout>
-                        </gui>
-                        <registry>
-                            <menu sid="menuFile" start="yes" />
-                            <menu sid="menuFilter" start="yes" />
-                        </registry>
-                    </service>
+                <service uid="myMenuBar" type="::gui::aspect::SDefaultMenuBar">
+                    <gui>
+                        <layout>
+                            <menu name="File" />
+                            <menu name="Filter" />
+                        </layout>
+                    </gui>
+                    <registry>
+                        <menu sid="menuFile" start="yes" />
+                        <menu sid="menuFilter" start="yes" />
+                    </registry>
+                </service>
 
-                    <service uid="myDefaultView" impl="::gui::view::SDefaultView">
-                        <gui>
-                            <layout type="::fwGui::CardinalLayoutManager">
-                                <view align="center" />
-                                <view align="right" minWidth="500" minHeight="100" />
-                            </layout>
-                        </gui>
-                        <registry>
-                            <view sid="RenderingImage1" start="yes" />
-                            <view sid="RenderingImage2" start="yes" />
-                        </registry>
-                    </service>
+                <service uid="myDefaultView" type="::gui::view::SDefaultView">
+                    <gui>
+                        <layout type="::fwGui::CardinalLayoutManager">
+                            <view align="center" />
+                            <view align="right" minWidth="500" minHeight="100" />
+                        </layout>
+                    </gui>
+                    <registry>
+                        <view sid="RenderingImage1" start="yes" />
+                        <view sid="RenderingImage2" start="yes" />
+                    </registry>
+                </service>
 
-                    <!-- Menus -->
-                    <service uid="menuFile" impl="::gui::aspect::SDefaultMenu">
-                        <gui>
-                            <layout>
-                                <menuItem name="Open image file" shortcut="Ctrl+O" />
-                                <separator />
-                                <menuItem name="Quit" specialAction="QUIT" shortcut="Ctrl+Q" />
-                            </layout>
-                        </gui>
-                        <registry>
-                            <menuItem sid="actionOpenImageFile" start="yes" />
-                            <menuItem sid="actionQuit" start="yes" />
-                        </registry>
-                    </service>
-                
-                    <service uid="menuFilter" impl="::gui::aspect::SDefaultMenu">
-                        <gui>
-                            <layout>
-                                <menuItem name="Compute Image Filter" />
-                            </layout>
-                        </gui>
-                        <registry>
-                            <menuItem sid="actionImageFilter" start="yes" />
-                        </registry>
-                    </service>
+                <!-- Menus -->
+                <service uid="menuFile" type="::gui::aspect::SDefaultMenu">
+                    <gui>
+                        <layout>
+                            <menuItem name="Open image file" shortcut="Ctrl+O" />
+                            <separator />
+                            <menuItem name="Quit" specialAction="QUIT" shortcut="Ctrl+Q" />
+                        </layout>
+                    </gui>
+                    <registry>
+                        <menuItem sid="actionOpenImageFile" start="yes" />
+                        <menuItem sid="actionQuit" start="yes" />
+                    </registry>
+                </service>
 
-                    <!-- Actions -->
-                    <service uid="actionQuit" impl="::gui::action::SQuit" />
-                    <service uid="actionOpenImageFile" impl="::gui::action::SStarter" >
-                        <start uid="readerPathImageFile" />
-                    </service>
+                <service uid="menuFilter" type="::gui::aspect::SDefaultMenu">
+                    <gui>
+                        <layout>
+                            <menuItem name="Compute Image Filter" />
+                        </layout>
+                    </gui>
+                    <registry>
+                        <menuItem sid="actionImageFilter" start="yes" />
+                    </registry>
+                </service>
 
-                    <!--
-                        Filter action:
-                        This action applies a threshold filter. The source image is 'myImage1' and the 
-                        output image is 'myImage2'.
-                        The two images are declared below.
-                     -->
-                    <service uid="actionImageFilter" impl="::opImageFilter::action::SThreshold">
-                        <imageIn uid="myImage1" />
-                        <imageOut uid="myImage2" />
-                    </service>
-                
-                    <!-- Image declaration: -->
-                
-                    <!-- 
-                        1st Image of the composite:
-                        This is the source image for the filtering. 
-                    -->
-                    <item key="myImage1">
-                        <object uid="myImage1" type="::fwData::Image">
-                            <service uid="RenderingImage1" impl="::vtkSimpleNegato::SRenderer" autoConnect="yes" />
-                            <service uid="readerPathImageFile" impl="::uiIO::editor::SIOSelector">
-                                <type mode="reader" />
-                            </service>
-                        </object>
-                    </item>
-                
-                    <!-- 
-                        2nd Image of the composite:
-                        This is the output image for the filtering. 
-                    -->
-                    <item key="myImage2">
-                        <object uid="myImage2" type="::fwData::Image">
-                            <service uid="RenderingImage2" impl="::vtkSimpleNegato::SRenderer" autoConnect="yes" />
-                        </object>
-                    </item>
+                <!-- Actions -->
+                <service uid="actionQuit" type="::gui::action::SQuit" />
+                <service uid="actionOpenImageFile" type="::gui::action::SStarter" >
+                    <start uid="readerPathImageFile" />
+                </service>
 
-                    <start uid="myFrame" />
+                <!--
+                    Filter action:
+                    This action applies a threshold filter. The source image is 'myImage1' and the
+                    output image is 'myImage2'.
+                    The two images are declared below.
+                 -->
+                <service uid="actionImageFilter" type="::opImageFilter::action::SThreshold">
+                    <in key="source" uid="myImage1" />
+                    <inout key="target" uid="myImage2" />
+                </service>
 
-                </object>
+                <!-- Image declaration: -->
+
+                <!--
+                    1st Image of the composite:
+                    This is the source image for the filtering.
+                -->
+                <service uid="RenderingImage1" type="::vtkSimpleNegato::SRenderer" autoConnect="yes" >
+                    <in key="image" uid="myImage1" />
+                </service>
+
+                <service uid="readerPathImageFile" type="::uiIO::editor::SIOSelector">
+                    <inout key="target" uid="myImage1" />
+                    <type mode="reader" />
+                </service>
+
+                <!--
+                    2nd Image of the composite:
+                    This is the output image for the filtering.
+                -->
+                <service uid="RenderingImage2" type="::vtkSimpleNegato::SRenderer" autoConnect="yes" >
+                    <in key="image" uid="myImage2" />
+                </service>
+
+                <start uid="myFrame" />
 
             </config>
         </extension>
-    </plugin>    
+    </plugin>
+
 
 
 Filter service
@@ -225,12 +219,12 @@ For that, we use the ``Dispatcher`` : it allows to invoke a template functor acc
         ThresholdFilter::Parameter param; // filter parameters: threshold value, image source, image target
 
         // Get source image
-        OSLM_ASSERT("Image 1 not found. UID : " << m_imageSrcUID, ::fwTools::fwID::exist(m_imageSrcUID));
-        param.imageIn = ::fwData::Image::dynamicCast( ::fwTools::fwID::getObject(m_imageSrcUID) );
+        param.imageIn = this->getInput< ::fwData::Image >("source");
+        SLM_ASSERT("'source' key not found", param.imageIn);
 
         // Get target image
-        OSLM_ASSERT("Image 2 not found. UID : " << m_imageTgtUID, ::fwTools::fwID::exist(m_imageTgtUID));
-        param.imageOut = ::fwData::Image::dynamicCast( ::fwTools::fwID::getObject(m_imageTgtUID) );
+        param.imageOut = this->getInOut< ::fwData::Image >("target");
+        SLM_ASSERT("'target' key not found", param.imageOut);
 
         param.thresholdValue = threshold;
 
@@ -270,7 +264,7 @@ method ``operator(parameters)``.
         struct Parameter
         {
             double thresholdValue; ///< threshold value.
-            ::fwData::Image::sptr imageIn; ///< image source
+            ::fwData::Image::csptr imageIn; ///< image source
             ::fwData::Image::sptr imageOut; ///< image target: contains the result of the filter
         };
 
@@ -282,18 +276,18 @@ method ``operator(parameters)``.
         void operator()(Parameter &param)
         {
             const PIXELTYPE thresholdValue = static_cast<PIXELTYPE>(param.thresholdValue);
-            ::fwData::Image::sptr imageIn  = param.imageIn;
+            ::fwData::Image::csptr imageIn = param.imageIn;
             ::fwData::Image::sptr imageOut = param.imageOut;
             SLM_ASSERT("Sorry, image must be 3D", imageIn->getNumberOfDimensions() == 3 );
             imageOut->copyInformation(imageIn); // Copy image size, type... without copying the buffer
             imageOut->allocate(); // Allocate the image buffer
 
-            ::fwComEd::helper::Image imageInHelper(imageIn); // helper used to access the image source buffer
-            ::fwComEd::helper::Image imageOutHelper(imageOut); // helper used to access the image target buffer
+            ::fwDataTools::helper::ImageGetter imageInHelper(imageIn); // helper used to access the image source buffer
+            ::fwDataTools::helper::Image imageOutHelper(imageOut); // helper used to access the image target buffer
 
             // Get image buffers
-            PIXELTYPE *buffer1 = (PIXELTYPE *)imageInHelper.getBuffer();
-            PIXELTYPE *buffer2 = (PIXELTYPE *)imageOutHelper.getBuffer();
+            const PIXELTYPE* buffer1 = (PIXELTYPE*)imageInHelper.getBuffer();
+            PIXELTYPE* buffer2       = (PIXELTYPE*)imageOutHelper.getBuffer();
 
             // Get number of pixels
             const size_t NbPixels = imageIn->getSize()[0] * imageIn->getSize()[1] * imageIn->getSize()[2];
@@ -301,7 +295,7 @@ method ``operator(parameters)``.
             // Fill the target buffer considering the thresholding
             for( size_t i = 0; i<NbPixels; ++i, ++buffer1, ++buffer2 )
             {
-                *buffer2 = ( *buffer1 < thresholdValue ) ? 0 : std::numeric_limits<PIXELTYPE>::max();
+                * buffer2 = ( *buffer1 < thresholdValue ) ? 0 : std::numeric_limits<PIXELTYPE>::max();
             }
         }
     };
