@@ -488,7 +488,7 @@ Basics
 ******************
 
 - Le GitHub `<http://fw4spl-org.github.io>`_
-- Documentation `<http://fw4spl-doc.readthedocs.org>`_
+- Documentation `<http://fw4spl.readthedocs.org>`_
 - Developper blog `<http://fw4spl-org.github.io/fw4spl-blog>`_ 
 - #fw4spl on irc.freenode.net and `<http://fw4spl.slack.com>`_
 
