@@ -1,12 +1,12 @@
 Installation for Windows
-======================
+=========================
 
 Prerequisites for Windows users
 --------------------------------
 
 If not already installed:
 
-1. Install `Mercurial <http://mercurial.selenic.com/wiki/>`_
+1. Install `git <https://git-scm.com/>`_
 
 2. Optionally you can install `TortoiseHg <http://tortoisehg.bitbucket.org/>`_
 
@@ -18,7 +18,7 @@ If not already installed:
 
 6. Install `jom <http://wiki.qt.io/Jom>`_
 
-7. Install `ninja <https://github.com/martine/ninja/releases>`_
+7. Install `ninja <https://github.com/ninja-build/ninja/releases>`_
 
 Qt is an external library used in FW4SPL. For the successful compilation of Qt for FW4SPL, please see the following requirements:
 
@@ -37,7 +37,7 @@ So to prepare the development environment:
 * Create a build folder (Dev\\Build)
 
     * Add a sub folder for Debug and Release.
-
+    
 * Create a source folder (Dev\\Src)
 
 * Create a install folder (Dev\\Install)
@@ -51,7 +51,7 @@ To prepare the third party environment:
 * Create a build folder (BinPkgs\\Build)
 
     * Add a sub folder for Debug and Release.
-
+    
 * Create a source folder (BinPkgs\\Src)
 
 * Create an install folder (BinPkgs\\Install)
@@ -60,38 +60,33 @@ To prepare the third party environment:
 
 .. .. image:: media/Directories.png
 
-* Set environment for a x64 version.
-  For compile BinPkgs and sources, you must use the 'VS2013 x64 Native Tools Command Prompt' 
+* Set the environment for a x64 version.
+  To compile BinPkgs and sources, you must use the 'VS2013 x64 Native Tools Command Prompt' 
 
 Dependencies
 ~~~~~~~~~~~~~~~~~
 
 .. warning:: Be sure to be in the 'VS2013 x64 Native Tools Command Prompt'
 
-* `Clone <http://git-scm.com/book/en/v2/Git-Basics-Getting-a-Git-Repository#Cloning-an-Existing-Repository>`_ the three following repositories in the (BinPkgs) source folder:
+* `Clone <http://git-scm.com/book/en/v2/Git-Basics-Getting-a-Git-Repository#Cloning-an-Existing-Repository>`_ the following repository in the (BinPkgs) source folder:
 
     * `fw4spl-deps <https://github.com/fw4spl-org/fw4spl-deps.git>`_
 
-    * `fw4spl-ar-deps <https://github.com/fw4spl-org/fw4spl-ar-deps.git>`_
+* Update the cloned repositories to the *fw4spl_0.11.0* tag.
 
-    * `fw4spl-ext-deps <https://github.com/fw4spl-org/fw4spl-ext-deps.git>`_
-
-* Update the cloned repositories to the used version. 
-
-.. note:: Make sure that CMake is set as environment variable. 
+.. note:: Make sure that CMake executable location is present in your PATH environment variable. 
 
 * Call the cmake-gui
 
 * During Configure, choose the generator 'NMake Makefiles JOM'. 
 
-.. note:: make sure the generator JOM are set in your PATH.
+.. note:: Make sure that JOM executable location is present in your PATH environment variable.
 
 * Set the following arguments:
 
-    * *ADDITIONAL_PROJECTS*: set the source location of fw4spl-ar-deps and fw4spl-ext-deps
-
     * *CMAKE_INSTALL_PREFIX*: set the install location.
-    * *CMAKE_BUILD_TYPE*: set to Debug or Release
+    * *CMAKE_BUILD_TYPE*: set to Debug or Release.
+    * *ADDITIONAL_PROJECTS*: you can leave it empty, it is only needed if you have an extra source location like fw4spl-ext-deps or a custom repository.
 
 * Generate the code. 
 
@@ -102,41 +97,31 @@ Source
 
 .. warning:: Be sure to be in the 'VS2013 x64 Native Tools Command Prompt'
     
-* `Clone <http://git-scm.com/book/en/v2/Git-Basics-Getting-a-Git-Repository#Cloning-an-Existing-Repository>`_ the three following repositories in the (Dev) source folder:
-
+* `Clone <http://git-scm.com/book/en/v2/Git-Basics-Getting-a-Git-Repository#Cloning-an-Existing-Repository>`_ the following repositories in the (Dev) source folder:
     * `fw4spl <https://github.com/fw4spl-org/fw4spl.git>`_
 
-    * `fw4spl-ar <https://github.com/fw4spl-org/fw4spl-ar.git>`_
+* Update the cloned repositories to the *fw4spl_0.11.0* tag.
 
-    * `fw4spl-ext <https://github.com/fw4spl-org/fw4spl-ext.git>`_
-
-* Update the cloned repositories to the used version. 
-
-.. note:: Make sure that CMake is in your PATH. 
+.. note:: Make sure that CMake executable location is present in your PATH environment variable.
 
 * Call the cmake-gui.
 
-* During Configure, choose the generator ('NMake Makefiles JOM' for compile BinPkgs or 'Ninja' for compile FW4SPL sources) 
+* During configure step, choose the generator ('NMake Makefiles JOM' to compile BinPkgs or 'Ninja' to compile FW4SPL sources).
 
-.. note:: make sure the generator Ninja and JOM are set in your PATH.
+.. note:: Make sure that Ninja and JOM executables location are present in your PATH environment variable.
 
 * Set the following arguments:
 
     * *ADDITIONAL_PROJECTS*: set the source location of fw4spl-ar and fw4spl-ext
-
     * *CMAKE_INSTALL_PREFIX*: set the install location.
-
-    * *EXTERNAL_LIBRARIES*: set the install path of the third part libraries.
-
     * *CMAKE_BUILD_TYPE*: set to Debug or Release
+    * *EXTERNAL_LIBRARIES*: set the install path of the third part libraries.
+    * *PROJECT_TO_BUILD* set the name of the application to build (see Dev\Src\Apps, ex: VRRender, Tuto01Basic ...), each project should be separated by ";".
+    * *PROJECT_TO_INSTALL* set the name of the application to install (i.e. VRRender)
 
-    * *PROJECT_TO_BUILD* set the name of the application to build (See Dev\Src\Apps)
-
-    .. note:: If PROJECT_TO_BUILD is empty, all application will be compile
-
-    * *PROJECT_TO_INSTALL* set the name of the application to install 
-
-    .. note:: If PROJECT_TO_BUILD is empty, all application will be compile
+.. note::
+    - If PROJECT_TO_BUILD is empty, all application will be compiled
+    - If PROJECT_TO_INSTALL is empty, no application will be installed
     
 .. warning:: Make sure the arguments concerning the compiler (advanced arguments) point to Visual Studio.
 
@@ -149,12 +134,22 @@ Source
 Launch an application
 -------------------------
 
-After an successful compilation the application can be launched with the launcher.exe from FW4SPL. 
+After an successful compilation the application can be launched with the fwlauncher.exe from FW4SPL. 
 Therefore the profile.xml of the application in the build folder has to be passed as argument. 
 
 .. note:: Make sure that the external libraries directory is set to the path (set PATH=<FW4SPL Binpkgs path>\\Debug\\bin;<FW4SPL Binpkgs path>\\Debug\\x64\\vc12\\bin;%PATH%).
 
 .. image:: ../media/launchApp.png
+
+Extensions
+----------
+
+**fw4spl** has two main extension repositories:
+
+- `fw4spl-ar <https://github.com/fw4spl-org/fw4spl-ar.git>`_: extension of fw4spl repository, contains functionalities for augmented reality (video tracking for instance).
+- `fw4spl-ogre <https://github.com/fw4spl-org/fw4spl-ogre.git>`_: another extension of fw4spl, contains a 3D backend using `Ogre3D <http://www.ogre3d.org/>`_.
+
+If you want to use them, clone them first in the (Dev) source folder. Then modify *ADDITIONAL_PROJECTS* in cmake-gui to set the source location of fw4spl-ar and fw4spl-ogre separated by ';'. Last, re-generate the code and compile with ninja.
 
 Recommended software
 -------------------------

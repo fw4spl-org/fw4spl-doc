@@ -807,7 +807,7 @@ Outline
 Online documentation
 ========================================
 
-- Documentation `<http://fw4spl-doc.readthedocs.org/>`_
+- Documentation `<http://fw4spl.readthedocs.org/>`_
 - Developper blog `<http://fw4spl-org.github.io/fw4spl-blog/>`_ 
 
 ----

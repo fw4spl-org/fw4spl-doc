@@ -4,23 +4,21 @@ Object-Service concept
 Introduction
 ------------
 
-Inside the Object Oriented Programming (OOP) paradigm, an object is an instance of a class
-which contains all its data and methods (such as reading, writing, visualizations, image analysis, etc.). 
-This philosophy works well, provided that the classes do not change with time.
-However, in this situation, the maintenance of source code is difficult.
+In the *Object Oriented Programming* (OOP) paradigm, an object is an instance of a class
+which contains the data and the algorithms. For instance, a class Image contains the image buffer, the size and format attributes, along with the methods to process the image, such as reading, writing, visualizing, analysing, etc.
+ 
+This design works well, but has some drawbacks. First the code of the class implementation can become very big if you put everything in it, making collaborative work harder. Then if you use different third-party libraries in your methods (for instance DCMTK for I/O, VTK for visualization, OpenCV or ITK for the filtering methods), your class becomes dependent of all of these libraries even if you only need one or two functionalities. If we want something modular, that does not work. Last, because of the two previous points, the maintenance of source code is quite tough.
 
-In order to make this maintenance easier, FW4SPL architecture relies on an Object-Service
-paradigm where data and their methods are separated into different code units.
+Instead, FW4SPL proposes an *Object-Service* paradigm where data and algorithms are separated into different code units.
 
 Object
 -------
 
 Objects represent data used in the framework. 
 They can be simple (boolean, integer, string, etc.) or advanced structures 
-(image, mesh, video, patient, etc.) without depending on the input data format. 
-For example, an input image could have one of several formats such as Jpeg or Dicom but the FW4SPl object will be the same.
+(image, mesh, video, patient, etc.). They are generic, which means they do not depend on the original input format or the future output format. This way they can used with different third-party libraries, and we provide helper methods to convert them into the corresponding formats.
 
-Moreover, these object classes contain only data features and their corresponding getter/setter methods.
+These object classes contain only data features and their corresponding getter/setter methods.
 
 For instance, the ``Image`` object:
 
@@ -29,8 +27,8 @@ For instance, the ``Image`` object:
 - does not have methods such as reading or writing a buffer
 
 The ``fwData`` library contains the standard simple and advanced data. 
-It is the FW4SPL's main data library. There is also the ``fwMedData`` library which 
-contains several structures to store medical data. 
+It is the main data library of FW4SPL. There is also the ``fwMedData`` library which 
+contains several structures to store medical data.
 A data list with a brief description is available in the appendixes.
 
 Creating data
@@ -75,9 +73,10 @@ In the source file (MyData.cpp), this line must also be added to declare
 Service
 -------
 
-A service represents a functionality which uses or modifies data. A service
-is always associated with a data. For example, image data can have a reader
-service, a writer service, a visualization service or a processing operator.
+A service represents a functionality which uses or modifies data. **It
+is associated with one or several objects**. For example, a service working on a
+single image could be a reader, a writer, or a visualization service. A service working on two images could be a filtering service, 
+or a service working on a image and a mesh, a mesher.
 
 Service type
 ~~~~~~~~~~~~
@@ -92,7 +91,7 @@ types* and are represented by an abstract class. The basic service types are:
 - ``gui::editor::IEditor``:  base interface to create new widget in the GUI.
 - ``fwRender::IRender``: base interface to create new visualization widgets in
   the GUI.
-- ``fwServices::IController``: Does nothing in particular but can be considered as
+- ``fwServices::IController``: does nothing in particular but can be considered as
   a default service type to be implemented by unclassified services.
 
 All services require a type association and must inherit from an abstract
@@ -120,8 +119,7 @@ Several methods exist to manipulate a service. The main methods are:
   image, converts it and loads it into the associated data.
 
 These methods are mandatory, but can be empty. This is because some services do
-not need a start/stop process, an update process or to listen to object
-modifications.
+not need a configuration step, a start/stop process, or an update process.
 
 Service states
 ~~~~~~~~~~~~~~
@@ -144,6 +142,8 @@ The calling sequence to manage a service is:
     mySrv->update(); // update the service
     mySrv->stop(); // stop the service
 
+.. note::
+    FW4SPL extensively uses `std::shared_ptr <http://en.cppreference.com/w/cpp/memory/shared_ptr>`_ to handle objects and services. The basic declaration macros of data and services define a typedef ``sptr`` as an alias to ``std::shared_ptr<this_class>`` and a typedef ``csptr`` as an alias to ``std::shared_ptr<const this_class>``.
 
 Create a service
 ~~~~~~~~~~~~~~~~
@@ -158,8 +158,7 @@ In the header file (MyService.hpp):
     {
     public:
 
-        // Macro to define few important parameters/functions
-        // used by the architecture
+        // Macro to define few important parameters/functions used by the architecture
         fwCoreServiceClassDefinitionsMacro((MyService)(AbstractServiceType));
 
         // Service constructor
@@ -183,7 +182,7 @@ In the header file (MyService.hpp):
         void updating() throw(::fwTools::Failed);
     };
 
-In the source file (MyService.cpp), this line must be also added to declare
+In the source file (MyService.cpp), this line must also be added to declare
 ``MyService`` as a service of the framework architecture:
 
 .. code:: cpp
@@ -191,25 +190,25 @@ In the source file (MyService.cpp), this line must be also added to declare
     fwServicesRegisterMacro( AbstractServiceType, MyService, MyData );
 
 .. note::
-    When a new service is created, the following functions must be overloaded
+    When a new service is created, the following functions must be overriden
     from IService class : ``configuring``, ``starting``, ``stopping`` and 
     ``updating``.  The top level functions from IService class check the 
-    service state before any call to the redefined method.
+    service state before any call to the overridden method.
 
 Object and service factories
 ----------------------------
 
 To instantiate an object or a service, the architecture requires the use of a
-factory system. In class-based programming, the factory method pattern is a
+factory system. In class-based programming, the `factory method pattern`_ is a
 creational pattern which uses factory methods to deal with the problem of
 creating classes without specifying the exact class that will be created. This
 is done by creating classes via a factory method, which is either specified in
 an interface (abstract class) and implemented in child classes (concrete
 classes) or implemented in a base class (optionally as a template method),
 which can be overridden when inherited in derivative classes; rather than by a
-constructor.[#]_
+constructor.
 
-.. [#] http://en.wikipedia.org/wiki/Factory_method_pattern
+.. _`factory method pattern`: http://en.wikipedia.org/wiki/Factory_method_pattern
 
 Object factory
 ~~~~~~~~~~~~~~
@@ -226,7 +225,7 @@ The registration is managed by two macros:
     // in .cpp file
     fwDataRegisterMacro( MyData );
 
-Then, there are only two ways to build data in the framework:
+Then, there data can be instantiated in two ways:
 
 .. code:: cpp
 
@@ -234,8 +233,9 @@ Then, there are only two ways to build data in the framework:
     MyData::sptr obj = MyData::New();
 
     // Factory creation (here obj is an object of type
-    // MyData, it is possible to cast it)
+    // MyData, it is then possible to cast it dynamically)
     ::fwData::Object::sptr obj = ::fwData::factory::New("MyData");
+    MyData::sptr myData = MyData::dynamicCast(obj);
 
 Service factory
 ~~~~~~~~~~~~~~~
@@ -278,25 +278,73 @@ between objects and services. This class concept is very simple :
     // OSR is a singleton
     class ObjectService
     {
-      // relation map beetwen an object and his associated services
-      map < Object *, vec < IService > > osr;
-
+    public:
+      // ...
+    
       // Associates a service to an object
-      // manages in the function the association: srv->setObject(obj);
-      void registerService ( Object * obj , IService * srv );
-
-      // Dissociates a service to his object
-      void unregisterService ( IService * srv );
-
+      void registerService ( ::fwData::Object::sptr obj,
+                             const ::fwServices::IService::KeyType& objKey,
+                             ::fwServices::IService::AccessType access,
+                             ::fwServices::IService::sptr service);
+                             
+      // Dissociates a service from an object
+      void unregisterService ( const ::fwServices::IService::KeyType& objKey, 
+                               ::fwServices::IService::AccessType access,
+                               IService::sptr service );
+                               
       // ...
     }
 
-    // Some helpers exist : below, add method is used to combine
-    // factory system with service registration
-    ::fwServices::IService::sptr add(::fwData::Object::sptr obj,
-            std::string serviceType, std::string _implementationId)
+This registry manages the object-service relationships and guarantees the non-destruction of an object while some services are still working on it. 
 
-This registry manages the object-service relationships and guarantees the non-destruction of an object while some services are still working on it.
+Each object associated with the service must provide a **key** and an **access type**. The **key** is used to retrieve the object in the service code, while the **access type**
+tells how the object can be accessed: read, read/write or write.
+
+Object retrieval
+~~~~~~~~~~~~~~~~~
+
+Thus, to retrieve the registered objects of a service, there are two different methods :
+
+.. code-block :: cpp
+
+    class IService
+    {
+    public: 
+      // ...
+      template<class DATATYPE> CSPTR(DATATYPE) getInput( const KeyType& key) const;
+      template<class DATATYPE>  SPTR(DATATYPE) getInOut( const KeyType& key) const;
+      // ...
+    };
+
+For instance, if we have a ``::fwData::Image`` registered as ``"image"`` key with ``INOUT`` access type, and a ``::fwData::Mesh`` registered as ``"mesh"`` key with ``IN`` access 
+type we can retrieve them in a method of the service this way:
+
+.. code-block :: cpp
+
+    ::fwData::Image::sptr image = this->getInOut< ::fwData::Image>("image");
+    ::fwData::Mesh::csptr mesh  = this->getInput< ::fwData::Mesh>("mesh");
+
+Object access type
+-------------------
+
+How to choose between the different access type for a given data ?
+
+1. Read-only (*IN*)
+    - If you don't modify the data and so that means you can deal with a const pointer on the data, then this is the right choice.
+2. Write-only (*OUT*)
+    - This is a special case when the service will actually create the data. The data doesn't exist before the service creation. At some point, during ``start()``, or ``update()`` or elsewhere, the data is allocated, filled and registered in the OSR :
+    
+.. code-block :: cpp
+
+    ::IService::setOutput(const KeyType& key, const ::fwData::Object::sptr& object);
+    //..
+    ::fwData::Image::sptr image = ::fwData::Image::New();
+    this->setOutput("outputImage", image);
+
+3. Read-Write
+    - The object already exists, and you need to modify it.
+
+This topic is explained more widely in the :ref:`AppConfig<App-config>` section.
 
 .. _Object-Service_example:
 
@@ -343,3 +391,4 @@ and visualize it. You can easily transform this code to build an application
 which reads and displays a 3D mesh by changing object and services
 implementation strings only.
 
+However, most applications made with FW4SPL are not built this way. Instead, we use :ref:`AppConfig<App-config>`, which allows to simplify the code above by a declarative approach based on XML files.

@@ -1,18 +1,25 @@
+.. _fw4spl:
+
 **********
 fw4spl
 **********
 
-This repository contains the core libraries and bundles.
+This repository contains the core libraries and bundles. It is hosted on GitHub_.
+
+.. _GitHub: https://github.com/fw4spl-org/fw4spl
 
 ---------
 Features
 ---------
 
  - Reader/Writer
+    - DICOM reader/writer
+        - PACS connection
+        - 3D mesh segmentation reader/writer
+        - DICOM filter for reader
     - VTK (images and meshes)
-    - DICOM
     - ITK
-    - atoms (in-houte data format)
+    - Atoms (our custom in-out data format)
  - Visualisation
     - 2D and 3D multi-planar reconstruction
     - volume rendering
@@ -21,7 +28,7 @@ Features
 ------------
 Application
 ------------
-**VRRender** is an application containing all the previous features.
+**VRRender** is a medical image and segmentation viewer, containing all the previous features.
 
 .. figure:: ../media/SDB.png
     :align: center
@@ -51,8 +58,8 @@ Application
 ----------
 Tutorials
 ----------
-You can find some tutorials to explain fw4spl concept.
 
+You can find some tutorials to explain fw4spl concept.
 
 ========================================  ================================================================
  Name                                     Concept
@@ -77,3 +84,17 @@ TutoGui                                   Example of fw4spl gui feature (toolbar
 TutoPython                                Example of pyhton binding in fw4spl
 TutoTrianConverterCtrl                    Utility converting .trian meshes to .vtk
 ========================================  ================================================================
+
+----------
+Examples
+----------
+
+==============================  ================================================================
+ Name                           Concept
+==============================  ================================================================
+Ex01VolumeRendering              Example of volume rendering using transfer function
+Ex02ImageMix                     Example of image blend
+Ex03Registration                 Example of simple rigid image-mesh registration
+Ex04ImagesRegistration           Example of simple rigid image-image registration
+==============================  ================================================================
+

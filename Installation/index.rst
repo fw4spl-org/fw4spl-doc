@@ -1,3 +1,5 @@
+.. _Installation:
+
 ******************************************
 Installation
 ******************************************
@@ -9,4 +11,5 @@ Installation
    src/WindowsInstall
    src/LinuxInstall
    src/MacOSXInstall
+   src/AndroidInstall
 

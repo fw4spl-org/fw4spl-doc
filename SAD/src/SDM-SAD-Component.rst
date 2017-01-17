@@ -52,7 +52,7 @@ A component, called a bundle, is just a simple folder that contains :
 The software launcher uses the library ``fwRuntime`` to parse the software
 description file (profile.xml) and load required dynamic libraries::
 
-    ./launcher.exe mySoftware/profile.xml
+    ./fwlauncher.exe mySoftware/profile.xml
 
 
 The component description file (plugin.xml) is used to describe the content of

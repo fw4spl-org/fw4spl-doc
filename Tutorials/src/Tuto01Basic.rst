@@ -4,7 +4,7 @@
 [*Tuto01Basic*] Create an application
 ***************************************
 
-The first tutorial represents a basic application that launch a simple empty frame. 
+The first tutorial represents a basic application that launches a simple empty frame. 
 
 .. figure:: ../media/tuto01Basic.png
     :scale: 50
@@ -14,7 +14,7 @@ The first tutorial represents a basic application that launch a simple empty fra
 Prerequisites
 --------------
 
-Before to read this tutorial, you should have seen :
+Before reading this tutorial, you should have seen :
  * :ref:`Object-service concept<Object-Service_example>`
  * :ref:`App-config`
  * :ref:`Component`
@@ -52,17 +52,18 @@ This file describes the project information and requirements :
     set( VERSION 0.1 ) # Version of the application
     set( TYPE APP ) # Type APP represent "Application"
     set( DEPENDENCIES  ) # For an application we have no dependencies (libraries to link)
-    set( REQUIREMENTS # List of the bundles used by this application
+    set( REQUIREMENTS # The bundles used by this application
         dataReg # to load the data registry
         servicesReg # to load the service registry
         gui # to load gui
-        guiQt # to load the Qt implementation of gui
-        launcher # executable of the application
-        appXml # to parse the application configuration
-    ) 
+        guiQt # to load qt implementation of gui
+        fwlauncher # executable to run the application
+        appXml2 # to parse the application configuration
+    )
 
     # Set the configuration to use : 'tutoBasicConfig'
-    bundleParam(appXml PARAM_LIST config PARAM_VALUES tutoBasicConfig) 
+    bundleParam(appXml2 PARAM_LIST config PARAM_VALUES tutoBasicConfig) 
+
     
 This file contains the minimal requirements to launch an application with a Qt user interface.
 
@@ -75,7 +76,7 @@ This file contains the minimal requirements to launch an application with a Qt u
 plugin.xml
 ~~~~~~~~~~~
 
-This file is in the ``rc/`` directory of the application. It defines the services to run.
+This file is located in the ``rc/`` directory of the application. It defines the services to run.
  
 .. code-block:: xml
 
@@ -83,44 +84,43 @@ This file is in the ``rc/`` directory of the application. It defines the service
          using the version defined in the Properties.cmake) -->
     <plugin id="Tuto01Basic" version="@DASH_VERSION@">
 
+        <!-- The bundles in requirements are automatically started when this 
+             Application is launched. -->
+        <requirement id="dataReg" />
+        <requirement id="servicesReg" />
+        <requirement id="guiQt" />
+
         <!-- Defines the App-config -->
-        <extension implements="::fwServices::registry::AppConfig">
+        <extension implements="::fwServices::registry::AppConfig2">
             <id>tutoBasicConfig</id><!-- identifier of the configuration -->
             <config>
-                <object type="::fwData::Image"><!-- Main object -->
 
-                    <!-- Frame service -->
-                    <service uid="myFrame" impl="::gui::frame::SDefaultFrame">
-                        <gui>
-                            <frame>
-                                <name>tutoBasicApplicationName</name>
-                                <icon>Bundles/Tuto01Basic_0-1/tuto.ico</icon>
-                                <minSize width="800" height="600" />
-                            </frame>
-                        </gui>
-                    </service>
+                <!-- Frame service -->
+                <service uid="myFrame" type="::gui::frame::SDefaultFrame">
+                    <gui>
+                        <frame>
+                            <name>tutoBasicApplicationName</name>
+                            <icon>@BUNDLE_PREFIX@/Tuto01Basic_0-1/tuto.ico</icon>
+                            <minSize width="800" height="600" />
+                        </frame>
+                    </gui>
+                </service>
 
-                    <start uid="myFrame" /><!-- start the frame service -->
+                <start uid="myFrame" /><!-- start the frame service -->
 
-                </object>
             </config>
         </extension>
     </plugin>
-    
-    
 
-The ``::fwServices::registry::AppConfig`` extension defines the configuration of an application. 
+
+The ``::fwServices::registry::AppConfig2`` extension defines the configuration of an application. 
 
 **id**: 
     The configuration identifier.
 **config**: 
     Contains the list of objects and services used by the application. 
     
-    For this tutorial, we have only one object ``::fwData::Image`` and one service ``::gui::frame::DefaultFrame``.
-    
-    The order of the elements in the configuration is important: 
-     * <service> tags are into <object> tags
-     * <start> tags are after <service> tags
+    For this tutorial, we have no object and only one service ``::gui::frame::DefaultFrame``.
     
     There are others tags that will be described in the next tutorials.
 
@@ -132,4 +132,4 @@ To run the application, you must call the following line into the install or bui
 
 .. code::
 
-    bin/launcher Bundles/Tuto01Basic_0-1/profile.xml
+    bin/fwlauncher Bundles/Tuto01Basic_0-1/profile.xml

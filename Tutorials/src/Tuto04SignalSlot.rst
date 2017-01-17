@@ -42,14 +42,13 @@ This file describes the project information and requirements :
         io
         ioVTK
         uiIO
-        visuVTK
         visuVTKQt
         vtkSimpleMesh # contains a visualization service of mesh.
         launcher
-        appXml
+        appXml2
     )
 
-    bundleParam(appXml PARAM_LIST config PARAM_VALUES tutoSignalSlotConfig)
+    bundleParam(appXml2 PARAM_LIST config PARAM_VALUES tutoSignalSlotConfig)
 
 
 .. note::
@@ -69,125 +68,131 @@ This file is in the ``rc/`` directory of the application. It defines the service
 
         <requirement id="servicesReg" />
 
-        <extension implements="::fwServices::registry::AppConfig">
+        <extension implements="::fwServices::registry::AppConfig2">
             <id>tutoSignalSlotConfig</id>
             <config>
 
                 <!-- The main data object is ::fwData::Mesh. -->
-                <object type="::fwData::Mesh">
+                <object uid="mesh" type="::fwData::Mesh" />
 
-                    <service uid="myFrame" impl="::gui::frame::SDefaultFrame">
-                        <gui>
-                            <frame>
-                                <name>tutoSignalSlot</name>
-                                <icon>Bundles/Tuto04SignalSlot_0-1/tuto.ico</icon>
-                                <minSize width="720" height="600" />
-                            </frame>
-                            <menuBar />
-                        </gui>
-                        <registry>
-                            <menuBar sid="myMenuBar" start="yes" />
-                            <view sid="myDefaultView" start="yes" />
-                        </registry>
-                    </service>
+                <service uid="myFrame" type="::gui::frame::SDefaultFrame">
+                    <gui>
+                        <frame>
+                            <name>tutoSignalSlot</name>
+                            <icon>@BUNDLE_PREFIX@/Tuto04SignalSlot_0-1/tuto.ico</icon>
+                            <minSize width="720" height="600" />
+                        </frame>
+                        <menuBar />
+                    </gui>
+                    <registry>
+                        <menuBar sid="myMenuBar" start="yes" />
+                        <view sid="myDefaultView" start="yes" />
+                    </registry>
+                </service>
 
-                    <service uid="myMenuBar" impl="::gui::aspect::SDefaultMenuBar">
-                        <gui>
-                            <layout>
-                                <menu name="File" />
-                            </layout>
-                        </gui>
-                        <registry>
-                            <menu sid="myMenuFile" start="yes" />
-                        </registry>
-                    </service>
+                <service uid="myMenuBar" type="::gui::aspect::SDefaultMenuBar">
+                    <gui>
+                        <layout>
+                            <menu name="File" />
+                        </layout>
+                    </gui>
+                    <registry>
+                        <menu sid="myMenuFile" start="yes" />
+                    </registry>
+                </service>
 
-                    <!--
-                        Default view service:
-                        This service defines the view layout. The type '::fwGui::CardinalLayoutManager' represents a main
-                        central view and other views at the 'right', 'left', 'bottom' or 'top'.
-                        Here the application contains a central view at the right.
+                <!--
+                    Default view service:
+                    This service defines the view layout. The type '::fwGui::CardinalLayoutManager' represents a main
+                    central view and other views at the 'right', 'left', 'bottom' or 'top'.
+                    Here the application contains a central view at the right.
 
-                        Each <view> declared into the <layout> tag, must have its associated <view> into the <registry> tag.
-                        A minimum window height and a width are given to the two non-central views.
-                    -->
-                    <service uid="myDefaultView" impl="::gui::view::SDefaultView">
-                        <gui>
-                            <layout type="::fwGui::CardinalLayoutManager">
-                                <view caption="Rendering 1" align="center" />
-                                <view caption="Rendering 2" align="right" minWidth="400" minHeight="100" />
-                                <view caption="Rendering 3" align="right" minWidth="400" minHeight="100" />
-                            </layout>
-                        </gui>
-                        <registry>
-                            <view sid="myRendering1" start="yes" />
-                            <view sid="myRendering2" start="yes" />
-                            <view sid="myRendering3" start="yes" />
-                        </registry>
-                    </service>
+                    Each <view> declared into the <layout> tag, must have its associated <view> into the <registry> tag.
+                    A minimum window height and a width are given to the two non-central views.
+                -->
+                <service uid="myDefaultView" type="::gui::view::SDefaultView">
+                    <gui>
+                        <layout type="::fwGui::CardinalLayoutManager">
+                            <view caption="Rendering 1" align="center" />
+                            <view caption="Rendering 2" align="right" minWidth="400" minHeight="100" />
+                            <view caption="Rendering 3" align="right" minWidth="400" minHeight="100" />
+                        </layout>
+                    </gui>
+                    <registry>
+                        <view sid="myRendering1" start="yes" />
+                        <view sid="myRendering2" start="yes" />
+                        <view sid="myRendering3" start="yes" />
+                    </registry>
+                </service>
 
-                    <service uid="myMenuFile" impl="::gui::aspect::SDefaultMenu">
-                        <gui>
-                            <layout>
-                                <menuItem name="Open file" shortcut="Ctrl+O" />
-                                <separator />
-                                <menuItem name="Quit" specialAction="QUIT" shortcut="Ctrl+Q" />
-                            </layout>
-                        </gui>
-                        <registry>
-                            <menuItem sid="actionOpenFile" start="yes" />
-                            <menuItem sid="actionQuit" start="yes" />
-                        </registry>
-                    </service>
+                <service uid="myMenuFile" type="::gui::aspect::SDefaultMenu">
+                    <gui>
+                        <layout>
+                            <menuItem name="Open file" shortcut="Ctrl+O" />
+                            <separator />
+                            <menuItem name="Quit" specialAction="QUIT" shortcut="Ctrl+Q" />
+                        </layout>
+                    </gui>
+                    <registry>
+                        <menuItem sid="actionOpenFile" start="yes" />
+                        <menuItem sid="actionQuit" start="yes" />
+                    </registry>
+                </service>
 
-                    <service uid="actionOpenFile" impl="::gui::action::SStarter">
-                        <start uid="myReaderPathFile" />
-                    </service>
+                <service uid="actionOpenFile" type="::gui::action::SStarter">
+                    <start uid="myReaderPathFile" />
+                </service>
 
-                    <service uid="actionQuit" impl="::gui::action::SQuit" type="::fwGui::IActionSrv" />
+                <service uid="actionQuit" type="::gui::action::SQuit" />
 
-                    <service uid="myReaderPathFile" impl="::uiIO::editor::SIOSelector">
-                        <type mode="reader" /><!-- mode is optional (by default it is "reader") -->
-                    </service>
+                <service uid="myReaderPathFile" type="::uiIO::editor::SIOSelector">
+                    <inout key="target" uid="mesh" />
+                    <type mode="reader" /><!-- mode is optional (by default it is "reader") -->
+                </service>
 
-                    <!--
-                        Visualization services:
-                        We have three rendering service representing a 3D scene displaying the loaded mesh. The scene are
-                        shown in the windows defines in 'view' service.
-                    -->
-                    <service uid="myRendering1" impl="::vtkSimpleMesh::SRenderer" autoConnect="yes" />
-                    <service uid="myRendering2" impl="::vtkSimpleMesh::SRenderer" autoConnect="yes" />
-                    <service uid="myRendering3" impl="::vtkSimpleMesh::SRenderer" autoConnect="yes" />
+                <!--
+                    Visualization services:
+                    We have three rendering service representing a 3D scene displaying the loaded mesh. The scene are
+                    shown in the windows defines in 'view' service.
+                -->
+                <service uid="myRendering1" type="::vtkSimpleMesh::SRenderer" autoConnect="yes" >
+                    <in key="mesh" uid="mesh" />
+                </service>
+                <service uid="myRendering2" type="::vtkSimpleMesh::SRenderer" autoConnect="yes" >
+                    <in key="mesh" uid="mesh" />
+                </service>
+                <service uid="myRendering3" type="::vtkSimpleMesh::SRenderer" autoConnect="yes" >
+                    <in key="mesh" uid="mesh" />
+                </service>
 
-                    <!--
-                        Each 3D scene owns a 3D camera that can be moved by the user on clicking in the scene.
-                        - When the camera moved, a signal 'camUpdated' is emitted with the new camera information (position,
-                        focal, view up).
-                        - To update the camera without clicking, you could called the slot 'updateCamPosition'
+                <!--
+                    Each 3D scene owns a 3D camera that can be moved by clicking in the scene.
+                    - When the camera move, a signal 'camUpdated' is emitted with the new camera information (position,
+                    focal, view up).
+                    - To update the camera without clicking, you could call the slot 'updateCamPosition'
 
-                        Here, we connect each rendering service signal 'camUpdated' to the others service slot
-                        'updateCamPosition', so the cameras are synchronized in each scene.
-                    -->
-                    <connect>
-                        <signal>myRendering1/camUpdated</signal>
-                        <slot>myRendering2/updateCamPosition</slot>
-                        <slot>myRendering3/updateCamPosition</slot>
-                    </connect>
+                    Here, we connect each rendering service signal 'camUpdated' to the others service slot
+                    'updateCamPosition', so the cameras are synchronized in each scene.
+                -->
+                <connect>
+                    <signal>myRendering1/camUpdated</signal>
+                    <slot>myRendering2/updateCamPosition</slot>
+                    <slot>myRendering3/updateCamPosition</slot>
+                </connect>
 
-                    <connect>
-                        <signal>myRendering2/camUpdated</signal>
-                        <slot>myRendering1/updateCamPosition</slot>
-                        <slot>myRendering3/updateCamPosition</slot>
-                    </connect>
+                <connect>
+                    <signal>myRendering2/camUpdated</signal>
+                    <slot>myRendering1/updateCamPosition</slot>
+                    <slot>myRendering3/updateCamPosition</slot>
+                </connect>
 
-                    <connect>
-                        <signal>myRendering3/camUpdated</signal>
-                        <slot>myRendering2/updateCamPosition</slot>
-                        <slot>myRendering1/updateCamPosition</slot>
-                    </connect>
+                <connect>
+                    <signal>myRendering3/camUpdated</signal>
+                    <slot>myRendering2/updateCamPosition</slot>
+                    <slot>myRendering1/updateCamPosition</slot>
+                </connect>
 
-                    <start uid="myFrame" />
-                </object>
+                <start uid="myFrame" />
 
             </config>
         </extension>
@@ -195,11 +200,11 @@ This file is in the ``rc/`` directory of the application. It defines the service
     </plugin>
     
 
-You can use **proxy** instead of the <connect> tag: it allows to connect all the signals to all the slots for a given channel name.
+You can also group the signals and all the slots together.
 
 .. code-block:: xml
 
-    <proxy channel="Camera" >
+    <connect>
         <signal>myRenderingTuto1/camUpdated</signal>
         <signal>myRenderingTuto2/camUpdated</signal>
         <signal>myRenderingTuto3/camUpdated</signal>
@@ -210,7 +215,7 @@ You can use **proxy** instead of the <connect> tag: it allows to connect all the
     </proxy>
     
 .. tip::
-    You can remove a connection to see the camera in the scene is no longer synchronized.
+    You can remove a connection to see that a camera in the scene is no longer synchronized.
 
 
 Signal and slot creation
@@ -227,8 +232,6 @@ Signal and slot creation
         // .....
         
         typedef ::boost::shared_array< double > SharedArray;
-
-        typedef ::fwCom::Slot<void (SharedArray, SharedArray, SharedArray)> UpdateCamPositionSlotType;
 
         typedef ::fwCom::Signal< void (SharedArray, SharedArray, SharedArray) > CamUpdatedSignalType;
 
@@ -248,9 +251,6 @@ Signal and slot creation
 
         // ....
         
-        /// Slot to call updateCamPosition method
-        UpdateCamPositionSlotType::sptr m_slotUpdateCamPosition;
-
         /// Signal emitted when camera position is updated.
         CamUpdatedSignalType::sptr m_sigCamUpdated;
     }
@@ -264,9 +264,7 @@ Signal and slot creation
     {
         m_sigCamUpdated = newSignal<CamUpdatedSignalType>("camUpdated");
 
-        m_slotUpdateCamPosition = newSlot("updateCamPosition", 
-                                          &RendererService::updateCamPosition, 
-                                          this);
+        newSlot("updateCamPosition", &RendererService::updateCamPosition, this);
     }
     
     //-----------------------------------------------------------------------------
@@ -307,7 +305,7 @@ Signal and slot creation
             // "updateCamPosition" slot for this instance of service. 
             // The block is release at the end of the scope.
             ::fwCom::Connection::Blocker block(
-                                m_sigCamUpdated->getConnection(m_slotUpdateCamPosition));
+                                m_sigCamUpdated->getConnection(m_this->slot("updateCamPosition")));
             
             // Asynchronous emit of "camUpdated" signal
             m_sigCamUpdated->asyncEmit (position, focal, viewUp);
@@ -326,4 +324,4 @@ To run the application, you must call the following line into the install or bui
 
 .. code::
 
-    bin/launcher Bundles/Tuto04SignalSlot_0-1/profile.xml
+    bin/fwlauncher Bundles/Tuto04SignalSlot_0-1/profile.xml

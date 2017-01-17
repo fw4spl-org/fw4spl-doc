@@ -7,6 +7,7 @@ Introduction
 
     src/repositories.rst
     src/fw4spl.rst
-    src/fw4spl-ext.rst
     src/fw4spl-ar.rst
+    src/fw4spl-ogre.rst
+    src/fw4spl-ext.rst
    

@@ -75,14 +75,19 @@ Example
        <desc>Activity description ...</desc>
        <icon>Bundles/media_0-1/icons/icon-3D.png</icon>
        <requirements>
-           <requirement name="param1" type="::fwData::Image" /> <!-- defaults : minOccurs = 1, maxOccurs = 1-->
-           <requirement name="param2" type="::fwData::Mesh" maxOccurs="3" container="composite">
-               <key>Item1</key>
-               <key>Item2</key>
-               <key>Item3</key>
-           </requirement>
-           <requirement name="imageSeries" type="::fwMedData::ImageSeries" minOccurs="0" maxOccurs="2" />
-           <requirement name="modelSeries" type="::fwMedData::ModelSeries" minOccurs="1" maxOccurs="1" />
+            <requirement name="param1" type="::fwData::Image" /> <!-- defaults : minOccurs = 1, maxOccurs = 1-->
+            <requirement name="param2" type="::fwData::Mesh" maxOccurs="3" >
+                <key>Item1</key>
+                <key>Item2</key>
+                <key>Item3</key>
+            </requirement>
+            <requirement name="param3" type="::fwData::Mesh" maxOccurs="*" container="vector" />
+            <requirement name="imageSeries" type="::fwMedData::ImageSeries" minOccurs="0" maxOccurs="2" />
+            <requirement name="modelSeries" type="::fwMedData::ModelSeries" minOccurs="1" maxOccurs="1">
+                 <desc>Description of the required data....</desc>
+                 <validator>::fwActivities::validator::ImageProperties</validator>
+            </requirement>
+            <requirement name="transformationMatrix" type="::fwData::TransformationMatrix3D" minOccurs="0" maxOccurs="1" create="true" />
            <!-- ...-->
        </requirements>
        <builder>::fwActivities::builder::ActivitySeries</builder>
@@ -118,10 +123,6 @@ icon
 The path to the activity icon. It is displayed by the SActivityLauncher when several activity can be launched
 with the selected data.
 
-.. figure:: ../media/SActivityLauncher.png
-    :scale: 60
-    :align: center
-
 
 requirements
 *************
@@ -145,6 +146,15 @@ requirement:
     container (optional, "vector" or "composite", default: composite):
         Container used to contain the data if minOccurs or maxOccurs are not "1".
         If the container is "composite", you need to specify the "key" of each object in the composite.
+        
+    create (optional, default "false"): 
+        If true and (minOccurrs == 0 && maxOccurs == 1), the data will be automatically created if it is not present.
+
+    desc (optional): 
+        description of the parameter
+        
+    validator (optional): 
+        validator to check if the associated data is well formed (inherited of ::fwAtivities::IObjectValidator)
         
 
 builder
@@ -185,3 +195,107 @@ parameter:
         Defines the string that will replace the parameter name. It should be a simple string (ex.
         frontal) or define a sesh@ path (ex. @values.myImage). The root object of the sesh@ path is the
         composite contained in the ActivitySeries.
+
+
+Validators
+------------
+
+There is three types of validator :
+
+Pre-build validator
+********************
+
+This type of validators checks if the current selection of data is correct to build the activity. It inherits of
+::fwActivities::IValidator and must implement the methods:
+
+.. code-block:: cpp
+
+    ValidationType validate(
+           const ::fwActivities::registry::ActivityInfo& activityInfo,
+           SPTR(::fwData::Vector) currentSelection ) const;
+
+Activity validator
+*******************
+
+This type of validator checks if the ::fwMedData::ActivitySeries is correct to launch its associated activity.
+It inherits of ::fwActivities::IActivityValidator and must implement the method:
+
+.. code-block:: cpp
+
+    ValidationType validate(const CSPTR(::fwMedData::ActivitySeries) &activity ) const;
+
+The validator ::fwActivities::validator::DefaultActivity is applied if no other validator is defined. It checks if
+all the required objets are present in the series and if all the parameters delivered to the AppConfig are present.
+
+It provides some method useful to implement your own validator.
+
+Object validator
+****************
+
+This type of validator checks if the required object is well formed. It can check a single object or a Vector or
+a Composite containing one type of object. It inherits of ::fwActivities::IObjectValidator and must implement the
+method:
+
+.. code-block:: cpp
+
+    ValidationType validate(const CSPTR(::fwData::Object) &currentData ) const;
+
+
+Wizard
+--------
+
+Services are available to create/launch activities :
+
+SActivityLauncher
+******************
+
+This action allows to launch an activity according to the selected data.
+
+.. figure:: ../media/SActivityLauncher.png
+    :scale: 60
+    :align: center
+
+
+SCreateActivity
+*****************
+
+There is an action or an editor (```::activities::action::SCreateActivity`` or 
+``::activities::editor::SCreateActivity``). This services display the available activities according to the 
+.configuration.
+
+When the activity is selected, the service sends a signal with the activity identifier. It should works with the 
+::uiMedData::editor::SActivityWizard that creates or updates the activitySeries.
+
+.. code-block:: xml
+
+    <service uid="action_newActivity" type="::activities::action::SCreateActivity">
+        <!-- Filter mode 'include' allows all given activity id-s.
+             Filter mode 'exclude' allows all activity id-s excepted given ones. -->
+        <filter>
+            <mode>include</mode>
+            <id>2DVisualizationActivity</id>
+            <id>3DVisualizationActivity</id>
+            <id>VolumeRenderingActivity</id>
+        </filter>
+    </service>
+  
+filter (optional): 
+    it allows to filter the activity that can be proposed.
+
+mode: 'include' or 'exclude'. 
+    Defines if the activity in the following list are proposed (include) or not (exclude).
+
+id: 
+    id of the activity
+
+
+SActivityWizard
+*****************
+ 
+This editor allows to select the data required by an activity in order to create the ActivitySeries.
+This editor displays a tab widget (one tab by data). It works on a ::fwMedData::SeriesDB and adds the created activity 
+series into the seriesDB.
+
+.. figure:: ../media/SActivityWizard.png
+    :scale: 60
+    :align: center
