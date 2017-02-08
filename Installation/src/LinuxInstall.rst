@@ -9,7 +9,7 @@ If not already installed:
 #. Install `git <https://git-scm.com/>`_
 #. Install `gcc <https://gcc.gnu.org/>`_ The minimal version required is 4.8 or `clang <http://clang.llvm.org/>`_ The minimal version required is 3.5
 #. Install `Python 2.7 <https://www.python.org/downloads/>`_
-#. Install `CMake <http://www.cmake.org/download/>`_ The minimal version required is 3.1
+#. Install `CMake <http://www.cmake.org/download/>`_. The minimal version required is **3.7** if you want to compile with precompiled headers (build twice faster, enabled by default). Otherwise you can use a 3.1 version.
 #. Install `Ninja <https://ninja-build.org/>`_
 
 Depending on which linux distribution you use, for example on Debian/Ubuntu/Mint you can do:
