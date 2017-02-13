@@ -228,7 +228,8 @@ in the constructor:
 
       ThisClassHasSlots()
       {
-          newSlot("sum", &SlotsTestHasSlots::getValue, this);
+          newSlot("sum", &ThisClassHasSlots::sum, this);
+          newSlot("getValue", &ThisClassHasSlots::getValue, this);
       }
 
       int sum(int a, int b)
