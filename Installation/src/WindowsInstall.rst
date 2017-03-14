@@ -130,7 +130,7 @@ Source
     * *CMAKE_INSTALL_PREFIX*: set the install location (e.g. C:\\Dev\\Install\\Debug).
     * *CMAKE_BUILD_TYPE*: set to Debug or Release.
     * *EXTERNAL_LIBRARIES*: set the install path of the dependencies install directory (e.g. C:\\Dev\\BinPkgs\\Install\\Debug).
-    * *PROJECT_TO_BUILD*: set the names of the applications to build (see Dev\Src\Apps, ex: VRRender, Tuto01Basic ...), each project should be separated by ";".
+    * *PROJECT_TO_BUILD*: set the names of the applications to build (see Dev\Src\Apps or Dev\Src\Samples, ex: VRRender, Tuto01Basic ...), each project should be separated by ";".
     * *ECLIPSE_PROJECT*: check this box if you want to generate an Eclipse project.
 
 * If you want to generate installers:
