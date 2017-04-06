@@ -17,7 +17,7 @@ fw4spl_ uses CTest_ and CppUnit_ for unit testing.
 Building
 --------
 
-When building fw4spl_ with CMake_, you will need to enable the ``BUILD_TESTS`` option, e.g. with the ``-DBUILD_TESTS_ON`` command line option.
+When building fw4spl_ with CMake_, you will need to enable the ``BUILD_TESTS`` option, e.g. with the ``-DBUILD_TESTS=ON`` command line option.
 
 Launching unit tests
 --------------------
@@ -31,6 +31,11 @@ In you build directory, you can launch the unit tests with the ``ctest`` command
 
     # Launch the tests using 4 jobs, similar to the -j option of make
     ctest -j 4 .
+
+    # You can also use the make or ninja commands to do so
+    make test
+
+    ninja test
 
 Additional data
 ---------------
