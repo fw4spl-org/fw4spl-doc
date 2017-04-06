@@ -6,11 +6,11 @@ Generic Scene
 Overview
 ------------------------
 
-A generic scene in FW4SPL is visualization feature to visualize several elements like meshes or images in a scene.
+A generic scene in FW4SPL is a visualization feature to visualize several elements like meshes or images in a scene.
 The scene is based on VTK. The main task of the generic scene is to manage all visualization services of the different
-elements contained in the scene. The generic scene is universal and therefore applicable for divers visualization tasks.
+elements contained in the scene. The generic scene is universal and therefore applicable for diverse visualization tasks.
 
-As used in FW4SPL, the scene generic configures a VTK scene with a simple xml configuration. Hence, FW4SPL is mainly
+As used in FW4SPL, the generic scene configures a VTK scene with a simple xml configuration. Hence, FW4SPL is mainly
 used for medical assignments, the generic scene can be seen as fusion of a negatoscope and the 3D model visualization.
 
 Components
@@ -40,7 +40,7 @@ The adaptors are the gateway between FW4SPL objects and VTK objects.
 To respect the principles of the framework, adaptors are kept as generic as possible.
 Therefore they are reusable in further applications or even adaptors.
 
-An adaptor is a specific service that need to implements the methods ``doStart``, ``doStop``, ``doUpdate``, `doConfigure`` and
+An adaptor is a specific service that needs to implement the methods ``doStart``, ``doStop``, ``doUpdate``, ``doConfigure`` and
 ``doSwap`` instead of the usual ``starting``, ``updating``, ...
 
 
@@ -133,7 +133,7 @@ renderer
     - **layer** (optional): defines the layer of the vtkRenderer. This is only used if there are layered renderers.
     - **background** (optional): the background color of the rendering screen.
 
-    The color value can be defines as a grey level value (ex . 1.0 for white) or as a hexadecimal value (ex : \#ffffff for white).
+    The color value can be defined as a grey level value (ex . 1.0 for white) or as a hexadecimal value (ex : \#ffffff for white).
 
 vtkObject
     Represents a vtk object. It is usually used for vtkTransform or vtkImageBlend.
@@ -154,7 +154,7 @@ adaptor
    - **class** (mandatory): the classname of the adaptor service
    - **uid** (optional): the fwID to specify for the adaptor service
    - **objectId** (mandatory): the key of the adaptor's object in the scene's composite.
-   - **autoConnect** (optional, "yes" by default): if "yes" the service slot are automatically connected to the object signals.
+   - **autoConnect** (optional, "yes" by default): if "yes" the service slots are automatically connected to the object signals.
    - **config**: adaptor's configuration. It is parsed in the adaptor's configuring() method.
 
 .. note::
