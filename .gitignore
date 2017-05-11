@@ -16,3 +16,4 @@ syntax: glob
 # reject and backup file
 *.rej
 *.orig
+_build/
