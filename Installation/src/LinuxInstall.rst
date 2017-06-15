@@ -31,7 +31,12 @@ Qt is an external library used in FW4SPL. For the successful compilation of Qt w
 - http://wiki.qt.io/Building_Qt_5_from_Git
 
 Follow the instructions there to install the necessary packages on your system for **Build essentials**, **libxcb** and **QtMultimedia**. For the latter, please note that we use gstreamer-1.0 by default, so please replace ``libgstreamer0.10-dev`` and ``libgstreamer-plugins-base0.10-dev`` by ``libgstreamer1.0-dev`` and ``libgstreamer-plugins-base1.0-dev``. You can safely ignore instructions for QtWebKit and QtWebEngine, we don't build them.
-Since we build Qt with openssl support you also need to install ``libssl-dev`` (be sure that the version is equal or upper to 1.0.0). Last for VTK we also need the X Toolkit Intrinsics library headers, that you can easily install for instance on a Debian-based distribution with the package ``libxt-dev``.
+Since we build Qt with openssl support you also need to install ``libssl-dev`` (be sure that the version is equal or upper to 1.0.0).
+``libudev-dev`` and ``libusb-1.0.0-dev`` are required by the OpenNI library. Last for VTK we also need the X Toolkit Intrinsics library headers, that you can easily install for instance on a Debian-based distribution with the packages ``libxt-dev``, ``libxrandr-dev`` and ``libxaw7-dev``.
+
+If you are building the dependencies with the fw4spl-ext-deps additional dependencies, the VLC libraries are also needed, regarding to streaming capabilities, and thus the packages: ``libvlc-dev``, ``libvlccore-dev`` and ``vlc-nox``, are required.
+
+Finally, please note that we provide Dockerfile at this `link <https://github.com/fw4spl-org/docker-fw4spl-deps>`_. The commands for dependency installation are provided there.
 
 .. include:: CommonDeps.rst
 
