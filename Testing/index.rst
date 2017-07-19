@@ -40,6 +40,6 @@ In you build directory, you can launch the unit tests with the ``ctest`` command
 Additional data
 ---------------
 
-Additional data need to be download to run all the unit tests. They are available at the following link.
+Additional data need to be download to run all the unit tests. They are available at the following `link <https://owncloud.ircad.fr/index.php/s/zT2FzoTCJiMZdGo/download>`_.
 You can then specify the directory, where the data are located, with the ``FWTEST_DATA_DIR`` environment variable.
 
