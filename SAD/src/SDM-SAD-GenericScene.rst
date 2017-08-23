@@ -82,30 +82,10 @@ Configuration
             <renderer id="myRenderer" layer="0" background="0.0" />
             <vtkObject id="transform" class="vtkTransform" />
             <picker id="negatodefault" vtkclass="fwVtkCellPicker" />
+            
+            <adaptor uid="meshAdaptor" />
+            <adaptor uid="imageAdaptor" />
 
-            <adaptor id="tmAdaptor" class="::visuVTKAdaptor::Transform" uid="adaptorUID" objectId="tm3dKey">
-                <config transform="transform" />
-            </adaptor>
-            <adaptor id="snapshot" class="::visuVTKAdaptor::Snapshot" objectId="self">
-                <config renderer="myRenderer" />
-            </adaptor>
-
-            <!-- ...... -->
-
-            <connect>
-                <signal>adaptorUID/modified</signal>
-                <slot>serviceUid/updateTM</slot>
-            </connect>
-
-            <connect waitForKey="tm3dKey">
-                <signal>modified</signal><!-- signal for object "tm3dKey" -->
-                <slot>serviceUid/updateTM</slot>
-            </connect>
-
-            <proxy channel="myChannel">
-                <signal>adaptor2UID/modified</signal>
-                <slot>service2Uid/updateTM</slot>
-            </proxy>
         </scene>
         <fps>30</fps><!-- used if renderMode=="timer" -->
     </service>
@@ -149,25 +129,16 @@ picker
 
 adaptor
     Defines the adaptors to display in the scene.
+    
+    - **uid** (mandatory): the uid of the adaptor service
 
-   - **id** (mandatory): the identifier of the adaptor
-   - **class** (mandatory): the classname of the adaptor service
-   - **uid** (optional): the fwID to specify for the adaptor service
-   - **objectId** (mandatory): the key of the adaptor's object in the scene's composite.
-   - **autoConnect** (optional, "yes" by default): if "yes" the service slots are automatically connected to the object signals.
-   - **config**: adaptor's configuration. It is parsed in the adaptor's configuring() method.
 
-.. note::
+**Adaptors are written as other services in the xml**
+   
+.. code-block:: xml
 
-   The "self" key is used when the adaptor works on the scene's composite.
+    <service uid="meshAdaptor" type="::visuVTKAdaptor::SMesh" autoConnect="yes">
+        <in key="mesh" uid="meshUID" />
+        <config renderer="default" picker="" uvgen="sphere" />
+    </service>
 
-connect/proxy (optional)
-     Connects signal to slot
-
-   - **waitForKey** (optional): defines that the connection is made only if the key is present in the scene composite.
-   - **signal** (mandatory): must be signal holder UID, followed by '/', followed by signal name.
-   - **slot** (mandatory): must be slot holder UID, followed by '/', followed by slot name.
-
-.. note::
-
-    To use the signal of the object (defined by waitForKey), you don't have to write object uid, only the signal name.
