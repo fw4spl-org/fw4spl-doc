@@ -13,13 +13,25 @@ If not already installed:
 #. Install `Ninja <https://github.com/ninja-build/ninja/releases>`_ : to use instead of **make**.
 
 For an easy install, you can use the `Hombrew project <http://brew.sh/>`_  to install missing packages.
-        
+
 .. code:: bash
 
     $ brew install git
     $ brew install python
     $ brew install cmake
     $ brew install ninja
+
+For Openni dependency, you need libusb
+
+.. code:: bash
+
+    $ brew install libusb-compat
+
+If you are building the dependencies with the fw4spl-ext-deps additional dependencies, the `VLC <https://www.videolan.org/vlc/index.fr.html>`_ application is also needed.
+
+.. code:: bash
+
+    $ brew cask install vlc
 
 .. include:: CommonDeps.rst
 
@@ -32,7 +44,7 @@ Now you can compile the FW4SPL dependencies with make in the console, it will au
 
     $ make all
     $ make install_tool
-    
+
 .. include:: CommonSrc.rst
 
 Recommended software
@@ -46,4 +58,3 @@ The following programs may be helpful for your developments:
 
 - Versioning tools:
     - `SourceTree <http://www.sourcetreeapp.com/>`_
-
