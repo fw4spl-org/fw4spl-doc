@@ -44,10 +44,10 @@ This file describes the project information and requirements :
         visuVTKQt
         vtkSimpleNegato
         launcher
-        appXml2
+        appXml
     )
 
-    bundleParam(appXml2 PARAM_LIST config PARAM_VALUES tutoDataServiceConfig)
+    bundleParam(appXml PARAM_LIST config PARAM_VALUES tutoDataServiceConfig)
 
 
 .. note::
@@ -66,7 +66,7 @@ This file is in the ``rc/`` directory of the application. It defines the service
     <plugin id="Tuto03DataService" version="@DASH_VERSION@">
         <requirement id="servicesReg" />
 
-        <extension implements="::fwServices::registry::AppConfig2">
+        <extension implements="::fwServices::registry::AppConfig">
             <id>tutoDataServiceConfig</id>
             <config>
 

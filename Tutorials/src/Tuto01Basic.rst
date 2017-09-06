@@ -58,11 +58,11 @@ This file describes the project information and requirements :
         gui # to load gui
         guiQt # to load qt implementation of gui
         fwlauncher # executable to run the application
-        appXml2 # to parse the application configuration
+        appXml # to parse the application configuration
     )
 
     # Set the configuration to use : 'tutoBasicConfig'
-    bundleParam(appXml2 PARAM_LIST config PARAM_VALUES tutoBasicConfig) 
+    bundleParam(appXml PARAM_LIST config PARAM_VALUES tutoBasicConfig) 
 
     
 This file contains the minimal requirements to launch an application with a Qt user interface.
@@ -91,7 +91,7 @@ This file is located in the ``rc/`` directory of the application. It defines the
         <requirement id="guiQt" />
 
         <!-- Defines the App-config -->
-        <extension implements="::fwServices::registry::AppConfig2">
+        <extension implements="::fwServices::registry::AppConfig">
             <id>tutoBasicConfig</id><!-- identifier of the configuration -->
             <config>
 
@@ -113,7 +113,7 @@ This file is located in the ``rc/`` directory of the application. It defines the
     </plugin>
 
 
-The ``::fwServices::registry::AppConfig2`` extension defines the configuration of an application. 
+The ``::fwServices::registry::AppConfig`` extension defines the configuration of an application. 
 
 **id**: 
     The configuration identifier.
