@@ -38,7 +38,7 @@ The initial archive you will download contains only the basic tools of the SDK. 
 
 .. code:: bash
 
-    # i.e for Linux and OSX
+    # i.e for Linux and OSX
     export ANDROID_SDK=/ABSOLUTE/PATH/TO/THE/ANDROID_SDK
 
 * The **SDK Manager** tool ease the downloading and the management of the different SDK versions, as well as the downloading of the development tools:
@@ -116,11 +116,11 @@ You must also add the following environment variables.
 
     ANDROID_NDK=/PATH/TO/NDK
     ANDROID_SDK=/PATH/TO/SDK
-    JAVA_HOME=/PATH/TO/JDK 
+    JAVA_HOME=/PATH/TO/JDK
 
 Please remember that JAVA_HOME is the root folder of the JDK and not the binary folder.
-    
-.. warning:: 
+
+.. warning::
     For windows, the path to the JDK binaries (java, javac, etc...) must also be in the PATH environment variable.
 
 .. include:: CommonDeps.rst
@@ -129,7 +129,7 @@ Please remember that JAVA_HOME is the root folder of the JDK and not the binary 
 Toolchain
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The toolchain allows to cross-compile for Android by specifying all the necessary variables (compiler, target system, etc ...). Currently, the toolchain we use is a modified version of this `toochain <https://github.com/taka-no-me/android-cmake>`_ from the github user `taka-no-me <https://github.com/taka-no-me>`_ (fork of the OpenCV project). 
+The toolchain allows to cross-compile for Android by specifying all the necessary variables (compiler, target system, etc ...). Currently, the toolchain we use is a modified version of this `toochain <https://github.com/taka-no-me/android-cmake>`_ from the github user `taka-no-me <https://github.com/taka-no-me>`_ (fork of the OpenCV project).
 
 * Download the toolchain:
 
@@ -162,7 +162,7 @@ This editor allows to set the required each variable in a more interactive way :
 
     $ cd ~/Dev/Deps/Build/Debug
     $ ccmake ../Src/fw4spl-deps
-    
+
 Then change the following CMake variables:
 
 - ``CMAKE_INSTALL_PREFIX``: set the install location, here ``~/Dev/Deps/Install/Debug``
@@ -185,7 +185,7 @@ Press *"c"* to configure and then *"g"* to generate the makefiles.
 
     $ cd ~/Dev/Deps/Build/Debug
     $ cmake-gui ../Src/fw4spl-deps
-    
+
 Like ccmake, change the following CMake variables:
 
 - ``CMAKE_INSTALL_PREFIX``: set the install location, here ``~/Dev/Deps/Install/Debug``
@@ -198,7 +198,7 @@ Press *"c"* to configure. Now you have got two new variables to set:
 - ``CMAKE_TOOLCHAIN_FILE``: set to ~/Dev/Droid/android.toolchain.cmake
 
 Click on "configure" then "generate".
-    
+
 .. figure:: ../media/cmake-gui.png
 
 .. warning::
@@ -220,12 +220,12 @@ Click on "configure" then "generate".
     $ cd ..
     $ git clone https://github.com/fw4spl-org/fw4spl-droid.git fw4spl-droid
     $ cd fw4spl-droid
-    $ git checkout fw4spl_0.11.0
-    
+    $ git checkout master
+
 .. include:: CommonSrc.rst
-    :start-after: git checkout fw4spl_0.11.0
+    :start-after: git checkout master
     :end-before: - Change the following cmake arguments
-    
+
 - Change the following cmake arguments
     - ``CMAKE_INSTALL_PREFIX``: set the install location (~/Dev/Install/Debug or Release)
     - ``CMAKE_BUILD_TYPE``: set to Debug or Release
@@ -250,20 +250,20 @@ Press *"c"* to configure and then *"g"* to generate the makefiles.
 .. note::
 
     To generate the projects in release mode, change CMake argument ``CMAKE_BUILD_TYPE`` to ``Release`` **both** for fw4spl and fw4spl-deps
-    
+
 Then, according to the generator you chose, build FW4SPL with make :
 
 .. code:: bash
 
     # Adjust the number of cores depending of the CPU cores and the RAM available on your computer
-    $ make -j4 
-    
+    $ make -j4
+
 Or with ninja:
 
 .. code:: bash
 
     $ ninja
-    
+
 If you didn't specify anything in ``PROJECT_TO_BUILD`` you may also build specific targets, for instance:
 
 .. code:: bash
@@ -275,5 +275,5 @@ To deploy the application, connect your Android device to the USB port, be sure 
 .. code:: bash
 
     $ ninja install
-    
+
 Thanks to **Gradle** and **adb**, the application will be packaged and copied automatically to your device.

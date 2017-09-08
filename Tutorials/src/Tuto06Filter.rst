@@ -45,10 +45,10 @@ This file describes the project information and requirements :
         vtkSimpleNegato
         opImageFilter # bundle containing the action to performs a threshold
         launcher
-        appXml2
+        appXml
     )
 
-    bundleParam(appXml2 PARAM_LIST config PARAM_VALUES FilterConfig)
+    bundleParam(appXml PARAM_LIST config PARAM_VALUES FilterConfig)
 
 
 .. note::
@@ -70,7 +70,7 @@ This file is in the ``rc/`` directory of the application. It defines the service
         <requirement id="servicesReg" />
         <requirement id="visuVTKQt" />
 
-        <extension implements="::fwServices::registry::AppConfig2">
+        <extension implements="::fwServices::registry::AppConfig">
             <id>FilterConfig</id>
             <config>
 

@@ -57,10 +57,10 @@ This file describes the project information and requirements :
         visuVTKAdaptor # contains adaptors for the generic scene
         ctrlSelection # contains services to manage object selection (and associated services)
         launcher
-        appXml2
+        appXml
     )
 
-    bundleParam(appXml2 PARAM_LIST config PARAM_VALUES Tuto08GenericScene)
+    bundleParam(appXml PARAM_LIST config PARAM_VALUES Tuto08GenericScene)
 
 .. note::
 
@@ -83,7 +83,7 @@ This file is in the ``rc/`` directory of the application. It defines the service
         <requirement id="dataReg" />
         <requirement id="servicesReg" />
         <requirement id="visuVTKQt" />
-        <extension implements="::fwServices::registry::AppConfig2">
+        <extension implements="::fwServices::registry::AppConfig">
             <id>Tuto08GenericScene</id>
             <config>
                 <object uid="imageUID" type="::fwData::Image" />

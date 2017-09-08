@@ -46,10 +46,10 @@ This file describes the project information and requirements :
         vtkSimpleMesh
         opVTKMesh # provides services to generate a mesh from an image.
         launcher
-        appXml2
+        appXml
     )
 
-    bundleParam(appXml2 PARAM_LIST config PARAM_VALUES MesherConfig)
+    bundleParam(appXml PARAM_LIST config PARAM_VALUES MesherConfig)
 
 
 .. note::
@@ -71,7 +71,7 @@ This file is in the ``rc/`` directory of the application. It defines the service
         <requirement id="servicesReg" />
         <requirement id="visuVTKQt" />
 
-        <extension implements="::fwServices::registry::AppConfig2">
+        <extension implements="::fwServices::registry::AppConfig">
             <id>MesherConfig</id>
             <config>
 

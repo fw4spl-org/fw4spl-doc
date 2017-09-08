@@ -19,7 +19,7 @@ Source
 .. code:: bash
 
     $ cd fw4spl
-    $ git checkout fw4spl_0.11.0
+    $ git checkout master
 
 - Go into your Build directory (Debug or Release) : here an example if you want to compile in debug:
 
@@ -27,7 +27,7 @@ Source
 
     $ cd Dev/Build/Debug
 
-- Now you have to configure the project. You can use one of the three tools explained above. 
+- Now you have to configure the project. You can use one of the three tools explained above.
 
 Also, for FW4SPL, we recommend to use the `Ninja <https://ninja-build.org/>`_ generator. It builds faster, and it is much better for everyday use because it is fast as hell to check the files you need to compile. In other words, with Ninja the compilation starts instantly whereas Make spends a dozen of seconds to check what should be compiled before actually compiling something. So if you plan to develop with FW4SPL, go with Ninja. If you only want to give a single try, you can live with the standard "Unix Makefiles" generator.
 
@@ -61,20 +61,20 @@ Press *"c"* to configure and then *"g"* to generate the makefiles.
 .. note::
 
     To generate the projects in release mode, change CMake argument ``CMAKE_BUILD_TYPE`` to ``Release`` **both** for fw4spl and fw4spl-deps
-    
+
 Then, according to the generator you chose, build FW4SPL with make :
 
 .. code:: bash
 
     # Adjust the number of cores depending of the CPU cores and the RAM available on your computer
-    $ make -j4 
-    
+    $ make -j4
+
 Or with ninja:
 
 .. code:: bash
 
     $ ninja
-    
+
 If you didn't specify anything in ``PROJECT_TO_BUILD`` you may also build specific targets, for instance:
 
 .. code:: bash
@@ -110,15 +110,15 @@ Extensions
     $ cd Dev/Src
     $ git clone https://github.com/fw4spl-org/fw4spl-ar.git fw4spl-ar
     $ cd fw4spl-ar
-    $ git checkout fw4spl_0.11.0
+    $ git checkout master
 
 - `fw4spl-ogre <https://github.com/fw4spl-org/fw4spl-ogre.git>`_: another extension of fw4spl, contains a 3D backend using `Ogre3D <http://www.ogre3d.org/>`_.
 
     $ cd Dev/Src
     $ git clone https://github.com/fw4spl-org/fw4spl-ogre.git fw4spl-ogre
     $ cd fw4spl-ogre
-    $ git checkout fw4spl_0.11.0
-    
+    $ git checkout master
+
 
 Then you have to reconfigure your CMake project:
 

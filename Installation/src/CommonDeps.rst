@@ -4,7 +4,7 @@ FW4SPL installation
 FW4SPL uses CMake as build system.
 
 We strongly recommend to build FW4SPL by separating source files, build files and install files.
-So we propose the following folders layout : 
+So we propose the following folders layout :
 
     - Deps/Build/Debug
     - Deps/Build/Release
@@ -75,7 +75,7 @@ We need first to build the third-party librairies. We will now fetch the scripts
 .. code:: bash
 
     $ cd fw4spl-deps
-    $ git checkout fw4spl_0.11.0
+    $ git checkout master
 
 - Go into your Build directory (Debug or Release) : here an example if you want to compile in DEBUG
 
@@ -108,7 +108,7 @@ This editor allows to set the required each variable in a more interactive way :
 
     $ cd ~/Deps/Build/Debug
     $ ccmake ../../Src/fw4spl-deps
-    
+
 Then change the following CMake variables:
 
 - ``CMAKE_INSTALL_PREFIX``: set the install location, here ``~/Deps/Install/Debug``
@@ -125,12 +125,12 @@ Press *"c"* to configure and then *"g"* to generate the makefiles.
 
     $ cd ~/Deps/Build/Debug
     $ cmake-gui ../../Src/fw4spl-deps
-    
+
 Like ccmake, change the following CMake variables:
 
 - ``CMAKE_INSTALL_PREFIX``: set the install location, here ``~/Deps/Install/Debug``
 - ``CMAKE_BUILD_TYPE``: set the build type 'Debug' or 'Release'
-    
+
 Click on "configure" then "generate".
 
 .. warning::

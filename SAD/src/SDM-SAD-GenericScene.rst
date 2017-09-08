@@ -6,78 +6,19 @@ Generic Scene
 Overview
 ------------------------
 
-A generic scene in FW4SPL is a visualization feature to visualize several elements like meshes or images in a scene.
-The scene is based on VTK. The main task of the generic scene is to manage all visualization services of the different
-elements contained in the scene. The generic scene is universal and therefore applicable for diverse visualization tasks.
-
-As used in FW4SPL, the generic scene configures a VTK scene with a simple xml configuration. Hence, FW4SPL is mainly
-used for medical assignments, the generic scene can be seen as fusion of a negatoscope and the 3D model visualization.
-
-Components
-------------------------
+A generic scene in FW4SPL is a feature to visualize elements like meshes or images in a scene.
+The scene is based on VTK. The generic scene is universal and therefore applicable for diverse visualization tasks.
+It can be seen as fusion of a negatoscope and the 3D model visualization.
 
 Manager
-~~~~~~~~
+------------------------
 
-The SRender is the manager service of the VTK scene. This service works on an object of type
-`fwData::Composite` that contains all objects to display.
-
-The manager retrieves its specified container. The VTK context (vtkRender and vtkRenderWindow) is installed in the
-container of the manager.
-
-The manager listens to the object signals of the associated `fwData::Composite` object. The transferred signals inform
-the manager if objects in the `fwData::Composite` have been added, removed or changed. In response to the modifications
-within the `fwData::Composite` object the manager supervises the starting and stopping of the visualization services
-(adaptors explained below), which are specified in its configuration. Thus, an object is added or removed to the
-`fwData::Composite` object, the corresponding adaptor which works on this object is started or stopped.
-
-Adaptor
-~~~~~~~~
-
-An adaptor (inherited from ``::fwRenderVTK::IVtkAdaptorService``) is a service to manipulate or display a FW4SPL data.
-Services representing an adaptor are managed by a generic scene (SRender).
-The adaptors are the gateway between FW4SPL objects and VTK objects.
-To respect the principles of the framework, adaptors are kept as generic as possible.
-Therefore they are reusable in further applications or even adaptors.
-
-An adaptor is a specific service that needs to implement the methods ``doStart``, ``doStop``, ``doUpdate``, ``doConfigure`` and
-``doSwap`` instead of the usual ``starting``, ``updating``, ...
-
-
-.. code-block:: cpp
-
-    class MyAdaptor : public ::fwRenderVTK::IVtkAdaptorService
-    {
-
-    public:
-
-        fwCoreServiceClassDefinitionsMacro ( (MyAdaptor)(::fwRenderVTK::IVtkAdaptorService) );
-
-    protected:
-
-        /// Parse the adaptor "config" tag
-        void configuring() throw(fwTools::Failed);
-
-        /// Initialize the vtk pipeline (actor, mapper, ...)
-        void doStart();
-
-        /// Clear the vtk pipeline
-        void doStop();
-
-        /// Update the pipeline from the current object
-        void doUpdate();
-
-        /// Update the pipeline with the new object (eventually call doStop();doStart();)
-        void doSwap();
-    };
-
-
-Configuration
---------------
+The ``SRender`` is the manager service of the VTK scene. Its main task is to instantiate a VTK context (``vtkRender`` and ``vtkRenderWindow``). 
+In addition, it configures the rendering properties and describes a list of *adaptors*, which are dedicated services that render FW4SPL data into this rendering context.
 
 .. code-block:: xml
 
-    <service uid="generiSceneUID" impl="::fwRenderVTK::SRender" type="::fwRender::IRender">
+    <service uid="generiSceneUID" type="::fwRenderVTK::SRender" >
         <scene renderMode="auto|timer|none" offScreen="imageKey" width="1920" height="1080">
             <renderer id="myRenderer" layer="0" background="0.0" />
             <vtkObject id="transform" class="vtkTransform" />
@@ -131,9 +72,66 @@ adaptor
     Defines the adaptors to display in the scene.
     
     - **uid** (mandatory): the uid of the adaptor service
+    
+Adaptor
+-------------
+
+An adaptor (inherited from ``::fwRenderVTK::IAdaptor``) is a service to manipulate or display a FW4SPL data.
+Services representing an adaptor are managed by a generic scene (``::fwRenderVTK::SRender``).
+The adaptors are the gateway between FW4SPL objects and VTK objects.
+To respect the principles of the framework, adaptors are kept as generic as possible.
+Therefore they are reusable in other applications or even adaptors as sub-services.
+
+As usual, an adaptor needs to implement the methods ``configuring``, ``starting``, ``stopping``, and ``updating``.
 
 
-**Adaptors are written as other services in the xml**
+.. code-block:: cpp
+
+    class MyAdaptor : public ::fwRenderVTK::IAdaptor
+    {
+
+    public:
+
+        fwCoreServiceClassDefinitionsMacro ( (MyAdaptor)(::fwRenderVTK::IAdaptor) );
+
+    protected:
+
+        /// Parse the adaptor "config" tag
+        void configuring() override;
+
+        /// Initialize the vtk pipeline (actor, mapper, ...)
+        void starting() override;
+
+        /// Clear the vtk pipeline
+        void stopping() override;
+
+        /// Update the pipeline from the current object
+        void updating() override;
+    };
+
+To ease the configuration and the link with the ``::fwRenderVTK::SRender``, the ``configuring`` and ``starting`` 
+should contain this minimal code:
+
+.. code-block:: cpp
+
+    void SMesh::configuring()
+    {
+        this->configureParams();
+        ...
+    }
+
+    void SMesh::starting()
+    {
+        this->initialize();
+        
+        ...
+
+        // Request ::fwRenderVTK::SRender to trigger a rendering when it is ready
+        this->requestRender();
+    }
+
+
+Adaptors are configured and started like other services in the xml since **FW4SPL 12.0.0**.
    
 .. code-block:: xml
 
@@ -141,4 +139,8 @@ adaptor
         <in key="mesh" uid="meshUID" />
         <config renderer="default" picker="" uvgen="sphere" />
     </service>
+    
+    ...
+    
+    <start uid="meshAdaptor" />
 

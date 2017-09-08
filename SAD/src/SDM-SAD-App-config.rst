@@ -7,7 +7,7 @@ Dynamic program with factories
 ------------------------------
 
 As shown in the :ref:`Object-Service concept example<Object-Service_example>`, it is easy to change an application's
-behaviour by simply changing the appropriate data and services. For example changing an image visualisation application 
+behaviour by simply changing the appropriate data and services. For example changing an image visualisation application
 to a 3D model visualisation application. Unfortunately, this is limited to applications based on one service and one data,
 and thus it would be impossible to apply to applications containing multiple services and objects.
 
@@ -49,16 +49,16 @@ The following part corresponds to the configuration XML file of the previous :re
 
     <object uid="image" type ="::fwData::MyData" />
 
-    <service uid="frame" impl="DefaultFrame" type="IFrame">
+    <service uid="frame" type="DefaultFrame">
         <!-- service configuration -->
     </service>
 
-    <service uid="view" impl="MyCustomImageView" type="::fwRender::IRender">
+    <service uid="view" type="MyCustomImageView">
         <in key="object" uid="image" />
         <!-- service configuration -->
     </service>
 
-    <service uid="reader" impl="MyCustomImageReader" type="::io::IReader" >
+    <service uid="reader" type="MyCustomImageReader">
         <in key="object" uid="image" />
         <!-- service configuration -->
     </service>
@@ -73,7 +73,7 @@ The following part corresponds to the configuration XML file of the previous :re
     <start uid="view"/>
     <start uid="reader"/>
 
-    <!-- Read the image on filesystem and notify 
+    <!-- Read the image on filesystem and notify
          the view to refresh is content -->
     <update uid ="reader"/>
 
@@ -87,7 +87,7 @@ Example
 
 .. code-block:: xml
 
-    <extension implements="::fwServices::registry::AppConfig2">
+    <extension implements="::fwServices::registry::AppConfig">
         <id>myAppConfigId</id>
         <parameters>
             <param name="appName" default="my Application" />
@@ -159,24 +159,24 @@ Example
 Parameters
 ~~~~~~~~~~~
 
-id 
+id
 ****
 The id is the configuration identifier, and is thus unique to each configuration.
 
 parameters (optional)
 ***********************
 The parameters is a list of the parameters used by the configuration.
-    
-- param: 
+
+- param:
     defines the parameter
-        
-    - name: 
-        parameter name, used as ``${paramName}`` in the configuration. It will be replaced by the string 
+
+    - name:
+        parameter name, used as ``${paramName}`` in the configuration. It will be replaced by the string
         defined by the service, activity or application that launchs the configuration.
-        
-    - default (optional): 
+
+    - default (optional):
         default value for the parameter, it is used if the value is not given by the config launcher.
-            
+
 desc (optional)
 ****************
 The description of the application.
@@ -192,7 +192,7 @@ the <object> tags define the objects of the AppConfig.
     Object type (ex: ``::fwData::Image``, ``::fwData::Composite``)
 - src (optional, "new" by default)
      possible values: "new", "ref", "deferred"
-     
+
      - **"new"** : defines that the object should be created
      - **"ref"** : defines that the object already exists in the application. The uid must be the same as the first declaration of this object (with "new").
      - **"deferred"** : defines that the object will be created later (by a service).
@@ -208,26 +208,26 @@ Specific object configuration
     <object uid="matrix" type="::fwData::TransformationMatrix3D">
         <matrix>
         <![CDATA[
-            1  0  0  0
-            0  1  0  0
-            0  0  1  0
-            0  0  0  1
+            1  0  0  0
+            0  1  0  0
+            0  0  1  0
+            0  0  0  1
         ]]>
         </matrix>
     </object>
 
-- value (optional): 
+- value (optional):
     Only these objects contain this tag : ``::fwData::Boolean``, ``::fwData::Integer``, ``::fwData::Float`` and ``::fwData::String``. It allows to define the value of the object.
-    
+
 .. code-block:: xml
 
     <object type="::fwData::Integer">
         <value>42</value>
     </object>
 
-- colors (optional): 
+- colors (optional):
     Only ``::fwData::TransferFunction`` contains this tag. It allows to fill the transfer function values.
-    
+
 .. code-block:: xml
 
     <object type="::fwData::TransferFunction">
@@ -240,14 +240,14 @@ Specific object configuration
             <step color="#000000ff" value="4000" />
         </colors>
     </object>
-    
-- item (optional): 
-    It defines a sub-object of a composite or a field of any other object. 
-    
+
+- item (optional):
+    It defines a sub-object of a composite or a field of any other object.
+
     - **key:** key of the object
-        
+
     - **object:** the 'item' tag can only contain 'object' tags that represents the sub-object
-        
+
 .. code-block:: xml
 
     <item key="myImage">
@@ -259,9 +259,9 @@ Service
 The <service> tags represent a service working on the object(s). Services list the data the use and how they access them.
 Some services needs a specific configuration, it is usually described in the doxygen.
 
-- uid (optional): 
+- uid (optional):
     Unique identifier of the service. If it is not defined, it will be automatically generated.
-- impl: 
+- impl:
     Service implementation type (ex: ``::ioVTK::SImageReader``)
 - type (optional):
     Service type (ex: ``::io::IReader``)
@@ -277,19 +277,19 @@ Some services needs a specific configuration, it is usually described in the dox
         <out key="mesh" uid="meshId" />
     </service>
 
-- in: 
+- in:
     input object, it is const and cannot be modified
-- inout: 
+- inout:
     input object that can be modified
-- out: 
+- out:
     output object, it must be created by a service and registered with the 'setOutput(key, obj)' method.
     The output object must be declared as "deferred" in the \<object\> declaration.
-    
+
     - **key** : object key used to retrieve the object into the service
     - **uid** : unique identifier of the object declared in the <object> tag
     - **optional** : (optional, default "no", values: "yes" or "no") If "yes", the service can be started even if the object is not present. By definition, the output objects are always optional.
-        
-        
+
+
 .. code-block:: cpp
 
     ::fwData::Image::csptr image = this->getInput< ::fwData::Image >("image");
@@ -302,9 +302,9 @@ Connection
 - connect (optional):
      allows to connect one or more signal(s) to one or more slot(s). The signals and slots must be compatible.
 
-    - channel (optional): 
+    - channel (optional):
         name of the channel use for the connections.
-        
+
 .. code-block:: xml
 
     <connect channel="myChannel">
@@ -315,10 +315,10 @@ Connection
 
 Start-up
 ~~~~~~~~~~
-- start: 
-    defines the service to start when the AppConfig is launched. The services will be automatically stopped in the 
+- start:
+    defines the service to start when the AppConfig is launched. The services will be automatically stopped in the
     reverse order when the AppConfig is stopped.
- 
+
 .. code-block:: xml
 
     <start uid="service_uid" />
@@ -326,7 +326,7 @@ Start-up
 **The service using "deferred" object as input will be automatically started when the object is created.**
 
 
-- update: 
+- update:
     defines the service to update when the AppConfig is launched.
 
 .. code-block:: xml
