@@ -28,5 +28,5 @@ First, you need to install `Python <https://www.python.org/downloads/>`_
 
 Once sphinx is installed, launch the following command at the root of your local copy to generate html documentation:
 ```
-make html
+sphinx-build . _build\html
 ```
