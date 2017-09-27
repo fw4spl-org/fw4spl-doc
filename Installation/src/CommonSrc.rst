@@ -20,12 +20,9 @@ Source
         - `fw4spl-ext <https://github.com/fw4spl-org/fw4spl-ext.git>`_ contains experimental code.
         - `fw4spl-ogre <https://github.com/fw4spl-org/fw4spl-ogre.git>`_ contains a 3D backend using `Ogre3D <http://www.ogre3d.org/>`_.
 
-- Go into fw4spl folder and update to the latest stable version:
+- Check if all the cloned repositories are on the same `branch <https://git-scm.com/docs/git-branch>`_.
 
-.. code:: bash
-
-    $ cd fw4spl
-    $ git checkout fw4spl_0.11.0
+- Update the cloned repositories to the same `tag <https://git-scm.com/book/en/v2/Git-Basics-Tagging>`_ as dependencies.
 
 - Go into your Build directory (Debug or Release) : here an example if you want to compile in debug:
 

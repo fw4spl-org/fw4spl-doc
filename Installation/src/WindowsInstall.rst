@@ -81,11 +81,11 @@ Dependencies
 .. note:: *Optionnal*: 
     You can also clone this extension repository: `fw4spl-ext-deps <https://github.com/fw4spl-org/fw4spl-ext-deps.git>`_
 
-    You'll need it if you want to add extension to fw4spl (like fw4spw-ar).
+    You'll need it if you want to add extension to fw4spl (like fw4spwl-ar).
 
 * Check if all the cloned repositories are on the same `branch <https://git-scm.com/docs/git-branch>`_.
 
-* Update the cloned repositories to the *11.0.4* `tag <https://git-scm.com/book/en/v2/Git-Basics-Tagging>`_.
+* Update the cloned repositories to the lastest stable `tag <https://git-scm.com/book/en/v2/Git-Basics-Tagging>`_.
 
 .. warning:: Be sure to be in the 'VS2015 x64 Native Tools Command Prompt'
 
@@ -174,7 +174,7 @@ Source
 
 * Check if all the cloned repositories are on the same `branch <https://git-scm.com/docs/git-branch>`_.
 
-* Update the cloned repositories to the *11.0.4* `tag <https://git-scm.com/book/en/v2/Git-Basics-Tagging>`_.
+* Update the cloned repositories to the same `tag <https://git-scm.com/book/en/v2/Git-Basics-Tagging>`_ as dependencies.
 
 .. warning:: Be sure to be in the 'VS2015 x64 Native Tools Command Prompt'
 
