@@ -81,7 +81,7 @@ Dependencies
 .. note:: *Optionnal*: 
     You can also clone this extension repository: `fw4spl-ext-deps <https://github.com/fw4spl-org/fw4spl-ext-deps.git>`_
 
-    You'll need it if you want to add extension to fw4spl (like fw4spwl-ar).
+    You'll need it if you want to add extension to fw4spl (like fw4spl-ar).
 
 * Check if all the cloned repositories are on the same `branch <https://git-scm.com/docs/git-branch>`_.
 
