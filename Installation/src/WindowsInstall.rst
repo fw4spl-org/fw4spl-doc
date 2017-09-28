@@ -125,16 +125,16 @@ Dependencies
 
     * ``ENABLED_INFINITAM``: set to ON to build infinitam.
     * ``ENABLED_BUILD_ORB_SLAM2``: set to ON to build ORB Slam 2
-    * ``ENABLED_OGRE_DEPS``: set to ON to build ogrecode.
-    * ``ENABLED_PCL_DEPS``: set to ON to build PCLcode.
-    * ``ENABLED_REALSENSE``: set to ON to build librealsensecode.
-    * ``ENABLED_SOFA_DEPS``: set to ON to build sofacode.
+    * ``ENABLED_OGRE_DEPS``: set to ON to build ogre.
+    * ``ENABLED_PCL_DEPS``: set to ON to build PCL.
+    * ``ENABLED_REALSENSE``: set to ON to build librealsense.
+    * ``ENABLED_SOFA_DEPS``: set to ON to build sofa.
     * ``ENABLE_EXPERIMENTAL_DEPS``: set to ON to build experimentals libraries.
-    * ``ENABLE_LIBSGM``: set to ON to build libSGM dependenciescode.
-    * ``ENABLE_ODIL``: set to ON to build Odil dependenciescode.
+    * ``ENABLE_LIBSGM``: set to ON to build libSGM dependencies.
+    * ``ENABLE_ODIL``: set to ON to build Odil dependencies.
     * ``ENABLE_OPENCV_CONTRIB``: set to ON to build OpenCV contrib extra modules.
-    * ``ENABLE_OPENCV_CUDA``: set to ON to build OpenCV with CUDA supportcode.
-    * ``ENABLE_OPEN_MP``: set to ON use allow the use of OpenMP” OFF).
+    * ``ENABLE_OPENCV_CUDA``: set to ON to build OpenCV with CUDA support.
+    * ``ENABLE_OPEN_MP``: set to ON to enable OpenMP.
     * ``ENABLE_PCL_CUDA``: set to ON to build PCL with CUDA support.
 
 * Generate the code. 
