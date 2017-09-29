@@ -151,15 +151,17 @@ Extensions
     $ cd Dev/Src
     $ git clone https://github.com/fw4spl-org/fw4spl-ar.git fw4spl-ar
     $ cd fw4spl-ar
-    $ git checkout fw4spl_0.11.0
 
 - `fw4spl-ogre <https://github.com/fw4spl-org/fw4spl-ogre.git>`_: another extension of fw4spl, contains a 3D backend using `Ogre3D <http://www.ogre3d.org/>`_.
+
+.. code:: bash
 
     $ cd Dev/Src
     $ git clone https://github.com/fw4spl-org/fw4spl-ogre.git fw4spl-ogre
     $ cd fw4spl-ogre
-    $ git checkout fw4spl_0.11.0
-    
+
+.. Note::
+    Update the cloned repositories to the same `tag <https://git-scm.com/book/en/v2/Git-Basics-Tagging>`_ as dependencies.
 
 Then you have to reconfigure your CMake project:
 

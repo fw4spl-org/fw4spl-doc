@@ -22,9 +22,9 @@ Building the documentation with Windows
 In order to build this documentation, you will need to install Sphinx (especially the sphinx-build command).
 First, you need to install `Python <https://www.python.org/downloads/>`_
 
-	- Add Python to your PATH 		: SET PATH=%PATH%;C:\Python27
-	- Add Python Script 			: SET PATH=%PATH%;C:\Python27\Scripts
-	- Use pip to install Sphinx 	: pip install sphinx
+	- Add Python to your PATH	: SET PATH=%PATH%;C:\Python27
+	- Add Python Script    : SET PATH=%PATH%;C:\Python27\Scripts
+	- Use pip to install Sphinx    : pip install sphinx
 
 Once sphinx is installed, launch the following command at the root of your local copy to generate html documentation:
 ```
