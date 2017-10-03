@@ -11,6 +11,7 @@ If not already installed:
 2. Optionally you can install `SourceTree <https://www.sourcetreeapp.com/>`_ to manage your repositories
 
 3. Install `Visual Studio 2015 Community <https://www.microsoft.com/en-us/download/details.aspx?id=48146>`_
+   Be sure to launch it at least once while being logged with your user account. Doing so will ensure that Visual Studio is correctly registered, because otherwise, the build of some dependencies may fail. 
 
 4. Install `Python 2.7 <https://www.python.org/downloads/>`_
 
