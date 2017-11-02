@@ -63,7 +63,7 @@ author = 'IRCAD-IHU Dev. team'
 # built documents.
 #
 # The short X.Y version.
-version = os.getenv('CI_BUILD_REF_NAME', '11.0')
+version = os.getenv('CI_BUILD_REF_NAME', '13.0')
 # The full version, including alpha/beta/rc tags.
 release = version
 
