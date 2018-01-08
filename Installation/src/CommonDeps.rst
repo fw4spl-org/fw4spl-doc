@@ -1,129 +1,106 @@
 FW4SPL installation
 -------------------------
 
-FW4SPL uses CMake as build system.
+Good practices in FW4SPL recommend to separate source files, build and install folders. 
+So to prepare the development environment:
 
-We strongly recommend to build FW4SPL by separating source files, build files and install files.
-So we propose the following folders layout : 
+* Create a development folder (Dev)
 
-    - Deps/Build/Debug
-    - Deps/Build/Release
-    - Deps/Src
-    - Deps/Install/Debug
-    - Deps/Install/Release
-    - Dev/Build/Debug
-    - Dev/Build/Release
-    - Dev/Src
-    - Dev/Install/Debug
-    - Dev/Install/Release
+* Create a build folder (Dev/Build)
+
+    * Add a sub folder for Debug and Release.
+    
+* Create a source folder (Dev/Src)
+
+* Create an install folder (Dev/Install)
+
+    * Add a sub folder for Debug and Release.
+
+To prepare the third party environment:
+
+* Create a third party folder (BinPkgs)
+
+* Create a build folder (BinPkgs/Build)
+
+    * Add a sub folder for Debug and Release.
+    
+* Create a source folder (BinPkgs/Src)
+
+* Create an install folder (BinPkgs/Install) 
+
+    * Add a sub folder for Debug and Release.                    
+
+.. image:: ../media/Directories.png
 
 Of course you can name the folders as you wish, or choose a different layout, but keep in mind to not build inside the source directory. This is strongly discouraged by *CMake* authors.
-
-Here are the details, if you need some help to create this folders hierarchy :
-
-- Create a third party folder (Deps)
-
-.. code:: bash
-
-    $ mkdir Deps
-
-- Create into "Deps" the source, build and install directories
-
-.. code:: bash
-
-    $ mkdir Deps/Src Deps/Build Deps/Install
-
-- Create sub-folders to separate Debug and Release compilations
-
-.. code:: bash
-
-    $ mkdir Deps/Build/Debug Deps/Build/Release Deps/Install/Debug Deps/Install/Release
-
-- Then create a "Dev" directory, for FW4SPL
-
-.. code:: bash
-
-    $ mkdir Dev
-
-- Create into "Dev" the source, build and install directories
-
-.. code:: bash
-
-    $ mkdir Dev/Src Dev/Build Dev/Install
-
-- Create sub-folders to separate Debug and Release compilations
-
-.. code:: bash
-
-    $ mkdir Dev/Build/Debug Dev/Build/Release Dev/Install/Debug Dev/Install/Release
-
 
 Dependencies
 ~~~~~~~~~~~~~~
 
-We need first to build the third-party librairies. We will now fetch the scripts that allow to build them and then launch the compilation.
+First, we need to build the third-party librairies. We will now fetch the scripts that allow to build them and then launch the compilation.
 
-- Clone the repository into your source directory of Deps:
+* `Clone <http://git-scm.com/book/en/v2/Git-Basics-Getting-a-Git-Repository#Cloning-an-Existing-Repository>`_ the following repository in the (BinPkgs/Src) source folder:
+
+    * `fw4spl-deps <https://github.com/fw4spl-org/fw4spl-deps.git>`_
 
 .. code:: bash
 
-    $ cd Deps/Src
-    $ git clone https://github.com/fw4spl-org/fw4spl-deps.git fw4spl-deps
+    $ cd Dev/BinPkgs/Src
+    $ git clone https://github.com/fw4spl-org/fw4spl-deps.git
 
-.. note:: *Optionnal*: 
+.. note:: *Optional*: 
     You can also clone this extension repository: `fw4spl-ext-deps <https://github.com/fw4spl-org/fw4spl-ext-deps.git>`_
 
     You'll need it if you want to add extension to fw4spl (like fw4spl-ar).
 
-* Check if all the cloned repositories are on the same `branch <https://git-scm.com/docs/git-branch>`_.
+* Ensure that all the cloned repositories are on the same `branch <https://git-scm.com/docs/git-branch>`_.
 
 * Update the cloned repositories to the lastest stable `tag <https://git-scm.com/book/en/v2/Git-Basics-Tagging>`_.
 
-- Go into your Build directory (Debug or Release) : here an example if you want to compile in DEBUG
+* Go into your Build directory (Debug or Release) : here is an example if you want to compile in DEBUG
 
 .. code:: bash
 
-    $ cd ../../..
-    $ cd Deps/Build/Debug
+    $ cd Dev/BinPkgs/Build/Debug
 
-Project configuration
-+++++++++++++++++++++
+Dependencies configuration
+++++++++++++++++++++++++++
 
 To build the dependencies, you must configure the project with CMake into the Build folder. As any CMake based project, there are three different ways to perform that.
 
 .. note::  
-    All the generation options are specify in 'Project generation'
+    All the generation options are specified in 'Dependencies generation'
 
 1. Command-line
-"""""""""""""""""
+***************
 
 In this case, you give all the necessary variables on the command-line in one shot :
 
 .. code:: bash
 
-    $ cd ~/Deps/Build/Debug
-    $ cmake ../../Src/fw4spl-deps -DCMAKE_INSTALL_PREFIX=~/Deps/Install/Debug -DCMAKE_BUILD_TYPE=Debug 
+    $ cd Dev/BinPkgs/Build/Debug
+    $ cmake ../../Src/fw4spl-deps -DCMAKE_INSTALL_PREFIX=Dev/BinPkgs/Install/Debug -DCMAKE_BUILD_TYPE=Debug 
 
 Or, if you cloned the fw4spl-ext-deps :
 
 .. code:: bash
 
-    $ cd ~/Deps/Build/Debug
-    $ cmake ../../Src/fw4spl-deps -DCMAKE_INSTALL_PREFIX=~/Deps/Install/Debug -DCMAKE_BUILD_TYPE=Debug -DADDITIONAL_DEPS=~/Deps/Src/fw4spl-ext-deps
+    $ cd Dev/BinPkgs/Build/Debug
+    $ cmake ../../Src/fw4spl-deps -DCMAKE_INSTALL_PREFIX=Dev/BinPkgs/Install/Debug -DCMAKE_BUILD_TYPE=Debug -DADDITIONAL_DEPS=Dev/Src/fw4spl-ext-deps
 
 2. NCurses based editor
-"""""""""""""""""""""""""""""
+***********************
 
 This editor allows to set the required each variable in a more interactive way :
 
 .. code:: bash
 
-    $ cd ~/Deps/Build/Debug
+    $ cd Dev/BinPkgs/Build/Debug
     $ ccmake ../../Src/fw4spl-deps
     
 Then change the following CMake variables:
 
-- ``CMAKE_INSTALL_PREFIX``: set the install location, here ``~/Deps/Install/Debug``
+- ``CMAKE_INSTALL_PREFIX``: set the install location, here ``Deps/BinPkgs/Install/Debug``
 - ``CMAKE_BUILD_TYPE``: set the build type 'Debug' or 'Release'
 - ``ADDITIONAL_DEPS``: you can leave it empty, it is only needed if you have an extra source location like fw4spl-ext-deps or a custom repository.
 
@@ -132,11 +109,11 @@ Press *"c"* to configure.
 .. image:: ../media/osx_cmake_binpkgs.png
 
 3. Qt based gui
-""""""""""""""""""
+***************
 
 .. code:: bash
 
-    $ cd ~/Deps/Build/Debug
+    $ cd ~/Dev/BinPkgs/Build/Debug
     $ cmake-gui ../../Src/fw4spl-deps
     
 Like ccmake, change the following CMake variables:
@@ -148,24 +125,28 @@ Like ccmake, change the following CMake variables:
 Click on "configure".
 
 
-Project generation
-++++++++++++++++++
+Dependencies generation
++++++++++++++++++++++++
+
+.. warning::
+
+    ``ENABLE_PCL``, ``ENABLE_LIBSGM`` and ``ENABLE_OPENCV_CUDA`` require the `Cuda <https://developer.nvidia.com/cuda-downloads>`_ library, if you intend to use one of these, you should install it before.
 
 Set the following options (some of the options will be needed for the optional source):
 
-    * ``ENABLED_INFINITAM``: set to ON to build infinitam.
-    * ``ENABLED_BUILD_ORB_SLAM2``: set to ON to build ORB Slam 2
-    * ``ENABLED_OGRE_DEPS``: set to ON to build ogre.
-    * ``ENABLED_PCL_DEPS``: set to ON to build PCL.
-    * ``ENABLED_REALSENSE``: set to ON to build librealsense.
-    * ``ENABLED_SOFA_DEPS``: set to ON to build sofa.
-    * ``ENABLE_EXPERIMENTAL_DEPS``: set to ON to build experimentals libraries.
+    * ``ENABLE_EXPERIMENTAL_DEPS``: set to ON to build experimentals libraries (You shouldn't use it).
+    * ``ENABLE_INFINITAM``: set to ON to build infinitam.
     * ``ENABLE_LIBSGM``: set to ON to build libSGM dependencies.
     * ``ENABLE_ODIL``: set to ON to build Odil dependencies.
+    * ``ENABLE_OGRE``: set to ON to build ogre.
     * ``ENABLE_OPENCV_CONTRIB``: set to ON to build OpenCV contrib extra modules.
     * ``ENABLE_OPENCV_CUDA``: set to ON to build OpenCV with CUDA support.
     * ``ENABLE_OPEN_MP``: set to ON to enable OpenMP.
+    * ``ENABLE_BUILD_ORB_SLAM2``: set to ON to build ORB Slam 2.
+    * ``ENABLE_PCL``: set to ON to build PCL.
     * ``ENABLE_PCL_CUDA``: set to ON to build PCL with CUDA support.
+    * ``ENABLE_REALSENSE``: set to ON to build librealsense.
+    * ``ENABLE_SOFA``: set to ON to build sofa.
 
 Generate the code by pressing *"g"* on NCurses based editor or click on "generate" on gui.
 

@@ -52,5 +52,6 @@ Examples
 Ex01VideoTracking                Basic marker tracking on a video
 Ex02TimeLine                     Basic producer-consumer pattern sample with timeLine data
 Ex03Igtl                         Example of some of the *openIGTLink* features
+Ex04SimpleAR					 Example of AR using a given transform matrix to register a mesh on a camera view
 ==============================  ================================================================
 

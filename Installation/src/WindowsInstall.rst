@@ -8,7 +8,7 @@ If not already installed:
 
 1. Install `git <https://git-scm.com/>`_
 
-2. Optionally you can install `SourceTree <https://www.sourcetreeapp.com/>`_ to manage your repositories
+2. Optionally you can install `GitKraken <https://www.gitkraken.com//>`_ to manage your repositories
 
 3. Install `Visual Studio 2015 Community <https://www.microsoft.com/en-us/download/details.aspx?id=48146>`_
    Be sure to launch it at least once while being logged with your user account. Doing so will ensure that Visual Studio is correctly registered, because otherwise, the build of some dependencies may fail. 
@@ -25,12 +25,10 @@ Qt is an external library used in FW4SPL. For the successful compilation of Qt f
 
 - http://wiki.qt.io/Building_Qt_5_from_Git
 
-
-
 FW4SPL installation
--------------------------
+-------------------
 
-Good practice in FW4SPL recommend to separate source files, build and install folders. 
+Good practices in FW4SPL recommend to separate source files, build and install folders. 
 So to prepare the development environment:
 
 * Create a development folder (Dev)
@@ -61,14 +59,17 @@ To prepare the third party environment:
 
 |directories|
 
+Of course you can name the folders as you wish, or choose a different layout, but keep in mind to not build inside the source directory. This is strongly discouraged by *CMake* authors.
+
 Set the environment for a x64 version.
 To compile BinPkgs and sources, you must use the 'VS2015 x64 Native Tools Command Prompt' 
 
 .. |directories| image:: ../media/Directories.png
 
 Dependencies
-~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~
 
+First, we need first to build the third-party librairies. We will now fetch the scripts that allow to build them and then launch the compilation.
 
 * `Clone <http://git-scm.com/book/en/v2/Git-Basics-Getting-a-Git-Repository#Cloning-an-Existing-Repository>`_ the following repository in the (BinPkgs/Src) source folder:
 
@@ -76,10 +77,10 @@ Dependencies
 
 .. code:: bash
 
-    > cd Deps/BinPkgs/Src
+    > cd Dev/BinPkgs/Src
     > git clone https://github.com/fw4spl-org/fw4spl-deps.git
 
-.. note:: *Optionnal*: 
+.. note:: *Optional*: 
     You can also clone this extension repository: `fw4spl-ext-deps <https://github.com/fw4spl-org/fw4spl-ext-deps.git>`_
 
     You'll need it if you want to add extension to fw4spl (like fw4spl-ar).
@@ -91,69 +92,91 @@ Dependencies
 .. warning:: Be sure to be in the 'VS2015 x64 Native Tools Command Prompt'
 
 .. note:: 
-    Make sure that CMake executable (cmake.exe and cmake-gui.exe)location is present in your PATH environment variable. 
+    Make sure that CMake executable (cmake.exe and cmake-gui.exe) location is present in your PATH environment variable. 
     
-    - SET PATH=%PATH%;D:\Tools\CMake\bin
+    - SET PATH=%PATH%;D:\\Tools\\CMake\\bin
 
 .. note:: 
     Make sure that JOM executable (jom.exe) location is present in your PATH environment variable.
     
-    - SET PATH=%PATH%;D:\Tools\jom
+    - SET PATH=%PATH%;D:\\Tools\\jom
 
-* Call the cmake-gui by executing command : cmake-gui
+* Go into your Build directory (Debug or Release) : here is an example if you want to compile in DEBUG
+
+.. code:: bash
+
+    > cd Dev\BinPkgs\Build\Debug
+
+* Call cmake-gui by executing command : cmake-gui
 
 .. code:: bash
 
     > cmake-gui
 
-* Set the wanted Build directory (e.g. Dev\\BinPkgs\\Build\\Debug or Release)
+Dependencies configuration
+++++++++++++++++++++++++++
 
-* Set the wanted Source directory (e.g. Dev\\BinPkgs\\Src\\fw4spl-deps)
+.. note::  
+    All the generation options are specified in 'Dependencies generation'
+
+* Set the desired Build directory (e.g. Dev\\BinPkgs\\Build\\Debug or Release)
+
+* Set the desired Source directory (e.g. Dev\\BinPkgs\\Src\\fw4spl-deps)
+
+* Click on "configure".
 
 * During Configure, choose the generator 'NMake Makefiles JOM'. 
 
 * Set the following arguments:
 
-    * ``CMAKE_INSTALL_PREFIX``: set the install location (e.g. Dev\\BinPkgs\\Install\\Debug).
+    * ``CMAKE_INSTALL_PREFIX``: set the install location (e.g. Dev\\BinPkgs\\Install\\Debug or Release).
     * ``CMAKE_BUILD_TYPE``: set to Debug or Release.
     * ``ADDITIONAL_DEPS``: you can leave it empty, it is only needed if you have an extra source location like fw4spl-ext-deps or a custom repository.
 
+* Click on "configure".
+
+Dependencies generation
++++++++++++++++++++++++
+
 .. warning::
 
-    ``ENABLED_PCL_DEPS``, ``ENABLE_LIBSGM`` and ``ENABLE_OPENCV_CUDA`` need `Cuda <https://developer.nvidia.com/cuda-downloads>`_ library before. If you install Cuda during the process, you must re-open the ‘VS2015 x64 Native Tools Command Prompt’ to update your PATH.
+    ``ENABLE_PCL``, ``ENABLE_LIBSGM`` and ``ENABLE_OPENCV_CUDA`` require `Cuda <https://developer.nvidia.com/cuda-downloads>`_ library, if you intend to use one of these, you should install it befor and re-open the ‘VS2015 x64 Native Tools Command Prompt’ to update your PATH.
 
-* Set the following options (some of the options will be needed for the optional source):
+Set the following options (some of the options will be needed for the optional source):
 
-    * ``ENABLED_INFINITAM``: set to ON to build infinitam.
-    * ``ENABLED_BUILD_ORB_SLAM2``: set to ON to build ORB Slam 2
-    * ``ENABLED_OGRE_DEPS``: set to ON to build ogre.
-    * ``ENABLED_PCL_DEPS``: set to ON to build PCL.
-    * ``ENABLED_REALSENSE``: set to ON to build librealsense.
-    * ``ENABLED_SOFA_DEPS``: set to ON to build sofa.
-    * ``ENABLE_EXPERIMENTAL_DEPS``: set to ON to build experimentals libraries.
+    * ``ENABLE_EXPERIMENTAL_DEPS``: set to ON to build experimentals libraries (You shouldn't use it).
+    * ``ENABLE_INFINITAM``: set to ON to build infinitam.
     * ``ENABLE_LIBSGM``: set to ON to build libSGM dependencies.
     * ``ENABLE_ODIL``: set to ON to build Odil dependencies.
+    * ``ENABLE_OGRE``: set to ON to build ogre.
     * ``ENABLE_OPENCV_CONTRIB``: set to ON to build OpenCV contrib extra modules.
     * ``ENABLE_OPENCV_CUDA``: set to ON to build OpenCV with CUDA support.
     * ``ENABLE_OPEN_MP``: set to ON to enable OpenMP.
+    * ``ENABLE_BUILD_ORB_SLAM2``: set to ON to build ORB Slam 2.
+    * ``ENABLE_PCL``: set to ON to build PCL.
     * ``ENABLE_PCL_CUDA``: set to ON to build PCL with CUDA support.
+    * ``ENABLE_REALSENSE``: set to ON to build librealsense.
+    * ``ENABLE_SOFA``: set to ON to build sofa.
 
-* Generate the code. 
+* click on "generate". 
+
+Dependencies build
+++++++++++++++++++
 
 * Compile the FW4SPL dependencies using jom in the console: 
 
     * go to the build directory (e.g. Dev\\BinPkgs\\Build\\Debug or Release)
     * Use "jom all" to compile all the dependencies
-    * Use "jom name_of_target" to compile only the wanted target
+    * Use "jom name_of_target" to compile only the desired target
 
 .. code:: bash
 
-    > cd Dev\BinPkgs\Build\Debug
+    > cd Dev\\BinPkgs\\Build\\Debug
     > jom all
 
-* All the generate library are in the install directory (e.g. Dev\BinPkgs\Install\Debug or Release)
+* All the generated libraries are in the install directory (e.g. Dev/BinPkgs/Install/Debug or Release)
 
-.. note:: To prevent any futur problemes with source generation, check if all of the library has been compiled
+.. note:: To prevent any future problems with source generation, ensure that all the libraries have been compiled
 
 Source
 ~~~~~~
@@ -164,30 +187,36 @@ Source
 
 .. code:: bash
 
-    > cd Deps/Src
+    > cd Dev\Src
     > git clone https://github.com/fw4spl-org/fw4spl.git
 
 .. note:: 
-    - *Optionnal*: You can also clone these extension repositories:
+    - *Optional*: You can also clone these extension repositories:
         - `fw4spl-ar <https://github.com/fw4spl-org/fw4spl-ar.git>`_ contains functionalities for augmented reality (video tracking for instance).
         - `fw4spl-ext <https://github.com/fw4spl-org/fw4spl-ext.git>`_ contains experimental code.
         - `fw4spl-ogre <https://github.com/fw4spl-org/fw4spl-ogre.git>`_ contains a 3D backend using `Ogre3D <http://www.ogre3d.org/>`_.
 
-* Check if all the cloned repositories are on the same `branch <https://git-scm.com/docs/git-branch>`_.
+* Ensure that all the cloned repositories are on the same `branch <https://git-scm.com/docs/git-branch>`_.
 
-* Update the cloned repositories to the same `tag <https://git-scm.com/book/en/v2/Git-Basics-Tagging>`_ as dependencies.
+* Update the cloned repositories to the same `tag <https://git-scm.com/book/en/v2/Git-Basics-Tagging>`_.
+
+* Go into your Build directory (Debug or Release) : here is an example if you want to compile in debug:
+
+.. code:: bash
+
+    $ cd Dev/Build/Debug
 
 .. warning:: Be sure to be in the 'VS2015 x64 Native Tools Command Prompt'
 
 .. note:: 
     Make sure that CMake executable (cmake.exe and cmake-gui.exe)location is present in your PATH environment variable. 
     
-    - SET PATH=%PATH%;D:\Tools\CMake\bin
+    - SET PATH=%PATH%;D:\\Tools\\CMake\\bin
 
 .. note:: 
     Make sure that Ninja executable (ninja.exe) location is present in your PATH environment variable.
     
-    - SET PATH=%PATH%;D:\Tools\ninja
+    - SET PATH=%PATH%;D:\\Tools\\ninja
 
 * Call the cmake-gui.
 
@@ -195,11 +224,19 @@ Source
 
     > cmake-gui
 
-* Set the wanted Build directory (e.g. Dev\\Build\\Debug or Release)
+Source configuration
+++++++++++++++++++++
 
-* Set the wanted Source directory (e.g. Dev\\Src)
+* Set the desired Build directory (e.g. Dev\\Build\\Debug or Release)
+
+* Set the desired Source directory (e.g. Dev\\Src\\fw4spl)
+
+* Click on "configure".
 
 * During configure step, choose the generator 'Ninja' to compile FW4SPL sources.
+
+Source generation
++++++++++++++++++
 
 * Set the following arguments:
 
@@ -219,7 +256,11 @@ Source
     
 .. warning:: Make sure the arguments concerning the compiler (advanced arguments) point to Visual Studio.
 
-* Generate the code. 
+* click on "generate". 
+
+
+Source build
+++++++++++++
 
 * Compile the FW4SPL source using ninja in the console: 
 
@@ -233,25 +274,30 @@ Source
     > ninja
 
 Launch an application
--------------------------
+---------------------
 
 After a successful compilation the application can be launched with the fwlauncher.exe from FW4SPL. 
 Therefore the profile.xml of the application in the build folder has to be passed as argument. 
 
 .. note:: Make sure that the external libraries directory is set to the path (set PATH=<FW4SPL Binpkgs path>\\Debug\\bin;<FW4SPL Binpkgs path>\\Debug\\x64\\vc12\\bin;%PATH%).
 
-.. image:: ../media/launchApp.png
+.. code:: bash
+
+    > cd Dev\Build\Debug
+    > .\bin\fwlauncher.exe share\MyApplication\profile.xml
 
 Generate an installer
--------------------------
+---------------------
 
-After setting the applications for which you want to generate installers in the *PROJECT_TO_INSTALL* variable of CMake and generating the code, follow these two steps:
+After setting the applications for which you want to generate installers in the ``PROJECT_TO_INSTALL`` CMake variable and generating the code, follow these two steps:
+
     * Run *ninja install application_to_install* in the Build directory
     * Run *ninja package* in the Build directory
+
 The installer will be generated in the Build directory.
     
 Recommended software
--------------------------
+--------------------
 
 The following programs may be helpful for your developments:
 

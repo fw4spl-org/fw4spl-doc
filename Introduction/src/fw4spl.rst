@@ -80,9 +80,10 @@ Tuto13Scene2D                             Example using the ``scene2d``bundle
 Tuto14MeshGenerator                       Mesh features (point/cell color, normals, ...)
 Tuto15Multithread                         Example of multi-threading using fw4spl worker
 Tuto15MultithreadCtrl                     Second example of multi-threading using fw4spl worker
+Tuto16MultithreadConsole                  Second example of multi-threading using fw4spl worker without XML configuration
 TutoGui                                   Example of fw4spl gui feature (toolbar, menu, action)
-TutoPython                                Example of pyhton binding in fw4spl
 TutoTrianConverterCtrl                    Utility converting .trian meshes to .vtk
+TutoVectorField                           Example of vector field
 ========================================  ================================================================
 
 ----------
@@ -96,5 +97,8 @@ Ex01VolumeRendering              Example of volume rendering using transfer func
 Ex02ImageMix                     Example of image blend
 Ex03Registration                 Example of simple rigid image-mesh registration
 Ex04ImagesRegistration           Example of simple rigid image-image registration
+Ex05Activities                   Example of activities
+Ex06Dump                         
+Ex07WheelWidget                  Example of wheel widget 
 ==============================  ================================================================
 
