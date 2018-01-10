@@ -48,13 +48,14 @@ Finally, please note that we provide Dockerfile at this `link <https://github.co
 
 .. include:: CommonDeps.rst
 
-Compilation
-++++++++++++++
+Dependencies build
+++++++++++++++++++
 
 Now you can compile the FW4SPL dependencies with make in the console, it will automaticaly download, build and install each dependency.
 
 .. code:: bash
 
+    $ cd Dev\BinPkgs\Build\Debug
     # Adjust the number of cores depending of the CPU cores and the RAM available on your computer
     $ make -j4 
     
