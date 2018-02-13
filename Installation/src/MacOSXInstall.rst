@@ -42,7 +42,7 @@ Now you can compile the FW4SPL dependencies with make in the console, it will au
 
 .. code:: bash
 
-    $ make all
+    $ make install
     $ make install_tool
 
 .. include:: CommonSrc.rst
