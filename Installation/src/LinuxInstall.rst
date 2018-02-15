@@ -57,7 +57,7 @@ Now you can compile the FW4SPL dependencies with make in the console, it will au
 
     $ cd Dev\BinPkgs\Build\Debug
     # Adjust the number of cores depending of the CPU cores and the RAM available on your computer
-    $ make -j4 
+    $ make -j4 install
     
 .. include:: CommonSrc.rst
 

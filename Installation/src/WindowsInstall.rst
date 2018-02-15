@@ -172,7 +172,7 @@ Dependencies build
 .. code:: bash
 
     > cd Dev\\BinPkgs\\Build\\Debug
-    > jom all
+    > jom install
 
 * All the generated libraries are in the install directory (e.g. Dev/BinPkgs/Install/Debug or Release)
 
