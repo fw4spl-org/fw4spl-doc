@@ -498,7 +498,16 @@ Miscellaneous
 
 .. rule :: Keyword const
 
-    Use this keyword as much as possible for variables, parameters and functions.
+    Use this keyword as much as possible for variables, parameters and functions. When used for a variable or a parameter, it should be placed on the left of the qualified id, e.g. :
+
+    .. code-block :: cpp
+
+        const double factor = 1.0;
+        const auto* pFactor = &factor;
+        std::vector< const Object* > objectsList;
+
+        void func(const Object& param);
+        
 
 .. recommendation :: Keyword auto
 
