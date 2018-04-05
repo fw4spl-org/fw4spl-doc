@@ -37,7 +37,6 @@ This file describes the project information and requirements :
         servicesReg
         gui
         guiQt
-        io # contains the interface for reader and writer.
         ioVTK # contains the reader and writer for VTK files (image and mesh).
         visuVTK # loads VTK rendering library (fwRenderVTK).
         visuVTKQt # containsthe vtk Renderer window interactor manager using Qt.
