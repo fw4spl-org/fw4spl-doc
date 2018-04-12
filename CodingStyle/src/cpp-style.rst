@@ -34,16 +34,11 @@ Source and files
 
 .. rule :: Protection against multiple inclusions
 
-    You must protect your files against multiple inclusions. To this end, use the standard directives of the precompiler ``#ifndef`` and ``#define`` (since ``#pragma`` once is only supported by Microsoft compilers).
+    You must protect your files against multiple inclusions. To this end, use ``#pragma once`` .
     
-    Use the name of the file and the namespace hierarchy inside the define name in order to prevent any conflict with a file which has the same name but located in a different namespace. Namespaces and file name must be separated by a single underscore ``_``. The define name must be prefixed and suffixed by two underscores ``__``. Last, a comment must be placed after ``#endif`` to quote the define.
-
     .. code-block :: cpp
 
-        #ifndef __NAMESPACEA_NAMESPACEB_SAMPLE_HPP__ // Preamble protecting against
-        #define __NAMESPACEA_NAMESPACEB_SAMPLE_HPP__ // multiple inclusions.
-
-        #endif // __NAMESPACEA_NAMESPACEB_SAMPLE_HPP__
+        #pragma once
 
 .. recommendation :: Independent headers
 
