@@ -189,7 +189,7 @@ Naming conventions
 
 .. rule :: Constant
     
-    Constant variables must be written in snake_case but in capitals, and follow the previous rule.
+    Static constant variables must be written in snake_case but in capitals, and follow the previous rule.
 
     .. code-block :: cpp
 
@@ -198,11 +198,6 @@ Naming conventions
             static const int s_AAA_BBB_CCC_VALUE = 1;           
         };
 
-        void fooFunction()
-        {
-            const int AAA_BBB_VAR = 1;
-            ...
-        }
         
 .. rule :: Type
 
