@@ -72,8 +72,10 @@ CMake files for fw4spl
 
 Each project (apps, bundles, libs) have two "CMake" files:
 
-- CMakeLists.txt
-- Properties.cmake
+- CMakeLists.txt_
+- Properties.cmake_
+
+.. _CMakeLists.txt:
 
 The CMakeLists.txt file
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -83,7 +85,7 @@ But it can also contain others functions useful to link with external libraries.
 
 Here is an example of CMakeLists.txt from guiQt Bundle :
 
-.. code:: cmake
+.. code-block:: cmake
 
     fwLoadProperties()
 
@@ -115,6 +117,7 @@ and *fwLink* to link the libraries with your target.
 
 You can also add custom properties to your target with *set_target_properties*.
 
+.. _Properties.cmake:
 
 The Properties.cmake file
 ^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -123,7 +126,7 @@ Properties.cmake should contain informations like name, version, dependencies an
 
 Here is an example of Properties.cmake from fwData library:
 
-.. code:: cmake
+.. code-block:: cmake
 
  set( NAME fwData )
  set( VERSION 0.1 )
@@ -131,8 +134,24 @@ Here is an example of Properties.cmake from fwData library:
  set( DEPENDENCIES fwCamp fwCom fwCore fwMath fwMemory fwTools )
  set( REQUIREMENTS  )
 
-- NAME: Name of the target
-- VERSION: Version of the target
-- TYPE: Type of the target (can be library, bundle or executable)
-- DEPENDENCIES: Link the target with the given libraries (see `target_link_libraries <http://www.cmake.org/cmake/help/v3.0/command/target_link_libraries.html?highlight=target_link_libraries>`_ )
-- REQUIREMENTS: Ensure that the depends are build before target (see `add_dependencies <http://www.cmake.org/cmake/help/v3.0/command/add_dependencies.html?highlight=add_dependencies>`_ )
+NAME:
+    Name of the target
+
+VERSION:
+    Version of the target
+
+TYPE: 
+    Define the type of the target:
+    
+    - APP for an "Application"
+    - BUNDLE for "bundle"
+    - LIBRARY for a "library"
+    - EXECUTABLE for an executable
+    
+DEPENDENCIES:
+    Link the target with the given libraries (see `target_link_libraries <http://www.cmake.org/cmake/help/v3.0/command/target_link_libraries.html?highlight=target_link_libraries>`_ ).
+    The DEPENDENCIES should contain only "library".
+    
+REQUIREMENTS:
+    Ensure that the depends are build before target (see `add_dependencies <http://www.cmake.org/cmake/help/v3.0/command/add_dependencies.html?highlight=add_dependencies>`_ ).
+    The REQUIREMENTS should contain only "bundles".

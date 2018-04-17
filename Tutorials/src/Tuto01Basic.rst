@@ -4,7 +4,9 @@
 [*Tuto01Basic*] Create an application
 ***************************************
 
-The first tutorial represents a basic application that launches a simple empty frame. 
+The first tutorial represents a basic application that launches a simple empty frame. It introduce the concept of XML 
+application configuration and CMake generation.
+
 
 .. figure:: ../media/tuto01Basic.png
     :scale: 50
@@ -14,16 +16,23 @@ The first tutorial represents a basic application that launches a simple empty f
 Prerequisites
 --------------
 
-Before reading this tutorial, you should have seen :
- * :ref:`Object-service concept<Object-Service_example>`
- * :ref:`App-config`
- * :ref:`Component`
+You should have properly install your fw4spl environment (see :ref:`Installation`).
  
 
 Structure
 ----------
 
-An application is organized around three main files : 
+fw4spl is organized around four elements: the ``application``, the ``bundle``, the ``library`` and the ``utility``.
+
+The ``applications`` contain the configuration of the ``bundles`` (and its services) to launch. The ``bundles`` contain
+the cpp implementation of the services, it may also contain some application sub-configuration. The ``libraries`` 
+contain the data implementationn and the code shared with several bundles. The ``utilities`` are simple executable using 
+the ``libraries``.
+
+In this example, we will only explain how to create a basic application with the existing bundles. Further Tutorials 
+will explain how to use and create service and bundles.
+
+A fw4spl application is organized around three main files : 
  * CMakeLists.txt
  * Properties.cmake
  * plugin.xml
@@ -31,28 +40,30 @@ An application is organized around three main files :
 CMakeLists.txt
 ~~~~~~~~~~~~~~~
 
-The CMakeLists is parsed by CMake_. For the aplication it should contain the line : 
+The CMakeLists is parsed by CMake_. For the aplication it should contain the following lines : 
 
-.. code::
+.. code-block:: cmake
 
-    fwLoadProperties()
+    fwLoadProperties() 
+    generic_install()
 
-This line allows to load Properties.cmake file.
+- ``fwLoadProperties`` allows to load Properties.cmake file and thus to build the application
+- ``generic_install()`` allows to generate an installer for the application
 
 .. _CMake: https://cmake.org
 
 Properties.cmake
 ~~~~~~~~~~~~~~~~~
 
-This file describes the project information and requirements :
+This file describes the project information and requirements (see :ref:`Properties.cmake`) :
 
 .. code-block:: cmake
 
-    set( NAME Tuto01Basic ) # Name of the application
-    set( VERSION 0.1 ) # Version of the application
-    set( TYPE APP ) # Type APP represent "Application"
-    set( DEPENDENCIES  ) # For an application we have no dependencies (libraries to link)
-    set( REQUIREMENTS # The bundles used by this application
+    set( NAME Tuto01Basic )
+    set( VERSION 0.1 )
+    set( TYPE APP ) 
+    set( DEPENDENCIES  )
+    set( REQUIREMENTS 
         dataReg # to load the data registry
         servicesReg # to load the service registry
         gui # to load gui
@@ -76,7 +87,7 @@ This file contains the minimal requirements to launch an application with a Qt u
 plugin.xml
 ~~~~~~~~~~~
 
-This file is located in the ``rc/`` directory of the application. It defines the services to run.
+This file is located in the ``rc/`` directory of the application. It contains the application configuration.
  
 .. code-block:: xml
 
@@ -84,8 +95,7 @@ This file is located in the ``rc/`` directory of the application. It defines the
          using the version defined in the Properties.cmake) -->
     <plugin id="Tuto01Basic" version="@DASH_VERSION@">
 
-        <!-- The bundles in requirements are automatically started when this 
-             Application is launched. -->
+        <!-- The bundles in requirements are automatically started when this Application is launched. -->
         <requirement id="dataReg" />
         <requirement id="servicesReg" />
         <requirement id="guiQt" />
@@ -112,18 +122,21 @@ This file is located in the ``rc/`` directory of the application. It defines the
         </extension>
     </plugin>
 
+``<requirement>`` lists the bundles that should be loaded before to launch the application: the bundle of registry or 
+io service (see Requirements_)
 
-The ``::fwServices::registry::AppConfig`` extension defines the configuration of an application. 
+The ``::fwServices::registry::AppConfig`` extension defines the configuration of an application: 
 
 **id**: 
     The configuration identifier.
 **config**: 
     Contains the list of objects and services used by the application. 
     
-    For this tutorial, we have no object and only one service ``::gui::frame::DefaultFrame``.
+    For this tutorial, we have no object and only one service ``::gui::frame::SDefaultFrame``.
     
     There are others tags that will be described in the next tutorials.
 
+.. _Requirements: https://rawgit.com/fw4spl-org/fw4spl-dox/dev/group__requirement.html
 
 Run
 ----
@@ -132,4 +145,4 @@ To run the application, you must call the following line into the install or bui
 
 .. code::
 
-    bin/fwlauncher Bundles/Tuto01Basic_0-1/profile.xml
+    bin/fwlauncher share/Tuto01Basic_0-1/profile.xml
