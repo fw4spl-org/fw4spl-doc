@@ -111,10 +111,10 @@ In this latter case, do you need to share this object between different services
     - Otherwise, you can just encapsulated an itk::Image in fwData::Image and create an accessor on it. ( however, this choice implies that all applications that use fwData::Image need ITK library for running. )
 
 
-What is a sesh@ path ?
+What is a camp path ?
 ======================
 
-A **sesh@ path** is a path  used to browse an object (and sub-object) using the introspection (see fwDataCamp and :ref:`Serialization`). The path begins 
+A **camp path** (also called sesh@ path) is a path  used to browse an object (and sub-object) using the introspection (see fwDataCamp and :ref:`Serialization`). The path begins 
 with a '@' or a '!'.
 - ``@`` : the returned string is the fwID of the sub-object defined by the path.
 - ``!`` : the returned string is the value of the sub-object, it works only on String, Integer, Float and  Boolean object.

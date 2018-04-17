@@ -10,7 +10,7 @@ If not already installed:
 #. Install `git <https://git-scm.com/downloads>`_
 #. Install `Python 2.7 <https://www.python.org/downloads/>`_
 #. Install `CMake <http://www.cmake.org/download/>`_. The minimal version required is **3.7** if you want to compile with precompiled headers (build twice faster, enabled by default). Otherwise you can use a 3.1 version.
-#. Install `Ninja <https://github.com/ninja-build/ninja/releases>`_ : to use instead of **make**.
+#. Install `Ninja <https://ninja-build.org/>`_ : to use instead of **make**.
 
 For an easy install, you can use the `Hombrew project <http://brew.sh/>`_  to install missing packages.
 

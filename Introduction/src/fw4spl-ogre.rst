@@ -28,6 +28,8 @@ Examples
 ==============================  ================================================================
  Name                           Concept
 ==============================  ================================================================
+TutoOgreGenericScene             Simple rendering of image, mesh and texture
+ExSimpleARCVOgre                 AR using a given transform matrix to register a mesh on a camera view with Ogre rendering
 ExOgreRGBDStream
 PoCStereo
 ==============================  ================================================================
