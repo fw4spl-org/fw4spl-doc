@@ -165,24 +165,24 @@ In the header file (MyService.hpp):
         fwCoreServiceClassDefinitionsMacro((MyService)(AbstractServiceType));
 
         // Service constructor
-        MyService() throw() ;
+        MyService() noexcept() ;
 
         // Service destructor.
-        virtual ~MyService() throw() ;
+        virtual ~MyService() noexcept() ;
 
     protected:
 
         // To configure the service
-        void configuring() throw(fwTools::Failed);
+        void configuring() override;
 
         // To start the service
-        void starting() throw(::fwTools::Failed);
+        void starting() override;
 
         // To stop the service
-        void stopping() throw(::fwTools::Failed);
+        void stopping() override;
 
         // To update the service
-        void updating() throw(::fwTools::Failed);
+        void updating() override;
     };
 
 In the source file , this line must also be added to declare ``MyService`` as a service of the 

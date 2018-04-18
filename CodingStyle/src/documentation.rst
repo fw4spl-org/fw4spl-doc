@@ -1,3 +1,5 @@
+.. _Documentation:
+
 Documentation
 =============
 
