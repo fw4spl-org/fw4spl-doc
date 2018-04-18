@@ -2,12 +2,15 @@
 How to create a service ?
 *************************
 
+Implementation
+===============
 A service is a C++ class inherited from ``::fwServices::IService``. It will implement at least the following method:
 - configuring(): parse the configuration (usually from the XML)
 - starting(): initialize the service (create the gui, retrieve/initialize the data, ...)
 - updating(): process
 - stopping(): clear all (clear the gui, release the data, ...)
 
+These methods are called by the *configure()*, *start()*, *update()* and *stop()* methds of the base class ``IService``.
 
 For the example, we will create a service ``SMesher`` in a bundle ``operators``. The service will have a 
 ``::fwData::Image`` as input and a ``::fwData::Mesh`` as output. 
@@ -164,7 +167,10 @@ In the source file ``SMesher.cpp`` should be in the folder ``<src_dir>/bundles/o
     }// namespace operators
 
 
-This service is define in xml configuration like:
+Usage
+========
+
+This service is defined in xml configuration like:
 
 .. code-block:: xml
     
@@ -188,8 +194,11 @@ This service is define in xml configuration like:
      <update uid="mesher" />
 
 
+Connection
+===========
+
 It should be necessary to reimplement ``getAutoConnections()``, if you want to automatically connect the input data 
-signals to the service. In our example, we can call update method when the image is modified.
+signals to the service. In our example, we want to call ``update()`` method when the image is modified.
 
 .. code-block:: cpp
 
@@ -201,3 +210,13 @@ signals to the service. In our example, we can call update method when the image
         
         return connections;
     }
+
+To make this connection, you have to add ``autoConnect="yes"`` in the XML declaration of the service.
+
+.. code-block:: xml
+
+    <service uid="mesher" type="::operators::SMesher">
+        <in key="image" uid="image" autoConnect="yes" />
+        <out key="mesh" uid="generatedMesh" />
+        <generateNormals>true</generateNormals>
+    </service>

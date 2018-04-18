@@ -1,3 +1,5 @@
+.. _HowCMake:
+
 How to use CMake with fw4spl ?
 ===============================
 
@@ -69,7 +71,7 @@ Here is an example of Properties.cmake from fwData library:
  set( NAME fwData )
  set( VERSION 0.1 )
  set( TYPE LIBRARY )
- set( DEPENDENCIES fwCamp fwCom fwCore fwMath fwMemory fwTools )
+ set( DEPENDENCIES fwCom fwMemory fwTools )
  set( REQUIREMENTS  )
 
 NAME:

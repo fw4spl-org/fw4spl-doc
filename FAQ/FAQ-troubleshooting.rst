@@ -10,6 +10,7 @@ My data is not found
 My service is not found
 -------------------------
 #. Is the service properly written in your XML configuration? Dont't forget the ``::``?
+#. Did you call ``cmake`` after adding the new files? You need to call ``cmake .`` in your build repository to ensure that the files are built.
 #. Is the bundle of your service added in your application/activity Properties.cmake?
 #. Is the bundle properly registered?
 
