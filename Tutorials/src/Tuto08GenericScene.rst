@@ -47,7 +47,6 @@ This file describes the project information and requirements :
         servicesReg
         gui
         guiQt
-        io
         ioData # contains reader/writer for mesh (.trian) or matrix (.trf)
         ioVTK
         uiIO

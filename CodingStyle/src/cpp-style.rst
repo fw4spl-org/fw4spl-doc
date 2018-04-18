@@ -34,16 +34,11 @@ Source and files
 
 .. rule :: Protection against multiple inclusions
 
-    You must protect your files against multiple inclusions. To this end, use the standard directives of the precompiler ``#ifndef`` and ``#define`` (since ``#pragma`` once is only supported by Microsoft compilers).
+    You must protect your files against multiple inclusions. To this end, use ``#pragma once`` .
     
-    Use the name of the file and the namespace hierarchy inside the define name in order to prevent any conflict with a file which has the same name but located in a different namespace. Namespaces and file name must be separated by a single underscore ``_``. The define name must be prefixed and suffixed by two underscores ``__``. Last, a comment must be placed after ``#endif`` to quote the define.
-
     .. code-block :: cpp
 
-        #ifndef __NAMESPACEA_NAMESPACEB_SAMPLE_HPP__ // Preamble protecting against
-        #define __NAMESPACEA_NAMESPACEB_SAMPLE_HPP__ // multiple inclusions.
-
-        #endif // __NAMESPACEA_NAMESPACEB_SAMPLE_HPP__
+        #pragma once
 
 .. recommendation :: Independent headers
 
@@ -189,7 +184,7 @@ Naming conventions
 
 .. rule :: Constant
     
-    Constant variables must be written in snake_case but in capitals, and follow the previous rule.
+    Static constant variables must be written in snake_case but in capitals, and follow the previous rule.
 
     .. code-block :: cpp
 
@@ -198,11 +193,6 @@ Naming conventions
             static const int s_AAA_BBB_CCC_VALUE = 1;           
         };
 
-        void fooFunction()
-        {
-            const int AAA_BBB_VAR = 1;
-            ...
-        }
         
 .. rule :: Type
 
@@ -498,7 +488,16 @@ Miscellaneous
 
 .. rule :: Keyword const
 
-    Use this keyword as much as possible for variables, parameters and functions.
+    Use this keyword as much as possible for variables, parameters and functions. When used for a variable or a parameter, it should be placed on the left of the qualified id, e.g. :
+
+    .. code-block :: cpp
+
+        const double factor = 1.0;
+        const auto* pFactor = &factor;
+        std::vector< const Object* > objectsList;
+
+        void func(const Object& param);
+        
 
 .. recommendation :: Keyword auto
 

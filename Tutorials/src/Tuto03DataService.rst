@@ -38,7 +38,6 @@ This file describes the project information and requirements :
         servicesReg
         gui
         guiQt
-        io
         ioVTK
         uiIO # contains services to show dialogs for reader/writer selection
         visuVTKQt
