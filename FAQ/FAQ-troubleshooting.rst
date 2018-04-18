@@ -1,22 +1,22 @@
 *************************
-How to fix my bug ?
+How to fix my bug?
 *************************
 
 My data is not found
 -----------------------
-#. Is the data properly writen in your XML configuration ? Dont't forget the ``::``.
-#. Is the xxDataReg bundle in your application/activity requirement ? Where xxDataReg is the bundle that register the library containing your data (dataReg, arDataReg, ...).
+#. Is the data properly written in your XML configuration? Dont't forget the ``::``.
+#. Is the xxDataReg bundle in your application/activity requirement? Where xxDataReg is the bundle that register the library containing your data (dataReg, arDataReg, ...).
 
 My service is not found
 -------------------------
-#. Is the service properly writen in your XML configuration ? Dont't forget the ``::``.
-#. Is the bundle of your service added in your application/activity Properties.cmake ?
-#. Is the bundle properly registered ?
+#. Is the service properly written in your XML configuration? Dont't forget the ``::``?
+#. Is the bundle of your service added in your application/activity Properties.cmake?
+#. Is the bundle properly registered?
 
-The plugin.xml is properly generated ? 
+Is the plugin.xml properly generated? 
 
 For example with a bundle named ``myBundle`` with version ``0.2`` containing the service ``SMyService``: 
-It must be writen in ``<build_dir>/share/myBundle_0.2/plugin.xml``
+It must be written in ``<build_dir>/share/myBundle_0.2/plugin.xml``
 
 .. code-block:: xml
 
@@ -36,8 +36,8 @@ It must be writen in ``<build_dir>/share/myBundle_0.2/plugin.xml``
         </extension>
     </plugin>
     
-The requirement should be different according to your bundle requirement (in the Properties.cmake). 
-There should be all the service contained in your bundle with their objects (if they have any).
+The requirement should be different according to your bundle requirement (in the Properties.cmake).
+There should be an ``extension`` tag for each service in your bundle. All the objects of a service should be declared in the ``object`` tag (if they have any).
 
     
 The Plugin.cpp contains the following line with the proper bundle name (Dont't forget the ``::``)
@@ -62,10 +62,10 @@ SMyService.cpp, it should be generated in ``<build_dir>/myBundle/registerService
     fwServicesRegisterMacro( ::fwServices::IOperator, ::myBundle::SMyService )
     fwServicesRegisterObjectMacro( ::myBundle::SMyService, ::fwData::Image )
     
-There should be all the service contained in your bundle with their objects (if they have any).
+All the services of the bundle and their objects should be present in this file.
 
 My activity is not found
 -------------------------
 
-#. Is the activity bundle in your application Properties.cmake ?
-#. Is the ``activities`` bundle in the requirement of your application plugin.xml ?
+#. Is the activity bundle in your application Properties.cmake?
+#. Is the ``activities`` bundle in the requirement of your application plugin.xml?

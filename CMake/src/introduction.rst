@@ -144,7 +144,7 @@ TYPE:
     Define the type of the target:
     
     - APP for an "Application"
-    - BUNDLE for "bundle"
+    - BUNDLE for a "bundle"
     - LIBRARY for a "library"
     - EXECUTABLE for an executable
     
@@ -153,5 +153,5 @@ DEPENDENCIES:
     The DEPENDENCIES should contain only "library".
     
 REQUIREMENTS:
-    Ensure that the depends are build before target (see `add_dependencies <http://www.cmake.org/cmake/help/v3.0/command/add_dependencies.html?highlight=add_dependencies>`_ ).
+    Ensure that the dependencies are built before the targets (see `add_dependencies <http://www.cmake.org/cmake/help/v3.0/command/add_dependencies.html?highlight=add_dependencies>`_ ).
     The REQUIREMENTS should contain only "bundles".

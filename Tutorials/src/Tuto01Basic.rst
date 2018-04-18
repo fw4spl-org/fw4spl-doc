@@ -4,7 +4,7 @@
 [*Tuto01Basic*] Create an application
 ***************************************
 
-The first tutorial represents a basic application that launches a simple empty frame. It introduce the concept of XML 
+The first tutorial represents a basic application that launches a simple empty frame. It introduces the concept of XML 
 application configuration and CMake generation.
 
 
@@ -16,7 +16,7 @@ application configuration and CMake generation.
 Prerequisites
 --------------
 
-You should have properly install your fw4spl environment (see :ref:`Installation`).
+You should have properly installed your fw4spl environment (see :ref:`Installation`).
  
 
 Structure
@@ -26,11 +26,11 @@ fw4spl is organized around four elements: the ``application``, the ``bundle``, t
 
 The ``applications`` contain the configuration of the ``bundles`` (and its services) to launch. The ``bundles`` contain
 the cpp implementation of the services, it may also contain some application sub-configuration. The ``libraries`` 
-contain the data implementationn and the code shared with several bundles. The ``utilities`` are simple executable using 
+contain the data implementation and the code shared with several bundles. The ``utilities`` are simple executables using 
 the ``libraries``.
 
 In this example, we will only explain how to create a basic application with the existing bundles. Further Tutorials 
-will explain how to use and create service and bundles.
+will explain how to use and create services and bundles.
 
 A fw4spl application is organized around three main files : 
  * CMakeLists.txt
@@ -40,7 +40,7 @@ A fw4spl application is organized around three main files :
 CMakeLists.txt
 ~~~~~~~~~~~~~~~
 
-The CMakeLists is parsed by CMake_. For the aplication it should contain the following lines : 
+The CMakeLists is parsed by CMake_. For the application, it should contain the following lines : 
 
 .. code-block:: cmake
 
@@ -122,7 +122,7 @@ This file is located in the ``rc/`` directory of the application. It contains th
         </extension>
     </plugin>
 
-``<requirement>`` lists the bundles that should be loaded before to launch the application: the bundle of registry or 
+``<requirement>`` lists the bundles that should be loaded before launching the application: the bundle of registry or 
 io service (see Requirements_)
 
 The ``::fwServices::registry::AppConfig`` extension defines the configuration of an application: 
