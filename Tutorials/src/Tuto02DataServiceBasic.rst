@@ -101,7 +101,7 @@ This file is in the ``rc/`` directory of the application. It defines the service
                     path from the repository in which you launch the application.
                 -->
                 <service uid="myReaderPathFile" type="::ioVTK::SImageReader">
-                    <inout key="image" uid="imageData" />
+                    <inout key="data" uid="imageData" />
                     <file>../../data/patient1.vtk</file>
                 </service>
 
@@ -136,9 +136,9 @@ This file is in the ``rc/`` directory of the application. It defines the service
     </plugin>
 
     
-For this tutorial, we have only one object ``::fwData::Image`` and three service:
- * ``::gui::frame::DefaultFrame``: frame service
- * ``::ioVTK::ImageReaderService``: reader for 3D VTK image
+For this tutorial, we have only one object ``::fwData::Image`` and three services:
+ * ``::gui::frame::SDefaultFrame``: frame service
+ * ``::ioVTK::SImageReader``: reader for 3D VTK image
  * ``::vtkSimpleNegato::SRenderer``: render for 3D image
  
 The order of the elements in the configuration is important: 
@@ -159,4 +159,4 @@ To run the application, you must call the following line in the install or build
 
 .. code::
 
-    bin/fwlauncher Bundles/Tuto02DataServiceBasic_0-1/profile.xml
+    bin/fwlauncher share/Tuto02DataServiceBasic_0-1/profile.xml

@@ -9,5 +9,6 @@ Frequently Asked Questions (FAQ)
     FAQ_CMake.rst
     FAQ-ServiceCreation.rst
     FAQ-BundleCreation.rst
+    FAQ-ApplicationCreation.rst
     FAQ-DepsCreation.rst
     FAQ-troubleshooting.rst

@@ -81,8 +81,10 @@ This file contains the minimal requirements to launch an application with a Qt u
 .. note::
 
     The Properties.cmake file of the application is used by CMake_ to compile the application but also to generate the
-    ``profile.xml``: the file used to launch the application. 
+    ``profile.xml``: the file used to launch the application (see :ref:`profile.xml`). 
     
+The ``bundleParam`` line defines the parameters to set for a bundle, here it defines the configuration to launch by the 
+appXML bundle, i.e. the application configuration.
 
 plugin.xml
 ~~~~~~~~~~~

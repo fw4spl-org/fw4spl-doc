@@ -8,11 +8,11 @@ FW4SPL documentation
    Introduction/index
    Installation/index
    Tutorials/index
-   SAD/index
+   FAQ/index
    Testing/index
    CodingStyle/index
    Doxygen <http://fw4spl-org.github.io/fw4spl-dox/>
-   FAQ/index
+   SAD/index
    Contributors/index
 
 

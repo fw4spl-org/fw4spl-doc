@@ -95,3 +95,37 @@ DEPENDENCIES:
 REQUIREMENTS:
     Ensure that the dependencies are built before the targets (see `add_dependencies <http://www.cmake.org/cmake/help/v3.0/command/add_dependencies.html?highlight=add_dependencies>`_ ).
     The REQUIREMENTS should contain only "bundles".
+    
+In some Properties.cmake (mostly in applications), you can see the line:
+
+.. code-block:: cmake 
+
+    bundleParam(appXml PARAM_LIST config PARAM_VALUES tutoBasicConfig)
+
+This cmake macro allows to give parameters to a bundle. The parameters are defined like:
+
+.. code-block:: cmake 
+
+    bundleParam(<bundle> 
+                PARAM_LIST <param1_name> <param2_name> <param3_name> 
+                PARAM_VALUES <param1_value> <param2_value> <param3_value> 
+                )
+
+ These parameters can be retrieved in the ``Plugin.cpp`` like:
+
+.. code-block:: cpp
+
+    void Plugin::start()
+    {
+        if( this->getBundle()->hasParameter("param1_name") )
+        {
+            const std::string param1Value = this->getBundle()->getParameterValue("param1_name");
+        }
+        if( this->getBundle()->hasParameter("param2_name") )
+        {
+            const std::string param2Value = this->getBundle()->getParameterValue("param2_name");
+        }
+        // ...
+    }
+    
+For the application, this macro defines the main configuration to launch when the application is started.

@@ -19,6 +19,7 @@ In fw4spl, there is two type of bundle:
 
 It is possible to contain at the same time configuration and services (or C++ code), but it is better to separate the two.
 
+.. _configBundle:
 
 Configuration bundles
 ----------------------
@@ -87,6 +88,8 @@ Then the extensions are defined. There is different type of extensions, the most
 
     To separate the configuration in several files, you can use ``<xi:include href="..." />``
 
+.. _serviceBundle:
+
 Service bundles
 ----------------
 
@@ -116,11 +119,17 @@ The ``Plugin.hpp`` in the *include* folder should be like:
         /// PLugin destructor
         ~Plugin() noexcept;
 
-        /// This method is used by runtime to initialize the bundle.
+        /// This method is used by runtime to start the bundle.
         void start();
 
         /// This method is used by runtime to stop the bundle.
         void stop() noexcept;
+        
+        /// This method is used by runtime to initialize the bundle. 
+        void initialize();
+
+        /// This method is used by runtime to uninitialize the bundle. 
+        void uninitialize() noexcept;
 
     };
 
@@ -159,6 +168,18 @@ The ``Plugin.cpp`` in the *src* folder should be like:
     void Plugin::stop() noexcept
     {
     }
+    
+    //-----------------------------------------------------------------------------
+
+    void Plugin::initialize()
+    {
+    }
+
+    //-----------------------------------------------------------------------------
+
+    void Plugin::uninitialize() noexcept
+    {
+    }
 
     //-----------------------------------------------------------------------------
 
@@ -170,3 +191,6 @@ The ``Plugin.cpp`` in the *src* folder should be like:
     The ``registrar("::myBundle::Plugin");`` is the most important line, it allows to register the bundle to be used in XML based application.
     
     **Don't forget to register the bundle with the '::'.**
+    
+The methods ``start()`` and ``stop`` must be implemented but are usually empty. They are called when the application is 
+started and stopped. The ``initialize()`` method is executed after the *start* of all the bundle and ``uninitialize()`` before the *stop*.
