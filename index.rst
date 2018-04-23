@@ -13,7 +13,6 @@ FW4SPL documentation
    CodingStyle/index
    Doxygen <http://fw4spl-org.github.io/fw4spl-dox/>
    FAQ/index
-   CMake/index
    Contributors/index
 
 

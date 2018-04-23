@@ -1,3 +1,5 @@
+.. _serviceCreation:
+
 *************************
 How to create a service ?
 *************************
@@ -87,7 +89,8 @@ The header file ``SMesher.hpp`` should be in the folder ``<src_dir>/bundles/oper
 The file ``operators/config.hpp`` is automatically generated, it provides ``OPERATORS_CLASS_API`` and ``OPERATORS_API``
 that allow to expose the methods.
 
-The doxygen section of the service is very important (see :ref:`Documentation`), it is parse by cmake to register properly the service.
+**The doxygen section of the service is very important** (see :ref:`Documentation` Rule: 43), it is parsed by cmake to register 
+properly the service.
 
 In the source file ``SMesher.cpp`` should be in the folder ``<src_dir>/bundles/operators/src/operators``:
 
@@ -220,3 +223,8 @@ To make this connection, you have to add ``autoConnect="yes"`` in the XML declar
         <out key="mesh" uid="generatedMesh" />
         <generateNormals>true</generateNormals>
     </service>
+    
+
+.. tip::
+
+    If you have some problem to use your service in your application, see :ref:`serviceNotFound`.

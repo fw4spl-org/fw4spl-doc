@@ -5,7 +5,7 @@ CMakeLists coding
 
     Standard CMake functions and macros should be written in lower case. Each word is generally separated by an underscore (this is a rule of CMake anyway).
 
-    .. code-block :: cmake
+    .. code-block:: cmake
 
         add_subdirectory("library/")
         include_directories(SYSTEM "/usr/local")
@@ -14,7 +14,7 @@ CMakeLists coding
 
     Custom macros should be written in camel case.
 
-    .. code-block :: cmake
+    .. code-block:: cmake
 
         fwLoadProperties()
         fwLink("boost")
@@ -23,7 +23,7 @@ CMakeLists coding
 
     Variables should be written in upper case letters separated if needed by underscores.
 
-    .. code-block :: cmake
+    .. code-block:: cmake
 
         set(VARIABLE_NAME "")
 
@@ -31,7 +31,7 @@ CMakeLists coding
 
     In the past, CMake enforced to specify the label or expression in block ending, for instance :
 
-    .. code-block :: cmake
+    .. code-block:: cmake
 
         function(name arg1 arg2)
             ...
@@ -45,7 +45,7 @@ CMakeLists coding
 
     This is no longer needed in latest CMake versions, and we recommend to use this possibility for the sake of simplicity.
 
-    .. code-block :: cmake
+    .. code-block:: cmake
 
         function(name arg1 arg2)
             ...
