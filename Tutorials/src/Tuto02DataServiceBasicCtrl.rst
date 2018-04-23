@@ -23,7 +23,8 @@ Before to read this tutorial, you should have seen :
 Structure
 ----------
 
-A C++ application does not have a plugin.xml, the declaration of the services to used is in the ``Plugin`` class.
+A C++ application does not have a configuration in the plugin.xml, the declaration of the services to used is in the 
+``Plugin`` class.
 
 Plugin
 ~~~~~~~~
@@ -236,4 +237,4 @@ To run the application, you must call the following line in the install or build
 
 .. code::
 
-    bin/fwlauncher share/Tuto02DataServiceBasicCtrl_0-1/profile.xml
+    bin/fwlauncher share/Tuto02DataServiceBasicCtrl-0.1/profile.xml

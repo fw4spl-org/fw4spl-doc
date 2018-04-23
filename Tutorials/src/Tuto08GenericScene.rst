@@ -78,7 +78,7 @@ This file is in the ``rc/`` directory of the application. It defines the service
         This tutorial shows a VTK scene containing a 3D image and a textured mesh.
         To use this application, you should open a 3D image, a mesh and/or a 2D texture image.
     -->
-    <plugin id="Tuto08GenericScene" version="@DASH_VERSION@">
+    <plugin id="Tuto08GenericScene" version="@PROJECT_VERSION@">
         <requirement id="dataReg" />
         <requirement id="servicesReg" />
         <requirement id="visuVTKQt" />
@@ -92,7 +92,7 @@ This file is in the ``rc/`` directory of the application. It defines the service
                     <gui>
                         <frame>
                             <name>Tuto08GenericScene</name>
-                            <icon>@BUNDLE_PREFIX@/Tuto08GenericScene_0-1/tuto.ico</icon>
+                            <icon>Tuto08GenericScene-0.1/tuto.ico</icon>
                         </frame>
                         <menuBar/>
                     </gui>
@@ -238,7 +238,7 @@ This file is in the ``rc/`` directory of the application. It defines the service
                     ************************************************* -->
                 <!-- Image displayed in the scene -->
                 <service uid="imageReader" type="::uiIO::editor::SIOSelector">
-                    <inout key="target" uid="imageUID" />
+                    <inout key="data" uid="imageUID" />
                     <type mode="reader" />
                 </service>
 
@@ -266,8 +266,8 @@ This file is in the ``rc/`` directory of the application. It defines the service
                 <service uid="showScanEditor" type="::guiQt::editor::SSignalButton">
                     <config>
                         <checkable>true</checkable>
-                        <icon>@BUNDLE_PREFIX@/media_0-1/icons/sliceHide.png</icon>
-                        <icon2>@BUNDLE_PREFIX@/media_0-1/icons/sliceShow.png</icon2>
+                        <icon>media-0.1/icons/sliceHide.png</icon>
+                        <icon2>media-0.1/icons/sliceShow.png</icon2>
                         <iconWidth>40</iconWidth>
                         <iconHeight>16</iconHeight>
                         <checked>true</checked>
@@ -282,13 +282,13 @@ This file is in the ``rc/`` directory of the application. It defines the service
 
                 <!-- texture reader -->
                 <service uid="textureReader" type="::uiIO::editor::SIOSelector">
-                    <inout key="target" uid="textureUID" />
+                    <inout key="data" uid="textureUID" />
                     <type mode="reader" />
                 </service>
 
                 <!-- Mesh reader -->
                 <service uid="meshReader" type="::uiIO::editor::SIOSelector">
-                    <inout key="target" uid="meshUID" />
+                    <inout key="data" uid="meshUID" />
                     <type mode="reader" />
                 </service>
 
@@ -358,7 +358,7 @@ This file is in the ``rc/`` directory of the application. It defines the service
                 -->
                 <connect>
                     <signal>meshAdaptor/textureApplied</signal>
-                    <slot>textureAdaptor/applySTexture</slot>
+                    <slot>textureAdaptor/applyTexture</slot>
                 </connect>
 
                 <start uid="ihm" />
@@ -373,7 +373,6 @@ This file is in the ``rc/`` directory of the application. It defines the service
         </extension>
     </plugin>
     
-
 
 GUI
 ------
@@ -520,4 +519,4 @@ To run the application, you must call the following line into the install or bui
 
 .. code::
 
-    bin/fwlauncher Bundles/Tuto08GenericScene_0-1/profile.xml
+    bin/fwlauncher share/Tuto08GenericScene-0.1/profile.xml

@@ -63,9 +63,11 @@ This file is in the ``rc/`` directory of the application. It defines the service
 
 .. code-block:: xml
 
-    <plugin id="Tuto04SignalSlot" version="@DASH_VERSION@">
+    <plugin id="Tuto04SignalSlot" version="@PROJECT_VERSION@">
 
+        <requirement id="dataReg" />
         <requirement id="servicesReg" />
+        <requirement id="visuVTKQt" />
 
         <extension implements="::fwServices::registry::AppConfig">
             <id>tutoSignalSlotConfig</id>
@@ -78,7 +80,7 @@ This file is in the ``rc/`` directory of the application. It defines the service
                     <gui>
                         <frame>
                             <name>tutoSignalSlot</name>
-                            <icon>@BUNDLE_PREFIX@/Tuto04SignalSlot_0-1/tuto.ico</icon>
+                            <icon>Tuto04SignalSlot-0.1/tuto.ico</icon>
                             <minSize width="720" height="600" />
                         </frame>
                         <menuBar />
@@ -145,7 +147,7 @@ This file is in the ``rc/`` directory of the application. It defines the service
                 <service uid="actionQuit" type="::gui::action::SQuit" />
 
                 <service uid="myReaderPathFile" type="::uiIO::editor::SIOSelector">
-                    <inout key="target" uid="mesh" />
+                    <inout key="data" uid="mesh" />
                     <type mode="reader" /><!-- mode is optional (by default it is "reader") -->
                 </service>
 
@@ -220,12 +222,12 @@ You can also group the signals and all the slots together.
 Signal and slot creation
 =========================
 
-*RendererService.hpp*
+*SRenderer.hpp*
 ---------------------
 
 .. code-block:: cpp
 
-    class VTKSIMPLEMESH_CLASS_API RendererService : public fwRender::IRender
+    class VTKSIMPLEMESH_CLASS_API SRenderer : public fwRender::IRender
     {
     public:
         // .....
@@ -239,6 +241,18 @@ Signal and slot creation
         /// This method is call when the VTK camera position is modified. 
         /// It notifies the new camera position.
         void notifyCamPositionUpdated();
+    
+    protected:
+        // ...
+        
+        /**
+         * @brief Returns proposals to connect service slots to associated object signals,
+         * this method is used for obj/srv auto connection
+         *
+         * Connect mesh::s_MODIFIED_SIG to this::s_INIT_PIPELINE_SLOT
+         * Connect mesh::s_VERTEX_MODIFIED_SIG to this::s_UPDATE_PIPELINE_SLOT
+         */
+        VTKSIMPLEMESH_API virtual KeyConnectionsMap getAutoConnections() const override;
         
     private:
         
@@ -254,23 +268,23 @@ Signal and slot creation
         CamUpdatedSignalType::sptr m_sigCamUpdated;
     }
 
-*RendererService.cpp*
+*SRenderer.cpp*
 ---------------------
 
 .. code-block:: cpp
 
-    RendererService::RendererService() throw()
+    SRenderer::RendererService() noexcept
     {
         m_sigCamUpdated = newSignal<CamUpdatedSignalType>("camUpdated");
 
-        newSlot("updateCamPosition", &RendererService::updateCamPosition, this);
+        newSlot("updateCamPosition", &SRenderer::updateCamPosition, this);
     }
     
     //-----------------------------------------------------------------------------
 
-    void RendererService::updateCamPosition(SharedArray positionValue,
-                                            SharedArray focalValue,
-                                            SharedArray viewUpValue)
+    void SRenderer::updateCamPosition(SharedArray positionValue,
+                                      SharedArray focalValue,
+                                      SharedArray viewUpValue)
     {
         vtkCamera* camera = m_render->GetActiveCamera();
 
@@ -287,7 +301,7 @@ Signal and slot creation
 
     //-----------------------------------------------------------------------------
 
-    void RendererService::notifyCamPositionUpdated()
+    void SRenderer::notifyCamPositionUpdated()
     {
         vtkCamera* camera = m_render->GetActiveCamera();
 
@@ -313,6 +327,16 @@ Signal and slot creation
     
     //-----------------------------------------------------------------------------
 
+    ::fwServices::IService::KeyConnectionsMap SRenderer::getAutoConnections() const
+    {
+        KeyConnectionsMap connections;
+        connections.push( s_MESH_KEY, ::fwData::Object::s_MODIFIED_SIG, s_INIT_PIPELINE_SLOT );
+        connections.push( s_MESH_KEY, ::fwData::Mesh::s_VERTEX_MODIFIED_SIG, s_UPDATE_PIPELINE_SLOT );
+        return connections;
+    }
+    
+    //-----------------------------------------------------------------------------
+
     // ......
     
 
@@ -323,4 +347,4 @@ To run the application, you must call the following line into the install or bui
 
 .. code::
 
-    bin/fwlauncher Bundles/Tuto04SignalSlot_0-1/profile.xml
+    bin/fwlauncher share/Tuto04SignalSlot-0.1/profile.xml

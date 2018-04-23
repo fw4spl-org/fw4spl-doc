@@ -95,12 +95,12 @@ This file is located in the ``rc/`` directory of the application. It contains th
 
     <!-- Application name and version (the version is automatically replaced by CMake
          using the version defined in the Properties.cmake) -->
-    <plugin id="Tuto01Basic" version="@DASH_VERSION@">
+    <plugin id="Tuto01Basic" version="@PROJECT_VERSION@">
 
-        <!-- The bundles in requirements are automatically started when this Application is launched. -->
+        <!-- The bundles in requirements are automatically started when this 
+             Application is launched. -->
         <requirement id="dataReg" />
         <requirement id="servicesReg" />
-        <requirement id="guiQt" />
 
         <!-- Defines the App-config -->
         <extension implements="::fwServices::registry::AppConfig">
@@ -112,7 +112,7 @@ This file is located in the ``rc/`` directory of the application. It contains th
                     <gui>
                         <frame>
                             <name>tutoBasicApplicationName</name>
-                            <icon>@BUNDLE_PREFIX@/Tuto01Basic_0-1/tuto.ico</icon>
+                            <icon>Tuto01Basic-0.1/tuto.ico</icon>
                             <minSize width="800" height="600" />
                         </frame>
                     </gui>
@@ -147,4 +147,4 @@ To run the application, you must call the following line into the install or bui
 
 .. code::
 
-    bin/fwlauncher share/Tuto01Basic_0-1/profile.xml
+    bin/fwlauncher share/Tuto01Basic-0.1/profile.xml

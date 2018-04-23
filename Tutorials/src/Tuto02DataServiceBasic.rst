@@ -60,7 +60,7 @@ This file is in the ``rc/`` directory of the application. It defines the service
  
 .. code-block:: xml
 
-    <plugin id="Tuto02DataServiceBasic" version="@DASH_VERSION@">
+    <plugin id="Tuto02DataServiceBasic" version="@PROJECT_VERSION@">
 
         <!-- The bundles in requirements are automatically started when this 
              Application is launched. -->
@@ -85,7 +85,7 @@ This file is in the ``rc/`` directory of the application. It defines the service
                     <gui>
                         <frame>
                             <name>tutoDataServiceBasic</name>
-                            <icon>@BUNDLE_PREFIX@/Tuto02DataServiceBasic_0-1/tuto.ico</icon>
+                            <icon>Tuto02DataServiceBasic-0.1/tuto.ico</icon>
                             <minSize width="800" height="600" />
                         </frame>
                     </gui>
@@ -134,8 +134,9 @@ This file is in the ``rc/`` directory of the application. It defines the service
         </extension>
 
     </plugin>
-
     
+
+
 For this tutorial, we have only one object ``::fwData::Image`` and three services:
  * ``::gui::frame::SDefaultFrame``: frame service
  * ``::ioVTK::SImageReader``: reader for 3D VTK image
@@ -159,4 +160,4 @@ To run the application, you must call the following line in the install or build
 
 .. code::
 
-    bin/fwlauncher share/Tuto02DataServiceBasic_0-1/profile.xml
+    bin/fwlauncher share/Tuto02DataServiceBasic-0.1/profile.xml

@@ -63,7 +63,7 @@ This file is in the ``rc/`` directory of the application. It defines the service
 
 .. code-block:: xml
 
-    <plugin id="Tuto06Filter" version="@DASH_VERSION@">
+    <plugin id="Tuto06Filter" version="@PROJECT_VERSION@">
 
         <requirement id="dataReg" />
         <requirement id="servicesReg" />
@@ -81,7 +81,7 @@ This file is in the ``rc/`` directory of the application. It defines the service
                     <gui>
                         <frame>
                             <name>Filter</name>
-                            <icon>@BUNDLE_PREFIX@/Tuto06Filter_0-1/tuto.ico</icon>
+                            <icon>Tuto06Filter-0.1/tuto.ico</icon>
                             <minSize width="720" height="600" />
                         </frame>
                         <menuBar />
@@ -172,7 +172,7 @@ This file is in the ``rc/`` directory of the application. It defines the service
                 </service>
 
                 <service uid="readerPathImageFile" type="::uiIO::editor::SIOSelector">
-                    <inout key="target" uid="myImage1" />
+                    <inout key="data" uid="myImage1" />
                     <type mode="reader" />
                 </service>
 
@@ -189,7 +189,6 @@ This file is in the ``rc/`` directory of the application. It defines the service
             </config>
         </extension>
     </plugin>
-
 
 
 Filter service
@@ -307,4 +306,4 @@ To run the application, you must call the following line into the install or bui
 
 .. code::
 
-    bin/fwlauncher Bundles/Tuto06Filter_0-1/profile.xml
+    bin/fwlauncher share/Tuto06Filter-0.1/profile.xml
