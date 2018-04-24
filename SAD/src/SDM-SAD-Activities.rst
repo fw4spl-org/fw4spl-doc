@@ -5,17 +5,28 @@ An activity is defined by the extension ``::fwActivities::registry::Activities``
 :ref:`AppConfig<App-Config>` with the selected data, it will create a new data ``::fwMedData::ActivitySeries`` that 
 inherits from a ``fwMedData::Series``.
 
-The service ``::activities::action::SActivityLauncher`` allows to launch an activity. Its role is to create 
-the specific Activity associated with the selected data.
+There is two way to launch an activity:
+- from a selection of Series contained in a Vector
+- from a activity wizard
 
-This action should be followed by the service ``guiQt::editor::DynamicView`` : this service listens the action 
+**from a selection of Series contained in a Vector**:
+
+The service ``::activities::action::SActivityLauncher`` allows to launch an activity from a selection of Series. Its 
+role is to create the specific Activity associated with the selected data. The Series are contained in a 
+``::fwData::Vector`` that can be filled by the user on clicking no the Series selection widget (``::uiMedDataQt::editor::SSelector``)
+
+This action should be followed by the service ``guiQt::editor::SDynamicView`` : this service listens the action 
 signals and launchs the activity in a new tab. 
 
-.. figure:: ../media/activity.svg
+**from the activity wizard**:
 
-* **::activities::action::SActivityLauncher** uses the selected data to generate the activity.
-* **::guiQt::editor::DynamicView**  displays the activity in the application.
-* **::fwData::Vector** contains the set of selected data .
+The editor ``::activities::editor::SCreateActivity`` and the action ``::activities::action::SCreateActivity`` propose
+the list of the available activity for the application, and when the user select one of them it sends a signal with the activity idendifier.
+The activity wizard (``::uiMedDataQt::editor::SActivityWizard``) listen this signal and display a widget to set the required data.
+The ``::fwMedData::ActivitySeries`` is created and can be launched by the ``guiQt::editor::SDynamicView``.
+
+The process to create the activity with the different services works with signals and slots.
+
 
 Activity series
 ----------------
@@ -159,6 +170,8 @@ requirement:
 
 builder
 ********
+
+**The builder is only used when the activity series is created from a selection of Series**.
 Implementation of the activity builder. The default builder is ``::fwActivities::builder::ActivitySeries`` :
 it creates the ``::fwMedData::ActivitySeries`` and adds the required data in its composite with de defined key.
 
@@ -205,6 +218,7 @@ There is three types of validator :
 Pre-build validator
 ********************
 
+**This type of validator is only used when the activity series is created from a selection of Series**.
 This type of validators checks if the current selection of data is correct to build the activity. It inherits of
 ::fwActivities::IValidator and must implement the methods:
 
@@ -259,9 +273,8 @@ This action allows to launch an activity according to the selected data.
 SCreateActivity
 *****************
 
-There is an action or an editor (```::activities::action::SCreateActivity`` or 
-``::activities::editor::SCreateActivity``). This services display the available activities according to the 
-.configuration.
+There is an action or an editor (``::activities::action::SCreateActivity`` or 
+``::activities::editor::SCreateActivity``). This services display the available activities according to the configuration.
 
 When the activity is selected, the service sends a signal with the activity identifier. It should works with the 
 ::uiMedData::editor::SActivityWizard that creates or updates the activitySeries.
@@ -299,3 +312,49 @@ series into the seriesDB.
 .. figure:: ../media/SActivityWizard.png
     :scale: 60
     :align: center
+    
+Example
+********
+
+To launch the activity, you will need to connect the services in you AppConfig:
+
+.. code-block:: xml
+
+    <extension implements="::fwServices::registry::AppConfig">
+        <id>myExample</id>
+        <config>
+        
+            <object uid="seriesDB" type="::fwMedData::SeriesDB" />
+            <!-- ... -- >
+            
+            <!-- Editor to select an activity. -->
+            <service uid="activitySelector" type="::activities::editor::SCreateActivity" />
+            
+            <service uid="activityCreator" type="::uiMedDataQt::editor::SActivityWizard" >
+                <inout key="seriesDB" uid="seriesDB" />
+                <ioSelectorConfig>SDBReaderIOSelectorConfig</ioSelectorConfig>
+            </service>
+            
+            <service uid="dynamicView" type="::guiQt::editor::SDynamicView" autoConnect="yes">
+                <mainActivity id="myMainActivity" closable="false" />
+                <inout key="SERIESDB" uid="seriesDB" />
+                <parameters>
+                    <parameter replace="ICON_PATH" by="${appIconPath}" />
+                </parameters>
+            </service>
+            
+            <!-- Display the gui allowing to create a ::fwMedData::ActivitySeries with the required data for 
+                 the selected activity. -->
+            <connect>
+                <signal>selector/activityIDSelected</signal>
+                <slot>activityCreator/createActivity</slot>
+            </connect>
+            
+            <!-- Launch the activity when it is created. -->
+            <connect>
+                signal>activityCreator/activityCreated</signal>
+                <slot>dynamicView/launchActivity</slot>
+            </connect>
+            
+        </config>
+    </extension>

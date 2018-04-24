@@ -1,22 +1,17 @@
 Manager and updater services
 ==================================
 
-Concepts
---------
+In the FW4SPL architecture, there are container objects like ``::fwData::Composite``, ``::fwData::Vector`` and 
+``::fwMedData::SeriesDB``. The ``::fwData::Composite`` is also an Object and represents a map
+which associates a string with an Object. The architecture provides a service to manage these objects ``::ctrlSelection::SManage``.
 
-In the FW4SPL architecture, there is an object container which is often used:
-``::fwData::Composite``. This container is also an Object and represents a map
-which associates a string with an Object. The architecture provides two main
-services to manage a Composite: a composite updater and a service manager.
+We also need services to extract the sub-objects from the containers and add the object in the application configuration (AppConfig)
 
-Updater
+SManage
 ~~~~~~~
 
-The updater service extends service type ``::ctrlSelection::IUpdaterSrv`` and
-the work on a selection composite. This kind of service listens specific events
-from objects identified by their UID. When it receives an event, it performs an
-operation on an object in the selection composite and notifies composite
-listeners.
+This service manages an object (add/swap/remove) into a container object (composite, vector, seriesDB) or into any 
+object's fields. 
 
 Available operations on composite are:
 
@@ -25,54 +20,83 @@ Available operations on composite are:
 - Removing an object
 - Removing an object if present
 - Adding or swapping an object
-- Doing nothing
-
-There are few generic updater services which listen all events sent by Objects,
-and few other which work with particular Object events.
-
-Implementation
---------------
-
-Updater
-~~~~~~~
-
-An updater implementation must inherit from the ``::ctrlSelection::IUpdaterSrv`` service.
-
-In the example below, an updater is used to manage a ``::fwData::Reconstruction`` object identified with 
-the ``reconstruction`` key in a selection composite. This ``::fwData::Reconstruction`` is stored in a
-``::fwMedData::ModelSeries`` and we used a specific updater to listen signals and manage the structure.
-
-The updater provides slots to react on object/service signals.
-
-
-Example
-********
-
-For example, the updater ``::ctrlSelection::SObjFromSlots`` provides the following slots :
-
-- ``add(object)``: add the given object in the composite with the configured key
-- ``swapObj(object)``: swap the given object in the composite with the configured key
-- ``addOrSwap(object)``: if the configured key exists in the composote, the object is swapped, else it is added
-- ``remove()``: remove the object with the configured key from the composite
-- ``removeIfPresent()``: remove the object if the configured key exists in the composite
-
-Updater configuration example:
 
 .. code-block:: xml
 
-    <object id="model" type="::fwMedData::ModelSeries">
-        <service uid="listOrganEditor" type="::uiMedData::editor::SModelSeriesList" autoConnect="yes" />
-    </object>
+    <object uid="composite" type="::fwData::Composite" />
+    <object uid="image" type="::fwData::Image" />
 
-    <object type="::fwData::Composite">
-        <service uid="myUpdater" type="::ctrlSelection::updater::SObjFromSlot" >
-            <out key="object" uid="reconstruction" /> <!-- key of the updated object -->
-        </service>
-    </object>
+    <service uid="manager" type="::ctrlSelection::SManage">
+        <inout key="object" uid="image" />
+        <inout key="composite" uid="composite" />
+        <compositeKey>myImage</compositeKey>
+    </service>
+    
+    <!-- Add the image in the composite when it is modified -->
+    <connect>
+        <signal>image/modified</signal>
+        <slot>manager/addOrSwap</slot>
+    </connect>
+    
+    <start uid="manager" />
 
-    <!-- connect updater to listen the reconstruction selection -->
+SObjFromSlots
+~~~~~~~~~~~~~~
+
+This service allows to add or remove an object in the OSR when calling the slots.
+
+.. code-block:: xml
+
+    <object uid="modelSeries" type="::fwMedData::ModelSeries" />
+    <object uid="reconstruction" type="::fwData::Reconstruction" src="deferred" />
+    
+    <service uid="listOrganEditor" type="::uiMedDataQt::editor::SModelSeriesList" autoConnect="yes">
+        <inout key="modelSeries" uid="modelSeries" />  
+    </service>
+
+
+     <service uid="myUpdater" type="::ctrlSelection::updater::SObjFromSlot">
+         <out key="object" uid="reconstruction" />
+     </service>
+
+    <!-- Add the selected reconstruction -->
     <connect>
         <signal>listOrganEditor/reconstructionSelected</signal>
-        <slot>myUpdater/addOrSwap</slot>
+        <slot>myUpdater/add</slot>
     </connect>
+    
+    <!-- Remove the reconstruction -->
+    <connect>
+        <signal>listOrganEditor/emptiedSelection</signal>
+        <slot>myUpdater/remove</slot>
+    </connect>
+    
+    <start uid="listOrganEditor" />
+    <start uid="myUpdater" />
 
+SExtractObj
+~~~~~~~~~~~~
+ 
+This service get objects from a source object and expose them as new objects. It uses "camp path" to extract the object
+(see :ref:`campPath`).
+
+.. code-block:: xml
+
+    <object uid="composite" type="::fwData::Composite" />
+    
+    <object uid="image" type="::fwData::Image" src="deferred" />
+    <object uid="mesh" type="::fwData::Mesh" src="deferred" />
+    
+    <service uid="extractor" type="::ctrlCamp::SExtractObj" >
+       <inout key="source" uid="composite">
+           <extract from="@values.myImage" />
+           <extract from="@values.myMesh" />
+       </inout>
+       <out group="target">
+           <key uid="image"/>
+           <key uid="mesh"/>
+       </out>
+    </service>
+    
+    <start uid="extractor" />
+    <update uid="extractor" />

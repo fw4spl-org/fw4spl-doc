@@ -107,6 +107,7 @@ In this latter case, do you need to share this object between different services
     - If the answer is yes, then you need create a new object like fwData::Image and a wrapping with fwData::Image<=>itk::Image and fwData::Image<=>vtkImage.
     - Otherwise, you can just encapsulated an itk::Image in fwData::Image and create an accessor on it. ( however, this choice implies that all applications that use fwData::Image need ITK library for running. )
 
+.. _campPath:
 
 What is a camp path ?
 ======================

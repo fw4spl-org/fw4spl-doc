@@ -272,7 +272,7 @@ Some services needs a specific configuration, it is usually described in the dox
 
 .. code-block:: xml
 
-    <service uid="mesher" type="::opMesh::SMesher">
+    <service uid="mesher" type="::opMesh::SMesher" worker="myWorker">
         <in key="image" uid="imageId" />
         <out key="mesh" uid="meshId" />
     </service>
