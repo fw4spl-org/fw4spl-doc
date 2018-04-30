@@ -4,9 +4,9 @@ How to create a bundle, a lib, an executable or an application ?
 
 In fw4spl, the bundles, libraries, applications and executables are folder containing:
 - [required] two files to generate the *CMake* target: CMakelists.txt and Propertires.cmake (see :ref:`HowCMake`).
-- [optional] *include* and *src* folder to contain the headers and source files.
+- [optional] *include* and *src* folder to contain the header and source files.
 - [optional] *rc* folder to contain resources and XML configutation files
-- [optional] *test* folder to contain the unit test
+- [optional] *test* folder to contain the unit tests
 
 .. _bundleCreation:
 
@@ -70,7 +70,7 @@ A bundle could contain several configurations, they are in the ``plugin.xml`` fi
 
     </plugin>
     
-The ``@PROJECT_VERSION@`` will be automatically replace by the version defined in the Properties.cmake.
+The ``@PROJECT_VERSION@`` will be automatically replaced by the version defined in the Properties.cmake.
 
 The ``<requirement>`` tags contain the bundles that must be started before to start your bundle (see https://rawgit.com/fw4spl-org/fw4spl-dox/dev/group__requirement.html).
 
@@ -190,7 +190,7 @@ The ``Plugin.cpp`` in the *src* folder should be like:
 
     The ``registrar("::myBundle::Plugin");`` is the most important line, it allows to register the bundle to be used in XML based application.
     
-    **Don't forget to register the bundle with the '::'.**
+    **Don't forget to register the bundle with the correct namespace with '::'.**
     
 The methods ``start()`` and ``stop`` must be implemented but are usually empty. They are called when the application is 
 started and stopped. The ``initialize()`` method is executed after the *start* of all the bundle and ``uninitialize()`` before the *stop*.

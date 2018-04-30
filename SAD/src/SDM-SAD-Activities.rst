@@ -13,7 +13,7 @@ There is two way to launch an activity:
 
 The service ``::activities::action::SActivityLauncher`` allows to launch an activity from a selection of Series. Its 
 role is to create the specific Activity associated with the selected data. The Series are contained in a 
-``::fwData::Vector`` that can be filled by the user on clicking no the Series selection widget (``::uiMedDataQt::editor::SSelector``)
+``::fwData::Vector`` that can be filled by the user on clicking on the Series selection widget (``::uiMedDataQt::editor::SSelector``)
 
 This action should be followed by the service ``guiQt::editor::SDynamicView`` : this service listens the action 
 signals and launchs the activity in a new tab. 

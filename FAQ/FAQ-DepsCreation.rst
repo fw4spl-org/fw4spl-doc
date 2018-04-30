@@ -1,6 +1,6 @@
-*************************
-How to add a new Deps ?
-*************************
+******************************
+How to add a new Dependency ?
+******************************
 
 fw4spl dependencies are based on the `ExternalProject <http://www.cmake.org/cmake/help/v3.0/module/ExternalProject.html>`_ concept from lastest versions of cmake.
 
@@ -13,10 +13,11 @@ You may want to add a new dependency into fw4spl-deps or you may want to add you
     You need to know that the main CMakeLists.txt is in fw4spl-deps, and you can add as many additional folders as you want.
     Use the ``ADDITONNAL_DEPS`` option in cmake to set the path of your custom deps.
 
-Add a new deps in fw4spl-deps
-------------------------------
+Add a new dependency in fw4spl-deps
+------------------------------------
 
-Adding a new deps is quite easy, the only things to do is to add a new folder *myNewDeps* and put a CMakeLists.txt file into it.
+Adding a new dependency is quite easy, the only things to do is to add a new folder *myNewDeps* and put a CMakeLists.txt 
+file into it.
 The CMakeLists.txt should contain at least:
 
 - cmake_minimum_required(...)
@@ -70,11 +71,11 @@ The important parts are in the *ExternalProject_Add* fonction:
     Refer you to the documentation of `ExternalProject <http://www.cmake.org/cmake/help/v3.0/module/ExternalProject.html>`_ for more informations.
  
 
-Add a custom deps repository
------------------------------
+Add a custom dependency repository
+------------------------------------
 
-You may want to add your own folder of dependencies (as fw4spl-ext-deps).
-In this case your main need to create a CMakeLists.txt in the root of your folder (myDepsFolder/CMakeLists.txt) in order to list the subdirectories of your deps.
+You may want to add your own folder of dependencies (as fw4spl-ext-deps). In this case your main need to create a 
+CMakeLists.txt in the root of your folder (myDepsFolder/CMakeLists.txt) in order to list the subdirectories of your deps.
 
 .. code-block:: cmake
 
@@ -86,7 +87,7 @@ In this case your main need to create a CMakeLists.txt in the root of your folde
     list(APPEND SUBDIRECTORIES myDeps2)
     ...
 
-Then when you do a *ccmake* or *cmake-gui* in the build of your deps, you need to add the path to your custom repository in the ``ADDITONNAL_DEPS`` option.
-Then cmake will automaticaly parsed your folder.
+Then when you do a *ccmake* or *cmake-gui* in the build of your dependency, you need to add the path to your custom 
+repository in the ``ADDITONNAL_DEPS`` option. Then cmake will automaticaly parse your folder.
 
 

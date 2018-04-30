@@ -6,13 +6,13 @@ How to create a service ?
 
 Implementation
 ===============
-A service is a C++ class inherited from ``::fwServices::IService``. It will implement at least the following method:
+A service is a C++ class inherited from ``::fwServices::IService``. It will implement at least the following methods:
 - configuring(): parse the configuration (usually from the XML)
 - starting(): initialize the service (create the gui, retrieve/initialize the data, ...)
 - updating(): process
 - stopping(): clear all (clear the gui, release the data, ...)
 
-These methods are called by the *configure()*, *start()*, *update()* and *stop()* methds of the base class ``IService``.
+These methods are called by the *configure()*, *start()*, *update()* and *stop()* methods of the base class ``IService``.
 
 For the example, we will create a service ``SMesher`` in a bundle ``operators``. The service will have a 
 ``::fwData::Image`` as input and a ``::fwData::Mesh`` as output. 
@@ -80,7 +80,7 @@ The header file ``SMesher.hpp`` should be in the folder ``<src_dir>/bundles/oper
     private:
 
         /// Option to generate or not the normals.
-        bool m_generateNormals;
+        bool m_generateNormals{false};
     };
 
     } // namespace operators
@@ -110,8 +110,7 @@ In the source file ``SMesher.cpp`` should be in the folder ``<src_dir>/bundles/o
 
     //-----------------------------------------------------------------------------
 
-    SMesher::SMesher() noexcept :
-        m_generateNormals(false)
+    SMesher::SMesher() noexcept
     {
 
     }
@@ -127,7 +126,7 @@ In the source file ``SMesher.cpp`` should be in the folder ``<src_dir>/bundles/o
     void SMesher::configuring()
     {
         const ConfigType config = this->getConfigTree();
-        m_generateNormals = config.get<bool>("generateNormals", true);
+        m_generateNormals = config.get<bool>("generateNormals", false);
     }
 
     //------------------------------------------------------------------------------
@@ -197,10 +196,29 @@ This service is defined in xml configuration like:
      <update uid="mesher" />
 
 
+You can also use this service in C++
+
+.. code-block:: cpp
+
+    ::fwServices::IServices::ConfigType config;
+    config.add("generateNormals", "true"); 
+
+    ::fwServices::IService::sptr mesher = ::fwServices::add("::operators::SMesher");
+    mesher->registerInput(image, "image") // use to register the input
+    mesher->setObjectId("mesh", "mesh"); // use to register the output
+    mesher->setConfiguration(config); 
+    mesher->configure();
+    mesher->start();
+    mesher->update();
+    ::fwData::Mesh::sptr obj = mesher->getOutput< ::fwData::Mesh >("mesh");
+    mesher->stop();
+    ::fwServices::OSR::unregisterService( mesher );
+ 
+
 Connection
 ===========
 
-It should be necessary to reimplement ``getAutoConnections()``, if you want to automatically connect the input data 
+It should be necessary to reimplement ``getAutoConnections()`` if you want to automatically connect the input data 
 signals to the service. In our example, we want to call ``update()`` method when the image is modified.
 
 .. code-block:: cpp
@@ -213,6 +231,9 @@ signals to the service. In our example, we want to call ``update()`` method when
         
         return connections;
     }
+    
+It connects the ``s_MODIFIED_SIG`` ("modified") signal of the image with the key ``s_IMAGE_INPUT`` ("image") with the 
+service slot registered as ``s_UPDATE_SLOT`` ("update").
 
 To make this connection, you have to add ``autoConnect="yes"`` in the XML declaration of the service.
 
@@ -223,7 +244,14 @@ To make this connection, you have to add ``autoConnect="yes"`` in the XML declar
         <out key="mesh" uid="generatedMesh" />
         <generateNormals>true</generateNormals>
     </service>
-    
+
+In C++ you must register the image with a third parameter as "true":
+
+.. code-block:: cpp
+
+    ::fwServices::IService::sptr mesher = ::fwServices::add("::operators::SMesher");
+    mesher->registerInput(image, "image", true) // use to register the input
+    // ...
 
 .. tip::
 

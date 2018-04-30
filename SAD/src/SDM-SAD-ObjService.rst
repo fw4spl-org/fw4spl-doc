@@ -186,7 +186,7 @@ In the header file (MyService.hpp):
         void updating() override;
     };
 
-In the source file , this line must also be added to declare ``MyService`` as a service of the 
+In the source file, the following lines must also be added to declare ``MyService`` as a service of the 
 framework architecture:
 
 .. code-block:: cpp
@@ -272,8 +272,10 @@ The service must be created by the factory:
     ::fwServices::IService::sptr srv = srvFactory->create("MyService");
     
 
-Object-Service registry
------------------------
+.. _OSR:
+
+Object-Service registry (OSR)
+------------------------------
 
 The FW4SPL architecture is standardized thanks to:
 
@@ -442,4 +444,5 @@ and visualize it. You can easily transform this code to build an application
 which reads and displays a 3D mesh by changing object and services
 implementation strings only.
 
-However, most applications made with FW4SPL are not built this way. Instead, we use :ref:`AppConfig<App-config>`, which allows to simplify the code above by a declarative approach based on XML files.
+However, most applications made with FW4SPL are not built this way. Instead, we use :ref:`AppConfig<App-config>`, 
+which allows to simplify the code above by a declarative approach based on XML files.

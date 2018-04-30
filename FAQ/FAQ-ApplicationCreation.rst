@@ -5,16 +5,16 @@ How to create a XML based application ?
 ****************************************
 
 In the Tutorials, we explain how to create simple applications.
-A XML based application, is defined by an "application bundle" (like a bundle but with some difference that we will 
+A XML based application, is defined by an "application bundle" (like a bundle but with some differences that we will 
 decrible further).
 
 Application bundle
 -------------------
 
-This "application bundle" contains a Base configuration to run when the application is launched and lists the required 
+This "application bundle" contains a base configuration to run when the application is launched and lists the required 
 bundles for this configuration. 
 
-Like a Bundle, the application folder needs the CMake files and a plugin.xml file. The first diferrence, is that the 
+Like a bundle, the application folder needs the CMake files and a plugin.xml file. The first differrence, is that the 
 *Properties.cmake* ``TYPE`` is ``APP`` instead of ``BUNDLE``.
 The second difference is the line:
 
@@ -32,8 +32,8 @@ tag (see :ref:`tuto01`).
 profile.xml
 ------------
 
-The Properties.cmake of an application allows to generate the ``profile.xml``, it is the file that describes the bundle
-to use in the application and is used to tell the ``fwlauncher`` which application to run.
+The Properties.cmake of an application allows to generate the ``profile.xml``, it is the file that describes the bundles
+to use in the application and it is used to tell the ``fwlauncher`` which application to run.
 
 Remember that to launch an application, we use:
 
@@ -66,14 +66,14 @@ The following profile.xml generated for :ref:`tuto01`.
     </profile>
 
 activate:
-    Lists the bundle used in this application. We see the parameter given to *appXML* bundle.
+    List of the bundles used in this application. We see the parameter given to *appXML* bundle.
     
 start:
-    Lists the bundle to start when the application is launched. Basically, there is few bundle to start at the begining:
+    List of the bundles to start when the application is launched. Basically, there is few bundles to start at the begining:
     
     - *appXML* to launch the configuration
     - guiQt to launch qt event loop for application using GUI
     - memory to manage the image and mesh buffers
 
-    The other bundles will be stated according to the XML <requirement> tag of the bundle, or when a service is used in 
+    The other bundles will be stated according to the XML <requirement> tag of the bundles, or when a service is used in 
     an XML configuration if its bundle is not started. It allows to load only the minimum DLL.

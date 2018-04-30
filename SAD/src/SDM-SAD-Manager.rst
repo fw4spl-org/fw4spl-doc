@@ -43,7 +43,7 @@ Available operations on composite are:
 SObjFromSlots
 ~~~~~~~~~~~~~~
 
-This service allows to add or remove an object in the OSR when calling the slots.
+This service allows to add or remove an object in the :ref:`OSR` when calling the slots.
 
 .. code-block:: xml
 

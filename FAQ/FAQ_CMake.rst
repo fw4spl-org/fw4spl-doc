@@ -7,7 +7,7 @@ Introduction
 -------------
 
 Fw4spl and it's dependencies are based on `CMake <http://www.cmake.org/>`_ .
-Note that the minimal version of cmake to have is 3.1.
+Note that the minimal version of cmake to have is 3.9.
 
 
 Each project (apps, bundles, libs) have two "CMake" files:
@@ -20,7 +20,7 @@ Each project (apps, bundles, libs) have two "CMake" files:
 CMakeLists.txt
 ---------------
 
-The CMakeLists.txt should contain at least the function *fwLoadProperties()* to load the Properties.cmake.
+The *CMakeLists.txt* should contain at least the function *fwLoadProperties()* to load the Properties.cmake.
 But it can also contain others functions useful to link with external libraries.
 
 Here is an example of CMakeLists.txt from guiQt Bundle :
@@ -46,7 +46,7 @@ Here is an example of CMakeLists.txt from guiQt Bundle :
 
     set_target_properties(${FWPROJECT_NAME} PROPERTIES AUTOMOC TRUE)
 
-The first line *fwLoadProperties()* will load the properties.cmake (see explanation in the next section).
+The first line *fwLoadProperties()* will load the *Properties.cmake* (see explanation in the next section).
 
 The next lines are for the link with an external libraries (fw4spl-deps), in this example it is Qt.
 
@@ -111,7 +111,7 @@ This cmake macro allows to give parameters to a bundle. The parameters are defin
                 PARAM_VALUES <param1_value> <param2_value> <param3_value> 
                 )
 
- These parameters can be retrieved in the ``Plugin.cpp`` like:
+These parameters can be retrieved in the ``Plugin.cpp`` like:
 
 .. code-block:: cpp
 

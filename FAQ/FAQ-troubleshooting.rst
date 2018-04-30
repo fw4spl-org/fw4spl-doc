@@ -17,8 +17,7 @@ My service is not found
 #. Did you call ``cmake`` after adding the new files? You need to call ``cmake .`` in your build repository to ensure that the files are built.
 #. Is the bundle of your service added in your application/activity Properties.cmake?
 #. Is the bundle properly registered? See :ref:`bundleCreation`
-
-Is the plugin.xml properly generated? 
+#. Is the plugin.xml properly generated? 
 
 For example with a bundle named ``myBundle`` with version ``0.2`` containing the service ``SMyService``: 
 It must be written in ``<build_dir>/share/myBundle_0.2/plugin.xml``
@@ -41,12 +40,12 @@ It must be written in ``<build_dir>/share/myBundle_0.2/plugin.xml``
         </extension>
     </plugin>
     
-The requirement should be different according to your bundle requirement (in the Properties.cmake).
-The ``<library>`` tag is important, it defines that the bunle is associated to a DLL and must be loaded when the bundle is used. 
+The requirement may be different according to your bundle requirement (in the Properties.cmake).
+The ``<library>`` tag is important, it defines that the bundle is associated to a DLL and must be loaded when the bundle is used. 
 
 There should be an ``extension`` tag for each service in your bundle. All the objects of a service should be declared in the ``object`` tag (if they have any).
 
-The Plugin.cpp contains the following line with the proper bundle name (Dont't forget the ``::``)
+The *Plugin.cpp* contains the following line with the proper bundle name (Dont't forget the ``::``)
 
 .. code-block:: cpp
     
@@ -80,5 +79,5 @@ All the services of the bundle and their objects should be present in this file.
 My activity is not found
 -------------------------
 
-#. Is the activity bundle in your application Properties.cmake?
-#. Is the ``activities`` bundle in the requirement of your application plugin.xml?
+#. Is the bundle containing you activity in your application *Properties.cmake*?
+#. Is the ``activities`` bundle in the requirement of your application *plugin.xml*?
