@@ -32,7 +32,7 @@ tag (see :ref:`tuto01`).
 profile.xml
 ------------
 
-The Properties.cmake of an application allows to generate the ``profile.xml``, it is the file that describes the bundles
+The Properties.cmake of an application generates the ``profile.xml``, it is the file that describes the bundles
 to use in the application and it is used to tell the ``fwlauncher`` which application to run.
 
 Remember that to launch an application, we use:
