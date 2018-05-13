@@ -230,8 +230,8 @@ Click on "configure" then "generate".
     - ``CMAKE_INSTALL_PREFIX``: set the install location (~/Dev/Install/Debug or Release)
     - ``CMAKE_BUILD_TYPE``: set to Debug or Release
     - ``EXTERNAL_LIBRARIES``: set the install path of the third party libraries you compiled before.(ex : ~/Dev/Deps/Install/Debug)
-    - ``PROJECT_TO_BUILD``: set the list of the projects you want to build (ex: PoC09Android, ...), each project should be separated by ";"
-    - ``PROJECT_TO_INSTALL``: set the name of the application to install
+    - ``PROJECTS_TO_BUILD``: set the list of the projects you want to build (ex: PoC09Android, ...), each project should be separated by ";"
+    - ``PROJECTS_TO_INSTALL``: set the name of the application to install
     - ``CROSS_COMPILING``: set to 'ON'
 
 Press *"c"* to configure. Now you have got two new variables to set:
@@ -240,8 +240,8 @@ Press *"c"* to configure. Now you have got two new variables to set:
 - ``CMAKE_TOOLCHAIN_FILE``: set to ~/Dev/Droid/android.toolchain.cmake
 
 .. note::
-    - If ``PROJECT_TO_BUILD`` is empty, all application will be compiled
-    - If ``PROJECT_TO_INSTALL`` is empty, no application will be installed
+    - If ``PROJECTS_TO_BUILD`` is empty, all application will be compiled
+    - If ``PROJECTS_TO_INSTALL`` is empty, no application will be installed
 
 .. image:: ../media/osx_cmake_fw4spl.png
 
@@ -264,7 +264,7 @@ Or with ninja:
 
     $ ninja
 
-If you didn't specify anything in ``PROJECT_TO_BUILD`` you may also build specific targets, for instance:
+If you didn't specify anything in ``PROJECTS_TO_BUILD`` you may also build specific targets, for instance:
 
 .. code:: bash
 
