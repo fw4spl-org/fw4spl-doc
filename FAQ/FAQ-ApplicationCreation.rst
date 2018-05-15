@@ -6,7 +6,7 @@ How to create a XML based application ?
 
 In the Tutorials, we explain how to create simple applications.
 A XML based application, is defined by an "application bundle" (like a bundle but with some differences that we will 
-described further).
+describe further).
 
 Application bundle
 -------------------
@@ -33,7 +33,7 @@ profile.xml
 ------------
 
 The Properties.cmake of an application generates the ``profile.xml``, it is the file that describes the bundles
-to use in the application and it is used to tell the ``fwlauncher`` which application to run.
+to use in the application and it is used as an input of the ``fwlauncher`` command to specify the application to run.
 
 Remember that to launch an application, we use:
 
@@ -42,7 +42,7 @@ Remember that to launch an application, we use:
     bin/fwlauncher share/<myApplication>_<version>/profile.xml
     
 
-The following profile.xml generated for :ref:`tuto01`.
+Here is for example the following profile.xml generated for :ref:`tuto01`.
 
 .. code-block:: xml
 
@@ -76,4 +76,4 @@ start:
     - *memory*: to manage image and mesh buffers
 
     The other bundles will be started according to the XML <requirement> tags of the bundles, or when a service is used in 
-    an XML configuration and its bundle is not started. That way we only have the minimum number of DLLs loaded.
+    an XML configuration and its bundle is not started. That way we only have the minimum number of shared libraries loaded.
