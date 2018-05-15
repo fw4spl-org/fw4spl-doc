@@ -191,16 +191,16 @@ This file is in the ``rc/`` directory of the application. It defines the service
             </config>
         </extension>
     </plugin>
-    
+
 
 The framework provides some gui services:
 
 Frame (``::gui::frame::SDefaultFrame``)
     This service display a frame and creates menu bar, tool bar and container for views, rendering service, ...
-    
+
 View (``::gui::view::SDefaultView``)
     This service creates sub-container and tool bar.
-    
+
 Menu bar (``::gui::aspect::SDefaultMenuSrv``)
     A menu bar displays menus.
 

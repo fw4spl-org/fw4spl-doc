@@ -1,6 +1,6 @@
 *******************************************************************
 How to create a bundle, a lib, an executable or an application ?
-******************************************************************
+*******************************************************************
 
 In fw4spl, the bundles, libraries, applications and executables are folders containing:
 - [required] two files to generate the *CMake* target: CMakelists.txt and Properties.cmake (see :ref:`HowCMake`).
@@ -31,14 +31,14 @@ In the bundle folder, there is only the *CMake* files and the *rc* folder.
 CMake Files
 ~~~~~~~~~~~~
 
-The CMakeLists.txt contain only ``fwLoadProperties()`` to load the Properties.cmake
+The CMakeLists.txt contains only ``fwLoadProperties()`` to load the Properties.cmake
 
-The Properties.cmake defines the bundles needed to launch the configuration (ie. the bundle of all the services present 
+The Properties.cmake defines the bundles needed to launch the configuration (ie. the bundle of all the services present
 in the configurations).
 
 Example:
 
-.. code-block:: cmake 
+.. code-block:: cmake
 
     set( NAME dataManagerConfig )
     set( VERSION 0.1 )
@@ -52,7 +52,7 @@ Example:
         uiReconstructionQt
         ctrlSelection
         media
-    ) 
+    )
 
 Configurations
 ~~~~~~~~~~~~~~~
@@ -69,20 +69,19 @@ A bundle could contain several configurations, they are in the ``plugin.xml`` fi
         <!-- ... extensions ... -->
 
     </plugin>
-    
+
 The ``@PROJECT_VERSION@`` will be automatically replaced by the version defined in the Properties.cmake.
 
 The ``<requirement>`` tags contain the bundles that must be started before to start your bundle (see https://rawgit.com/fw4spl-org/fw4spl-dox/dev/group__requirement.html).
 
-Then the extensions are defined. There is different type of extensions, the most common are:
+Then the extensions are defined. There are different types of extensions, the most common are:
 
--  ``::fwServices::registry::AppConfig`` to define configuration for applications (see :ref:`tuto01`)
--  ``::fwActivities::registry::Activities`` to define activities 
--  ``:fwServices::registry::ServiceConfig`` to define configuration of services (mostly use to configure readers/writers)
-- ``::fwServices::registry::ServiceFactory`` to define a service
+-  ``::fwServices::registry::AppConfig`` to define configurations for applications (see :ref:`tuto01`)
+-  ``::fwActivities::registry::Activities`` to define activities
+-  ``:fwServices::registry::ServiceConfig`` to define configurations of services (mostly used to configure readers/writers)
+- ``::fwServices::registry::ServiceFactory`` to define services
 
-.. 
-    TODO add links to documentation for the extensions
+.. TODO add links to documentation for the extensions
 
 .. note::
 
@@ -94,13 +93,13 @@ Service bundles
 ----------------
 
 You don't need to create the ``plugin.xml`` file for the bundle that contains only services, it will be automatically generated.
-A ``CMake`` script parse the services macro and doxygen to generate the ``::fwServices::registry::ServiceFactory`` extenstion 
+A ``CMake`` script parses the services macro and doxygen to generate the ``::fwServices::registry::ServiceFactory`` extension
 (see :ref:`serviceCreation` and :ref:`serviceNotFound`)
 
 The bundle contains the service header files in the `include` folder and the `source` files in the `src` folder.
-It must also contain a ``Plugin`` class used to register the bundle. 
+It must also contain a ``Plugin`` class used to register the bundle.
 
-The ``Plugin.hpp`` in the *include* folder should be like:
+The ``Plugin.hpp`` in the *include* folder should look like:
 
 .. code-block:: cpp
 
@@ -111,12 +110,12 @@ The ``Plugin.hpp`` in the *include* folder should be like:
     namespace myBundle
     {
 
-    class Plugin : public ::fwRuntime::Plugin
+    class MYBUNDLE_CLASS_API Plugin : public ::fwRuntime::Plugin
     {
 
     public:
 
-        /// PLugin destructor
+        /// Plugin destructor
         ~Plugin() noexcept;
 
         /// This method is used by runtime to start the bundle.
@@ -124,17 +123,17 @@ The ``Plugin.hpp`` in the *include* folder should be like:
 
         /// This method is used by runtime to stop the bundle.
         void stop() noexcept;
-        
-        /// This method is used by runtime to initialize the bundle. 
+
+        /// This method is used by runtime to initialize the bundle.
         void initialize();
 
-        /// This method is used by runtime to uninitialize the bundle. 
+        /// This method is used by runtime to uninitialize the bundle.
         void uninitialize() noexcept;
 
     };
 
     } // namespace myBundle
-    
+
 
 The ``Plugin.cpp`` in the *src* folder should be like:
 
@@ -168,7 +167,7 @@ The ``Plugin.cpp`` in the *src* folder should be like:
     void Plugin::stop() noexcept
     {
     }
-    
+
     //-----------------------------------------------------------------------------
 
     void Plugin::initialize()
@@ -184,13 +183,13 @@ The ``Plugin.cpp`` in the *src* folder should be like:
     //-----------------------------------------------------------------------------
 
     } // namespace myBundle
-    
+
 
 .. warning::
 
-    The ``registrar("::myBundle::Plugin");`` is the most important line, it allows to register the bundle to be used in XML based application.
-    
+    The ``registrar("::myBundle::Plugin");`` is the most important line, it allows to register the bundle to be used in a XML based application.
+
     **Don't forget to register the bundle with the correct namespace with '::'.**
-    
-The methods ``start()`` and ``stop`` must be implemented but are usually empty. They are called when the application is 
+
+The methods ``start()`` and ``stop`` must be implemented but are usually empty. They are called when the application is
 started and stopped. The ``initialize()`` method is executed after the *start* of all the bundle and ``uninitialize()`` before the *stop*.

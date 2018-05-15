@@ -199,7 +199,7 @@ This file is in the ``rc/`` directory of the application. It defines the service
         </extension>
 
     </plugin>
-    
+
 
 You can also group the signals and all the slots together.
 
@@ -209,12 +209,12 @@ You can also group the signals and all the slots together.
         <signal>myRenderingTuto1/camUpdated</signal>
         <signal>myRenderingTuto2/camUpdated</signal>
         <signal>myRenderingTuto3/camUpdated</signal>
-        
+
         <slot>myRenderingTuto1/updateCamPosition</slot>
         <slot>myRenderingTuto2/updateCamPosition</slot>
         <slot>myRenderingTuto3/updateCamPosition</slot>
     </proxy>
-    
+
 .. tip::
     You can remove a connection to see that a camera in the scene is no longer synchronized.
 
@@ -231,20 +231,20 @@ Signal and slot creation
     {
     public:
         // .....
-        
+
         typedef ::boost::shared_array< double > SharedArray;
 
         typedef ::fwCom::Signal< void (SharedArray, SharedArray, SharedArray) > CamUpdatedSignalType;
 
         // .....
-        
-        /// This method is call when the VTK camera position is modified. 
+
+        /// This method is call when the VTK camera position is modified.
         /// It notifies the new camera position.
         void notifyCamPositionUpdated();
-    
+
     protected:
         // ...
-        
+
         /**
          * @brief Returns proposals to connect service slots to associated object signals,
          * this method is used for obj/srv auto connection
@@ -253,17 +253,17 @@ Signal and slot creation
          * Connect mesh::s_VERTEX_MODIFIED_SIG to this::s_UPDATE_PIPELINE_SLOT
          */
         VTKSIMPLEMESH_API virtual KeyConnectionsMap getAutoConnections() const override;
-        
+
     private:
-        
-        /// Slot: receives new camera information (position, focal, viewUp). 
+
+        /// Slot: receives new camera information (position, focal, viewUp).
         /// Update camera with new information.
         void updateCamPosition(SharedArray positionValue,
                                SharedArray focalValue,
                                SharedArray viewUpValue);
 
         // ....
-        
+
         /// Signal emitted when camera position is updated.
         CamUpdatedSignalType::sptr m_sigCamUpdated;
     }
@@ -279,7 +279,7 @@ Signal and slot creation
 
         newSlot("updateCamPosition", &SRenderer::updateCamPosition, this);
     }
-    
+
     //-----------------------------------------------------------------------------
 
     void SRenderer::updateCamPosition(SharedArray positionValue,
@@ -297,7 +297,7 @@ Signal and slot creation
         // Render the scene
         m_interactorManager->getInteractor()->Render();
     }
-    
+
 
     //-----------------------------------------------------------------------------
 
@@ -314,17 +314,17 @@ Signal and slot creation
         std::copy(camera->GetViewUp(), camera->GetViewUp()+3, viewUp.get());
 
         {
-            // The Blocker blocks the connection between the "camUpdated" signal and the 
-            // "updateCamPosition" slot for this instance of service. 
+            // The Blocker blocks the connection between the "camUpdated" signal and the
+            // "updateCamPosition" slot for this instance of service.
             // The block is release at the end of the scope.
             ::fwCom::Connection::Blocker block(
                                 m_sigCamUpdated->getConnection(m_this->slot("updateCamPosition")));
-            
+
             // Asynchronous emit of "camUpdated" signal
             m_sigCamUpdated->asyncEmit (position, focal, viewUp);
         }
     }
-    
+
     //-----------------------------------------------------------------------------
 
     ::fwServices::IService::KeyConnectionsMap SRenderer::getAutoConnections() const
@@ -334,11 +334,11 @@ Signal and slot creation
         connections.push( s_MESH_KEY, ::fwData::Mesh::s_VERTEX_MODIFIED_SIG, s_UPDATE_PIPELINE_SLOT );
         return connections;
     }
-    
+
     //-----------------------------------------------------------------------------
 
     // ......
-    
+
 
 Run
 =========

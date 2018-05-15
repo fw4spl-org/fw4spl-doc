@@ -10,7 +10,7 @@ are written in C++.
 .. figure:: ../media/tuto02DataServiceBasic.png
     :scale: 50
     :align: center
-    
+
 
 Prerequisites
 --------------
@@ -18,18 +18,18 @@ Prerequisites
 Before to read this tutorial, you should have seen :
  * :ref:`tuto01`
  * :ref:`tuto02`
- 
+
 
 Structure
 ----------
 
-A C++ application does not have a configuration in the plugin.xml, the declaration of the services to used is in the 
+A C++ application does not have a configuration in the plugin.xml, the declaration of the services to used is in the
 ``Plugin`` class.
 
 Plugin
 ~~~~~~~~
 
-The *Plugin* class contain the code that is run when a bundle is started (see :ref:`_serviceBundle`). The declaration of
+The *Plugin* class contain the code that is run when a bundle is started (see :ref:`serviceBundle`). The declaration of
 the services should be in the ``initialize()`` method.
 
 In the header file ``Plugin.hpp``:
@@ -83,7 +83,7 @@ In the header file ``Plugin.hpp``:
 
 In the source file ``Plugin.cpp``
 
-.. code-block:: cpp 
+.. code-block:: cpp
 
     #include "Tuto02DataServiceBasicCtrl/Plugin.hpp"
 
@@ -127,7 +127,7 @@ In the source file ``Plugin.cpp``
         m_readerSrv = ::fwServices::add("::ioVTK::SImageReader");
         m_readerSrv->registerInOut(m_image, "data"); // add the in-out image
         // create the reader configuration
-        ::fwServices::IService::ConfigType readerCfg; 
+        ::fwServices::IService::ConfigType readerCfg;
         readerCfg.put("file", "../../data/patient1.vtk");
         m_readerSrv->setConfiguration( readerCfg );
         m_readerSrv->configure();
@@ -148,7 +148,7 @@ In the source file ``Plugin.cpp``
         frameConfig.put("gui.frame.minSize.<xmlattr>.width", "800");
         frameConfig.put("gui.frame.minSize.<xmlattr>.height", "600");
         // use the render identifier to display it in the frame
-        frameConfig.put("registry.view.<xmlattr>.sid", "myRenderingTuto"); 
+        frameConfig.put("registry.view.<xmlattr>.sid", "myRenderingTuto");
 
         m_frameSrv->setConfiguration( frameConfig );
         m_frameSrv->configure();
@@ -177,7 +177,7 @@ In the source file ``Plugin.cpp``
         m_renderSrv->stop();
         m_readerSrv->stop();
         m_frameSrv->stop();
-        
+
         // unregister the services
         ::fwServices::OSR::unregisterService( m_readerSrv );
         ::fwServices::OSR::unregisterService( m_frameSrv );
@@ -188,11 +188,10 @@ In the source file ``Plugin.cpp``
     //------------------------------------------------------------------------------
 
     } // namespace Tuto02DataServiceBasicCtrl
-    
-- ``::fwServices::add(...)`` create and registrer the service in the application. 
+
+- ``::fwServices::add(...)`` create and registrer the service in the application.
 - ``srv->registerInOut(..) or ``srv->registerInput(...)`` add the in-out or input data to the service
 - ``::fwServices::OSR::unregisterService(...)`` unregister the service
-.. TODO see :ref:`serviceCreation`
 
 Properties.cmake
 ~~~~~~~~~~~~~~~~~
@@ -227,8 +226,8 @@ This file describes the project information and requirements :
 .. note::
 
     The Properties.cmake file of the application is used by CMake to compile the application but also to generate the
-    ``profile.xml``: the file used to launch the application. 
-    
+    ``profile.xml``: the file used to launch the application.
+
 
 Run
 ----

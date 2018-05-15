@@ -13,7 +13,7 @@ It can be seen as fusion of a negatoscope and the 3D model visualization.
 Manager
 ------------------------
 
-The ``SRender`` is the manager service of the VTK scene. Its main task is to instantiate a VTK context (``vtkRender`` and ``vtkRenderWindow``). 
+The ``SRender`` is the manager service of the VTK scene. Its main task is to instantiate a VTK context (``vtkRender`` and ``vtkRenderWindow``).
 In addition, it configures the rendering properties and describes a list of *adaptors*, which are dedicated services that render FW4SPL data into this rendering context.
 
 .. code-block:: xml
@@ -23,7 +23,7 @@ In addition, it configures the rendering properties and describes a list of *ada
             <renderer id="myRenderer" layer="0" background="0.0" />
             <vtkObject id="transform" class="vtkTransform" />
             <picker id="negatodefault" vtkclass="fwVtkCellPicker" />
-            
+
             <adaptor uid="meshAdaptor" />
             <adaptor uid="imageAdaptor" />
 
@@ -36,7 +36,7 @@ renderMode (optional, "auto" by default)
     This attribute is forwarded to all adaptors. For each adaptor, if renderMode="auto",  the scene is automatically
     rendered after doStart, doUpdate, doSwap, doStop and m_vtkPipelineModified=true. If renderMode="timer" the scene is
     rendered at N frame per seconds (N is defined by **fps** tag). If renderMode="none" you should call 'render' slot to
-    call reder the scene.
+    render the scene.
 
 offScreen (optional):
     Key of the image used for off screen render
@@ -70,9 +70,9 @@ picker
 
 adaptor
     Defines the adaptors to display in the scene.
-    
+
     - **uid** (mandatory): the uid of the adaptor service
-    
+
 Adaptor
 -------------
 
@@ -109,7 +109,7 @@ As usual, an adaptor needs to implement the methods ``configuring``, ``starting`
         void updating() override;
     };
 
-To ease the configuration and the link with the ``::fwRenderVTK::SRender``, the ``configuring`` and ``starting`` 
+To ease the configuration and the link with the ``::fwRenderVTK::SRender``, the ``configuring`` and ``starting``
 should contain this minimal code:
 
 .. code-block:: cpp
@@ -123,7 +123,7 @@ should contain this minimal code:
     void SMesh::starting()
     {
         this->initialize();
-        
+
         ...
 
         // Request ::fwRenderVTK::SRender to trigger a rendering when it is ready
@@ -132,15 +132,14 @@ should contain this minimal code:
 
 
 Adaptors are configured and started like other services in the xml since **FW4SPL 12.0.0**.
-   
+
 .. code-block:: xml
 
     <service uid="meshAdaptor" type="::visuVTKAdaptor::SMesh" autoConnect="yes">
         <in key="mesh" uid="meshUID" />
         <config renderer="default" picker="" uvgen="sphere" />
     </service>
-    
-    ...
-    
-    <start uid="meshAdaptor" />
 
+    ...
+
+    <start uid="meshAdaptor" />

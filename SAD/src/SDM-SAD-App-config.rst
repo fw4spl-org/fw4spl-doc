@@ -7,8 +7,8 @@ Dynamic program with factories
 ------------------------------
 
 As shown in the :ref:`Object-Service concept example<Object-Service_example>`, it is easy to change an application's
-behaviour by simply changing the appropriate data and services. For example changing an image visualisation application
-to a 3D model visualisation application. Unfortunately, this is limited to applications based on one service and one data,
+behavior by simply changing the appropriate data and services. For example changing an image visualization application
+to a 3D model visualization application. Unfortunately, this is limited to applications based on one service and one data,
 and thus it would be impossible to apply to applications containing multiple services and objects.
 
 To overcome this, the FW4SPL architecture provides a dynamic management of configurations to allow the use of multiple objects and services.
@@ -172,7 +172,7 @@ The parameters is a list of the parameters used by the configuration.
 
     - name:
         parameter name, used as ``${paramName}`` in the configuration. It will be replaced by the string
-        defined by the service, activity or application that launchs the configuration.
+        defined by the service, activity or application that launches the configuration.
 
     - default (optional):
         default value for the parameter, it is used if the value is not given by the config launcher.

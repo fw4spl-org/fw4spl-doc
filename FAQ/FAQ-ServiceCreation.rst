@@ -14,8 +14,8 @@ A service is a C++ class inherited from ``::fwServices::IService``. It will impl
 
 These methods are called by the *configure()*, *start()*, *update()* and *stop()* methods of the base class ``IService``.
 
-For the example, we will create a service ``SMesher`` in a bundle ``operators``. The service will have a 
-``::fwData::Image`` as input and a ``::fwData::Mesh`` as output. 
+For the example, we will create a service ``SMesher`` in a bundle ``operators``. The service will have a
+``::fwData::Image`` as input and a ``::fwData::Mesh`` as output.
 
 The header file ``SMesher.hpp`` should be in the folder ``<src_dir>/bundles/operators/include/operators``:
 
@@ -24,9 +24,6 @@ The header file ``SMesher.hpp`` should be in the folder ``<src_dir>/bundles/oper
     #pragma once
 
     #include "operators/config.hpp"
-
-    #include <fwData/Image.hpp>
-    #include <fwData/Mesh.hpp>
 
     #include <fwServices/IOperator.hpp>
 
@@ -87,10 +84,19 @@ The header file ``SMesher.hpp`` should be in the folder ``<src_dir>/bundles/oper
 
 
 The file ``operators/config.hpp`` is automatically generated, it provides ``OPERATORS_CLASS_API`` and ``OPERATORS_API``
-that allow to expose the methods.
+macros that allow to expose symbols in the shared library.
 
-**The doxygen section of the service is very important** (see :ref:`Documentation` Rule: 43), it is parsed by cmake to register 
-properly the service.
+.. warning::
+
+    **The doxygen section of the service is very important** (see :ref:`Documentation` Rule: 43), it is parsed by cmake
+    to register properly the service. The `Input`, `Output` and `InOut` sections must follow the defined format:
+
+        \\- \\b ``key_name`` [``object_type``]: ``description``
+
+    - *key_name*: the name of the key (used to retrieve the object in the service)
+    - *object_type*: class of the object with the full namespace (don't forget the ``::``)
+    - *description*: the purpose of this input/output
+
 
 In the source file ``SMesher.cpp`` should be in the folder ``<src_dir>/bundles/operators/src/operators``:
 
@@ -148,7 +154,7 @@ In the source file ``SMesher.cpp`` should be in the folder ``<src_dir>/bundles/o
 
         // generate the mesh
         // ...
-        
+
         if (m_generateNormals)
         {
             // ...
@@ -175,7 +181,7 @@ Usage
 This service is defined in xml configuration like:
 
 .. code-block:: xml
-    
+
     <extension implements="::fwServices::registry::AppConfig">
     <!-- ..... -->
 
@@ -191,7 +197,7 @@ This service is defined in xml configuration like:
      </service>
 
      <!-- ..... -->
-     
+
      <start uid="mesher" />
      <update uid="mesher" />
 
@@ -201,24 +207,24 @@ You can also use this service in C++
 .. code-block:: cpp
 
     ::fwServices::IServices::ConfigType config;
-    config.add("generateNormals", "true"); 
+    config.add("generateNormals", "true");
 
     ::fwServices::IService::sptr mesher = ::fwServices::add("::operators::SMesher");
     mesher->registerInput(image, "image") // use to register the input
     mesher->setObjectId("mesh", "mesh"); // use to register the output
-    mesher->setConfiguration(config); 
+    mesher->setConfiguration(config);
     mesher->configure();
     mesher->start();
     mesher->update();
     ::fwData::Mesh::sptr obj = mesher->getOutput< ::fwData::Mesh >("mesh");
     mesher->stop();
     ::fwServices::OSR::unregisterService( mesher );
- 
+
 
 Connection
 ===========
 
-It should be necessary to reimplement ``getAutoConnections()`` if you want to automatically connect the input data 
+It should be necessary to reimplement ``getAutoConnections()`` if you want to automatically connect the input data
 signals to the service. In our example, we want to call ``update()`` method when the image is modified.
 
 .. code-block:: cpp
@@ -226,13 +232,13 @@ signals to the service. In our example, we want to call ``update()`` method when
     IService::KeyConnectionsMap SMesher::getAutoConnections() const
     {
         KeyConnectionsMap connections;
-        
+
         connections.push(s_IMAGE_INPUT, ::fwData::Image::s_MODIFIED_SIG, s_UPDATE_SLOT);
-        
+
         return connections;
     }
-    
-It connects the ``s_MODIFIED_SIG`` ("modified") signal of the image with the key ``s_IMAGE_INPUT`` ("image") with the 
+
+It connects the ``s_MODIFIED_SIG`` ("modified") signal of the image with the key ``s_IMAGE_INPUT`` ("image") with the
 service slot registered as ``s_UPDATE_SLOT`` ("update").
 
 To make this connection, you have to add ``autoConnect="yes"`` in the XML declaration of the service.
