@@ -212,7 +212,6 @@ You can also use this service in C++
 
     ::fwServices::IService::sptr mesher = ::fwServices::add("::operators::SMesher");
     mesher->registerInput(image, "image") // use to register the input
-    mesher->setObjectId("mesh", "mesh"); // use to register the output
     mesher->setConfiguration(config);
     mesher->configure();
     mesher->start();
