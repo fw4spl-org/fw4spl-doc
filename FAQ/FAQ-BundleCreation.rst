@@ -3,7 +3,8 @@ How to create a bundle, a lib, an executable or an application ?
 *******************************************************************
 
 In fw4spl, the bundles, libraries, applications and executables are folders containing:
-- [required] two files to generate the *CMake* target: CMakelists.txt and Properties.cmake (see :ref:`HowCMake`).
+
+- [required] two files to generate the *CMake* target: ``CMakeLists.txt`` and ``Properties.cmake`` (see :ref:`HowCMake`).
 - [optional] *include* and *src* folder to contain the header and source files.
 - [optional] *rc* folder to contain resources and XML configuration files
 - [optional] *test* folder to contain the unit tests
@@ -13,22 +14,23 @@ In fw4spl, the bundles, libraries, applications and executables are folders cont
 How to create a bundle ?
 ==========================
 
-In fw4spl, there is two types of bundles:
+In fw4spl, you will encounter two types of bundles:
+
 - the bundles containing only XML configurations
 - the bundles containing services or other cpp code
 
-It is possible to contain at the same time configurations and services (or C++ code), but it is better to separate the two.
+It is possible to contain at the same time configurations and services (or C++ code), but for the sake of clarity and 
+reusability we recommend to separate the two.
 
 .. _configBundle:
 
-Configuration bundles
-----------------------
+XML configurations bundles
+--------------------------
 
 These bundles does not contain C++ code, they only contain XML files and the required *CMake* files.
-
 In the bundle folder, there is only the *CMake* files and the *rc* folder.
 
-CMake Files
+CMake files
 ~~~~~~~~~~~~
 
 The CMakeLists.txt contains only ``fwLoadProperties()`` to load the Properties.cmake
@@ -192,4 +194,4 @@ The ``Plugin.cpp`` in the *src* folder should be like:
     **Don't forget to register the bundle with the correct namespace with '::'.**
 
 The methods ``start()`` and ``stop`` must be implemented but are usually empty. They are called when the application is
-started and stopped. The ``initialize()`` method is executed after the *start* of all the bundle and ``uninitialize()`` before the *stop*.
+started and stopped. The ``initialize()`` method is executed after the *start* of all the bundles and ``uninitialize()`` before the *stop*.

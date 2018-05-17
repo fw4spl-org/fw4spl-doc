@@ -32,17 +32,18 @@ tag (see :ref:`tuto01`).
 profile.xml
 ------------
 
-The Properties.cmake of an application generates the ``profile.xml``, it is the file that describes the bundles
-to use in the application and it is used as an input of the ``fwlauncher`` command to specify the application to run.
-
-Remember that to launch an application, we use:
+To launch an application, we use:
 
 .. code::
 
     bin/fwlauncher share/<myApplication>_<version>/profile.xml
+
+This ``profile.xml`` file, used as an input of the fwlauncher command, holds a list of all bundles
+necessary to run an application. We describe the content of this file here for reference, but hopefully you do **not** have to write it yourself. 
+The Properties.cmake of an application generates automatically a ``profile.xml``.
     
 
-Here is for example the following profile.xml generated for :ref:`tuto01`.
+Here is for example the ``profile.xml`` generated for :ref:`tuto01`.
 
 .. code-block:: xml
 
@@ -66,7 +67,7 @@ Here is for example the following profile.xml generated for :ref:`tuto01`.
     </profile>
 
 activate:
-    List of bundles used in this application. We see the parameter given to *appXML* bundle.
+    List of bundles used in this application. We see the parameter given to *appXML* bundle that we wrote in the *Properties.cmake*.
     
 start:
     List of bundles to start when the application is launched. Basically, there are few bundles to start at the beginning:

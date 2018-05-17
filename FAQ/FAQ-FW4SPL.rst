@@ -117,7 +117,7 @@ with a '@' or a '!'.
 - ``@`` : the returned string is the fwID of the sub-object defined by the path.
 - ``!`` : the returned string is the value of the sub-object, it works only on String, Integer, Float and  Boolean object.
 
-Sadly, we do not have yet a document giving the paths for all existing data. To know how an object can be accessed with a sesh@ path, you canal 
+Sadly, we do not have yet a document giving the paths for all existing data. To know how an object can be accessed with a sesh@ path, you can
 have a look at the corresponding fwDataCamp implementation of the object. For instance, the file *fwDataCamp/Image.cpp* shows :
 
 .. code:: c++
@@ -139,22 +139,23 @@ have a look at the corresponding fwDataCamp implementation of the object. For in
         ;
     }
 
-Which means that each property is a possible **sesh@ path**. For instance the height of the image can be retrieved using:
+Which means that each property is a reachable by a **camp path**. This is notably used by services in the ``ctrlCamp`` bundle, like ``SExtractObjObj`` or ``SCopy``.
+For instance the height of the image can be retrieved using:
 
 .. code:: xml
      
-     @values.size.1
+     @size.1
 
 Other examples:
 ----------------
 
-To get the fwID of an image contained in a Composite with the key "myImage"
+To get the image contained in a ``::fwData::Composite`` with the key ``myImage``
 
 .. code:: xml
      
      @values.myImage
 
-To get the fwID of the first reconstruction of a ModelSeries contained in a Composite with the key "myModel"
+To get the first reconstruction of a ModelSeries contained in a ``::fwData::Composite`` with the key ``myModel``
 
 .. code:: xml
 

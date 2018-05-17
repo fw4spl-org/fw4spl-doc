@@ -7,12 +7,13 @@ How to create a service ?
 Implementation
 ===============
 A service is a C++ class inherited from ``::fwServices::IService``. It will implement at least the following methods:
-- configuring(): parse the configuration (usually from the XML)
-- starting(): initialize the service (create the gui, retrieve/initialize the data, ...)
-- updating(): process
-- stopping(): clear all (clear the gui, release the data, ...)
 
-These methods are called by the *configure()*, *start()*, *update()* and *stop()* methods of the base class ``IService``.
+- ``configuring()``: parses the configuration (usually from the XML)
+- ``starting()``: initializes the service (creates the gui, retrieves/initializes the data, ...)
+- ``updating()``: processes
+- ``stopping()``: clears all (clears the gui, releases the data, ...)
+
+These methods are called by the *configure()*, *start()*, *update()* and *stop()* slots of the base class ``IService``.
 
 For the example, we will create a service ``SMesher`` in a bundle ``operators``. The service will have a
 ``::fwData::Image`` as input and a ``::fwData::Mesh`` as output.
@@ -88,8 +89,8 @@ macros that allow to expose symbols in the shared library.
 
 .. warning::
 
-    **The doxygen section of the service is very important** (see :ref:`Documentation` Rule: 43), it is parsed by cmake
-    to register properly the service. The `Input`, `Output` and `InOut` sections must follow the defined format:
+    **The doxygen section of the service is very important** (see :ref:`Documentation` Rule: 43), it is parsed by our CMake scripts
+    to register the service properly. The `Input`, `Output` and `InOut` sections must follow the defined format:
 
         \\- \\b ``key_name`` [``object_type``]: ``description``
 

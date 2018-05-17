@@ -32,13 +32,13 @@ Here is an example of CMakeLists.txt from guiQt Bundle :
     find_package(Qt5 COMPONENTS Core Gui Widgets REQUIRED)
 
 
-    fwForwardInclude(
+    fwInclude(
         ${Qt5Core_INCLUDE_DIRS}
         ${Qt5Gui_INCLUDE_DIRS}
         ${Qt5Widgets_INCLUDE_DIRS}
     )
 
-    fwForwardLink(
+    fwLink(
            ${Qt5Core_LIBRARIES}
            ${Qt5Gui_LIBRARIES}
            ${Qt5Widgets_LIBRARIES}
@@ -48,14 +48,19 @@ Here is an example of CMakeLists.txt from guiQt Bundle :
 
 The first line *fwLoadProperties()* will load the *Properties.cmake* (see explanation in the next section).
 
-The next lines are for the link with an external libraries (fw4spl-deps), in this example it is Qt.
+The next lines allows to compile with the support of some external libraries (fw4spl-deps), in this example this is Qt. 
+The first thing to do is to discover where Qt is installed. This is done with the regular CMake command ``find_package(The_lib COMPONENTS The_component)``.
+Then we use ``fwInclude`` to add includes directories to the target, and ``fwLink`` to link the libraries with your target. 
+Actually if you're accustomed to CMake these two macros are strictly equivalent to: 
 
-The first thing to do is to call *find_package(The_lib COMPONENTS The_component)*.
+.. code-block:: cmake
 
-The use *fwForwardInclude* to add includes directories to the target,
-and *fwLink* to link the libraries with your target.
+    target_include_directories( ${FWPROJECT_NAME} SYSTEM PRIVATE ${Qt5Core_INCLUDE_DIRS} ${Qt5Gui_INCLUDE_DIRS} ${Qt5Widgets_INCLUDE_DIRS} )
+    target_link_libraries( ${FWPROJECT_NAME} PRIVATE ${Qt5Core_LIBRARIES} ${Qt5Gui_LIBRARIES} ${Qt5Widgets_LIBRARIES} )
 
-You can also add custom properties to your target with *set_target_properties*.
+They are proposed as a convenience so people won't forget for instance to specify `SYSTEM`, which prevents compilation warnings from third-part libraries to be displayed. If the rare case where your bundle may be a dependency of an another one, you can forward the include directories and the libraries with ``fwForwardInclude`` and ``fwForwardLink``, which are still equivalent to ``target_include_directories`` and ``target_link_libraries`` CMake commands but with ``PUBLIC`` set instead of ``PRIVATE``.
+
+Eventually, you can also add custom properties to your target with ``set_target_properties``.
 
 .. _Properties.cmake:
 
@@ -64,7 +69,7 @@ Properties.cmake
 
 Properties.cmake should contain informations like name, version, dependencies and requirements of the current target.
 
-Here is an example of Properties.cmake from fwData library:
+Here is an example of Properties.cmake from ``fwData`` library:
 
 .. code-block:: cmake
 
@@ -102,7 +107,7 @@ In some Properties.cmake (mostly in applications), you can see the line:
 
     bundleParam(appXml PARAM_LIST config PARAM_VALUES tutoBasicConfig)
 
-This cmake macro allows to give parameters to a bundle. The parameters are defined like:
+This CMake macro allows to give parameters to a bundle. The parameters are defined like:
 
 .. code-block:: cmake
 
