@@ -53,8 +53,8 @@ Ex01VideoTracking                Basic marker tracking on a video
 Ex02TimeLine                     Basic producer-consumer pattern sample with timeLine data
 Ex03Igtl                         Example of some of the *openIGTLink* features
 Ex04SimpleARCV                   AR using a given transform matrix to register a mesh on a camera view
-Ex05FrameByFrame                 Playing a video frame by frame
-Ex06RGBDStream                   Playing a RGBD stream (from a RGBD camera or recorded images)
+Ex05FrameByFrame                 Play a video frame by frame
+Ex06RGBDStream                   Play a RGBD stream (from a RGBD camera or recorded images)
 Ex07RGBDManualAR                 
 ExSolvePnP                       Register a mesh on a video using SolvePnp (with user interaction)
 ExStereoARCV                     Stereo AR using a given transform matrix to register a mesh on a camera view
