@@ -6,9 +6,3 @@ Frequently Asked Questions (FAQ)
     :maxdepth: 2
 
     FAQ-FW4SPL.rst
-    FAQ_CMake.rst
-    FAQ-ServiceCreation.rst
-    FAQ-BundleCreation.rst
-    FAQ-ApplicationCreation.rst
-    FAQ-DepsCreation.rst
-    FAQ-troubleshooting.rst

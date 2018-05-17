@@ -8,6 +8,7 @@ FW4SPL documentation
    Introduction/index
    Installation/index
    Tutorials/index
+   HowTos/index
    FAQ/index
    Testing/index
    CodingStyle/index
@@ -15,5 +16,3 @@ FW4SPL documentation
    SAD/index
    Contributors/index
 
-
-   
