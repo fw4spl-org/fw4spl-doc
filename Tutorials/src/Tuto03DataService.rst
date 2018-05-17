@@ -4,7 +4,7 @@
 [*Tuto03DataService*] Display an image with menu
 *************************************************
 
-The third tutorial is similar to the previous application, but we add gui service like menus.
+The third tutorial is similar to the previous application, but we add gui services like menus.
 
 .. figure:: ../media/tuto03DataService.png
     :scale: 50
@@ -14,7 +14,7 @@ The third tutorial is similar to the previous application, but we add gui servic
 Prerequisites
 --------------
 
-Before to read this tutorial, you should have seen :
+Before reading this tutorial, you should have seen :
  * :ref:`tuto02`
  * :ref:`GUI`
 
@@ -196,7 +196,7 @@ This file is in the ``rc/`` directory of the application. It defines the service
 The framework provides some gui services:
 
 Frame (``::gui::frame::SDefaultFrame``)
-    This service display a frame and creates menu bar, tool bar and container for views, rendering service, ...
+    This service displays a frame and creates menu bar, tool bar and container for views, rendering service, ...
 
 View (``::gui::view::SDefaultView``)
     This service creates sub-container and tool bar.

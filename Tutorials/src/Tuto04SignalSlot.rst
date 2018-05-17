@@ -14,7 +14,7 @@ The fourth tutorial explains the communication mechanism with signals and slots.
 Prerequisites
 ===============
 
-Before to read this tutorial, you should have seen :
+Before reading this tutorial, you should have seen :
  * :ref:`tuto03`
  * :ref:`SigSlot`
 
@@ -238,7 +238,7 @@ Signal and slot creation
 
         // .....
 
-        /// This method is call when the VTK camera position is modified.
+        /// This method is called when the VTK camera position is modified.
         /// It notifies the new camera position.
         void notifyCamPositionUpdated();
 
@@ -257,7 +257,7 @@ Signal and slot creation
     private:
 
         /// Slot: receives new camera information (position, focal, viewUp).
-        /// Update camera with new information.
+        /// Updates camera with new information.
         void updateCamPosition(SharedArray positionValue,
                                SharedArray focalValue,
                                SharedArray viewUpValue);
@@ -315,8 +315,9 @@ Signal and slot creation
 
         {
             // The Blocker blocks the connection between the "camUpdated" signal and the
-            // "updateCamPosition" slot for this instance of service.
-            // The block is release at the end of the scope.
+            // "updateCamPosition" slot for this instance of service, in order to prevent
+            // infinite recursion.
+            // The block is released at the end of the scope.
             ::fwCom::Connection::Blocker block(
                                 m_sigCamUpdated->getConnection(m_this->slot("updateCamPosition")));
 

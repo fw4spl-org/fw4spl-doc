@@ -22,7 +22,7 @@ This tutorial explains how to use the generic scene.
 Prerequisites
 ===============
 
-Before to read this tutorial, you should have seen :
+Before reading this tutorial, you should have seen :
  * :ref:`generic_scene`
  * :ref:`tuto06`
 
@@ -189,7 +189,7 @@ This file is in the ``rc/`` directory of the application. It defines the service
 
                 <!--
                     Generic scene:
-                    This scene display a 3D image and a textured mesh.
+                    This scene displays a 3D image and a textured mesh.
                 -->
                 <!-- *************************** Begin generic scene *************************** -->
 
@@ -226,7 +226,7 @@ This file is in the ``rc/`` directory of the application. It defines the service
                     <config renderer="default" picker="myPicker" mode="3d" slices="3" sliceIndex="axial" />
                 </service>
 
-                <!-- Snapshot adaptor: create a snapshot of the scene. It has a slot "snap" that receives a path -->
+                <!-- Snapshot adaptor: creates a snapshot of the scene. It has a slot "snap" that receives a path -->
                 <service uid="snapshotAdaptor" type="::visuVTKAdaptor::SSnapshot">
                     <config renderer="default" />
                 </service>
@@ -244,7 +244,7 @@ This file is in the ``rc/`` directory of the application. It defines the service
 
                 <!--
                     Generic editor representing a menu button.
-                    It send signal with the current selected item.
+                    It sends a signal with the current selected item.
                 -->
                 <service uid="sliceListEditor" type="::guiQt::editor::SSelectionMenuButton">
                     <toolTip>Manage slice visibility</toolTip><!-- button tooltip -->
@@ -328,13 +328,9 @@ This file is in the ``rc/`` directory of the application. It defines the service
 
                 <!--
                     Connection for 3D image slice:
-                    Connect the button (showScanEditor) signal "toggled" to the image adaptor (MPRNegatoScene3D)
+                    Connect the button (showScanEditor) signal "toggled" to the image adaptor (SNegatoMPR)
                     slot "showSlice", this signals/slots contains a boolean.
-                    The image slices will be show or hide when the button is checked/unchecked.
-
-                    The "waitForKey" attribut means that the signal and slot are connected only if the key
-                    "image" is present in the scene composite. It is recommanded to used because the adaptors
-                    exists only if the object is present.
+                    The image slices will be shown or hidden when the button is checked/unchecked.
                 -->
                 <connect>
                     <signal>showScanEditor/toggled</signal>
@@ -344,7 +340,7 @@ This file is in the ``rc/`` directory of the application. It defines the service
                 <!--
                     Connection for 3D image slice:
                     Connect the menu button (sliceListEditor) signal "selected" to the image adaptor
-                    (MPRNegatoScene3D) slot "updateSliceMode", this signals/slots contains an integer.
+                    (SNegatoMPR) slot "updateSliceMode", this signals/slots contains an integer.
                     This integer defines the number of slice to show (0, 1 or 3).
                 -->
                 <connect>
@@ -377,7 +373,7 @@ This file is in the ``rc/`` directory of the application. It defines the service
 GUI
 ------
 
-This tutorials used multiple editors to manage the image rendering: 
+This tutorials use multiple editors to manage the image rendering: 
 
 - show/hide image slices
 - navigate between the image slices
@@ -435,7 +431,7 @@ selected
     The value of the item selected by default 
 
 
-When the user select an item, a signal is emitted: the signal is ``selected(int selection)``. It sends the value of 
+When the user selects an item, a signal is emitted: the signal is ``selected(int selection)``. It sends the value of 
 the selected item.
     
 In our case, we want to change the number of image slices displayed in the scene. So, we need to connect this signal to

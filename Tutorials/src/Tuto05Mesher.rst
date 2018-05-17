@@ -5,7 +5,7 @@
 **********************************************
 
 The fifth tutorial explains how to use several objects in an application. 
-This application provides an action to creates a mesh from an image.
+This application provides an action to create a mesh from an image mask.
 
 .. figure:: ../media/tuto05Mesher.png
     :scale: 80
@@ -15,7 +15,7 @@ This application provides an action to creates a mesh from an image.
 Prerequisites
 ===============
 
-Before to read this tutorial, you should have seen :
+Before reading this tutorial, you should have seen :
  * :ref:`tuto04`
 
 

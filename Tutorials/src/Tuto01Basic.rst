@@ -40,14 +40,14 @@ A fw4spl application is organized around three main files :
 CMakeLists.txt
 ~~~~~~~~~~~~~~~
 
-The CMakeLists is parsed by CMake_. For the application, it should contain the following lines : 
+The CMakeLists.txt is parsed by CMake_. For an application, it should contain the following lines : 
 
 .. code-block:: cmake
 
     fwLoadProperties() 
     generic_install()
 
-- ``fwLoadProperties`` allows to load Properties.cmake file and thus to build the application
+- ``fwLoadProperties()`` allows to load Properties.cmake file and thus to build the application
 - ``generic_install()`` allows to generate an installer for the application
 
 .. _CMake: https://cmake.org
@@ -72,7 +72,7 @@ This file describes the project information and requirements (see :ref:`Properti
         appXml # to parse the application configuration
     )
 
-    # Set the configuration to use : 'tutoBasicConfig'
+    # Set application configuration to 'tutoBasicConfig'
     bundleParam(appXml PARAM_LIST config PARAM_VALUES tutoBasicConfig) 
 
     
@@ -81,7 +81,7 @@ This file contains the minimal requirements to launch an application with a Qt u
 .. note::
 
     The Properties.cmake file of the application is used by CMake_ to compile the application but also to generate the
-    ``profile.xml``: the file used to launch the application (see :ref:`profile.xml`). 
+    ``profile.xml``, the input file used to launch the application (see :ref:`profile.xml`). 
     
 The ``bundleParam`` line defines the parameters to set for a bundle, here it defines the configuration to launch by the 
 appXML bundle, i.e. the application configuration.
@@ -124,19 +124,17 @@ This file is located in the ``rc/`` directory of the application. It contains th
         </extension>
     </plugin>
 
-``<requirement>`` lists the bundles that should be loaded before launching the application: the bundle of registry or 
-io service (see Requirements_)
+``<requirement>`` lists the bundles that should be loaded before launching the application: the bundle to register data or 
+i/o services (see Requirements_).
 
 The ``::fwServices::registry::AppConfig`` extension defines the configuration of an application: 
 
 **id**: 
     The configuration identifier.
 **config**: 
-    Contains the list of objects and services used by the application. 
-    
-    For this tutorial, we have no object and only one service ``::gui::frame::SDefaultFrame``.
-    
-    There are others tags that will be described in the next tutorials.
+    Contains the list of objects and services used by the application.     
+    For this tutorial, we have no object and only one service ``::gui::frame::SDefaultFrame``.    
+    There are few others tags that will be described in the next tutorials.
 
 .. _Requirements: https://rawgit.com/fw4spl-org/fw4spl-dox/dev/group__requirement.html
 
@@ -148,3 +146,9 @@ To run the application, you must call the following line into the install or bui
 .. code::
 
     bin/fwlauncher share/Tuto01Basic-0.1/profile.xml
+
+On Linux and MacOs, you can also use the shortcut (generated for each application):
+
+.. code::
+
+    bin/tuto01basic

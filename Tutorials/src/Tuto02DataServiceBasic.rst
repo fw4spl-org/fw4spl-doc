@@ -4,7 +4,7 @@
 [*Tuto02DataServiceBasic*] Display an image
 *********************************************
 
-The second tutorial represents a basic application that display a medical 3D image. 
+The second tutorial represents a basic application that displays a medical 3D image. 
 
 .. figure:: ../media/tuto02DataServiceBasic.png
     :scale: 50
@@ -14,7 +14,7 @@ The second tutorial represents a basic application that display a medical 3D ima
 Prerequisites
 --------------
 
-Before to read this tutorial, you should have seen :
+Before reading this tutorial, you should have seen :
  * :ref:`tuto01`
  
 
@@ -39,7 +39,7 @@ This file describes the project information and requirements :
         guiQt
         ioVTK # contains the reader and writer for VTK files (image and mesh).
         visuVTK # loads VTK rendering library (fwRenderVTK).
-        visuVTKQt # containsthe vtk Renderer window interactor manager using Qt.
+        visuVTKQt # contains the vtk Renderer window interactor manager using Qt.
         vtkSimpleNegato # contains a visualization service of medical image.
         fwlauncher
         appXml
@@ -49,21 +49,21 @@ This file describes the project information and requirements :
 
 .. note::
 
-    The Properties.cmake file of the application is used by CMake to compile the application but also to generate the
-    ``profile.xml``: the file used to launch the application. 
+    The Properties.cmake file of the application is used by CMake_ to compile the application but also to generate the
+    ``profile.xml``, the input file used to launch the application (see :ref:`profile.xml`). 
     
 
 plugin.xml
 ~~~~~~~~~~~
 
-This file is in the ``rc/`` directory of the application. It defines the services to run.
+This file is located in the ``rc/`` directory of the application. It defines the services to run.
  
 .. code-block:: xml
 
     <plugin id="Tuto02DataServiceBasic" version="@PROJECT_VERSION@">
 
         <!-- The bundles in requirements are automatically started when this 
-             Application is launched. -->
+             application is launched. -->
         <requirement id="dataReg" />
         <requirement id="servicesReg" />
         <requirement id="visuVTKQt" />
@@ -107,7 +107,7 @@ This file is in the ``rc/`` directory of the application. It defines the service
 
                 <!--
                     Visualization service of a 3D medical image:
-                    This service will render the 3D image.
+                    This service renders the 3D image.
                 -->
                 <service uid="myRendering" type="::vtkSimpleNegato::SRenderer">
                     <in key="image" uid="imageData" />
@@ -116,7 +116,7 @@ This file is in the ``rc/`` directory of the application. It defines the service
                 <!--
                     Definition of the starting order of the different services:
                     The frame defines the 3D scene container, so it must be started first.
-                    The services will be stopped the reverse order compared to the starting one.
+                    The services will be stopped symmetrically in the reverse order.
                 -->
                 <start uid="mainFrame" />
                 <start uid="myReaderPathFile" />
@@ -124,8 +124,8 @@ This file is in the ``rc/`` directory of the application. It defines the service
 
                 <!--
                     Definition of the service to update:
-                    The reading service load the data on the update.
-                    The render update must be called after the reading of the image.
+                    The reading service loads the data on the update.
+                    The render updates must be called after the reading of the image.
                 -->
                 <update uid="myReaderPathFile" />
                 <update uid="myRendering" />
@@ -140,18 +140,18 @@ This file is in the ``rc/`` directory of the application. It defines the service
 For this tutorial, we have only one object ``::fwData::Image`` and three services:
  * ``::gui::frame::SDefaultFrame``: frame service
  * ``::ioVTK::SImageReader``: reader for 3D VTK image
- * ``::vtkSimpleNegato::SRenderer``: render for 3D image
+ * ``::vtkSimpleNegato::SRenderer``: renderer for 3D image
  
-The order of the elements in the configuration is important: 
-  #. <object>
-  #. <service>
-  #. <connect> (see :ref:`tuto04`)
-  #. <start>
-  #. <update>
+The following order of the configuration elements must be respected: 
+  #. ``<object>``
+  #. ``<service>``
+  #. ``<connect>`` (see :ref:`tuto04`)
+  #. ``<start>``
+  #. ``<update>``
  
 .. note::
     To avoid the ``<start uid="myRendering" />``, the frame service can automatically start the rendering service: you 
-    just need to add the attribute ``start="yes"`` in the <view> tag. 
+    just need to add the attribute ``start="yes"`` in the ``<view>`` tag. 
 
 Run
 ----
