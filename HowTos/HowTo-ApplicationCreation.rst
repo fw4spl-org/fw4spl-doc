@@ -70,10 +70,10 @@ activate:
     List of bundles used in this application. We see the parameter given to *appXML* bundle that we wrote in the *Properties.cmake*.
     
 start:
-    List of bundles to start when the application is launched. Basically, there are few bundles to start at the beginning:
+    List of bundles to start when the application is launched. Basically, there are a few bundles to start at the beginning:
     
     - *appXML*: to launch the configuration
-    - *guiQt*: to launch qt event loop for application using GUI
+    - *guiQt*: to launch the qt event loop for applications with a GUI
     - *memory*: to manage image and mesh buffers
 
     The other bundles will be started according to the XML <requirement> tags of the bundles, or when a service is used in 
