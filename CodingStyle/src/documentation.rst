@@ -1,11 +1,13 @@
+.. _Documentation:
+
 Documentation
 =============
 
-.. rule :: Document the code
+.. rule:: Document the code
 
     The code must be documented with **Doxygen**, an automated tool to generate documentation.
 
-.. rule :: Location of the documentation
+.. rule:: Location of the documentation
 
     Every documentation that can be useful to a user must be placed inside the header files. Thus a user of a module can
     find the declaration of a class and its documentation at the same place. Inside the implementation file, the
@@ -14,7 +16,7 @@ Documentation
     Moreover, every documentation must be placed next to the entity it is refering to, in order to help searching inside
     the code.
 
-.. recommendation :: Lightweight documentation
+.. recommendation:: Lightweight documentation
 
     Inside a documentation block, only use necessary tags. This will avoid to overload the documentation and makes it
     readable. By the way, empty tags will be presented inside the generated documentation and will be useless.
@@ -79,15 +81,15 @@ Example 3 : Function documentation
             std::string     m_thing;
         };
 
-.. recommendation :: Structured documentation
+.. recommendation:: Structured documentation
 
     Doxygen provides a default structure when you generate the documentation. However, when dealing with a big
     documented entity, it is often recommended to use the group feature (``@name``). With this feature you will build a
     logical view of the class interfaces.
 
-.. rule :: Document service
+.. rule:: Document service
 
-    The service must be properly documented. 
+    The service must be properly documented.
 
     This should include first a brief description, then a long description if necessary.
 
@@ -95,7 +97,7 @@ Example 3 : Function documentation
 
         /**
          * @brief This is the short description.
-         * 
+         *
          * This is the long description.
          *
 
@@ -103,22 +105,24 @@ Example 3 : Function documentation
 
     .. code-block:: cpp
 
-         *
+        /**
+         * ...
          * @section Signals Signals
          * - \b signal2(::fwData::Mesh::sptr) : Emitted when the mesh has changed.
          * - \b signal1(std::int64_t) : Emitted when ...
          *
          * @section Slots Slots
          * - \b modified() : Modify the data.
-         *
+         */
 
-    Last the xml configuration of the service must be described into a dedicated section. 
+    Last the xml configuration of the service must be described into a dedicated section.
     It should indicate first the input, input/outputs and outputs in three subsections. The type and the name of the data should appear along with a short description.
     A fourth subsection  describes the rest of the parameters, and tells if it they are optional or not.
 
     .. code-block:: cpp
 
-         *
+        /**
+         * ...
          * @section XML XML Configuration
          *
          * @code{.xml}
@@ -144,5 +148,11 @@ Example 3 : Function documentation
          *
          */
 
-    Please follow the template above as much as possible to keep the documentation as clear and homogeneous as possible.
+    **The XML documentation is important**, it is parsed to register properly the service.
+    The `Input`, `Output` and `InOut` sections must follow the defined format:
 
+        \\- \\b ``key_name`` [``object_type``]: ``description``
+
+    - *key_name*: the name of the key (used to retrieve the object in the service)
+    - *object_type*: class of the object with the full namespace (don't forget the ``::``)
+    - *description*: the purpose of this input/output

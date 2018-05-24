@@ -4,7 +4,7 @@
 [*Tuto03DataService*] Display an image with menu
 *************************************************
 
-The third tutorial is similar to the previous application, but we add gui service like menus.
+The third tutorial is similar to the previous application, but we add gui services like menus.
 
 .. figure:: ../media/tuto03DataService.png
     :scale: 50
@@ -14,7 +14,7 @@ The third tutorial is similar to the previous application, but we add gui servic
 Prerequisites
 --------------
 
-Before to read this tutorial, you should have seen :
+Before reading this tutorial, you should have seen :
  * :ref:`tuto02`
  * :ref:`GUI`
 
@@ -62,8 +62,12 @@ This file is in the ``rc/`` directory of the application. It defines the service
 
 .. code-block:: xml
 
-    <plugin id="Tuto03DataService" version="@DASH_VERSION@">
+
+    <plugin id="Tuto03DataService" version="@PROJECT_VERSION@">
+
+        <requirement id="dataReg" />
         <requirement id="servicesReg" />
+        <requirement id="visuVTKQt" />
 
         <extension implements="::fwServices::registry::AppConfig">
             <id>tutoDataServiceConfig</id>
@@ -81,7 +85,7 @@ This file is in the ``rc/`` directory of the application. It defines the service
                     <gui>
                         <frame>
                             <name>tutoDataService</name>
-                            <icon>@BUNDLE_PREFIX@/Tuto03DataService_0-1/tuto.ico</icon>
+                            <icon>Tuto03DataService-0.1/tuto.ico</icon>
                             <minSize width="800" height="600" />
                         </frame>
                         <menuBar />
@@ -164,7 +168,7 @@ This file is in the ``rc/`` directory of the application. It defines the service
                     When the service was chosen, it is started, updated and stopped, so the data is read.
                 -->
                 <service uid="myReaderPathFile" type="::uiIO::editor::SIOSelector" >
-                    <inout key="target" uid="image" />
+                    <inout key="data" uid="image" />
                 </service>
 
                 <!--
@@ -187,31 +191,31 @@ This file is in the ``rc/`` directory of the application. It defines the service
             </config>
         </extension>
     </plugin>
-    
+
 
 The framework provides some gui services:
 
-Frame (``::gui::frame::DefaultFrame``)
-    This service display a frame and creates menu bar, tool bar and container for views, rendering service, ...
-    
-View (``::gui::view::DefaultView``)
+Frame (``::gui::frame::SDefaultFrame``)
+    This service displays a frame and creates menu bar, tool bar and container for views, rendering service, ...
+
+View (``::gui::view::SDefaultView``)
     This service creates sub-container and tool bar.
-    
-Menu bar (``::gui::aspect::DefaultMenuSrv``)
+
+Menu bar (``::gui::aspect::SDefaultMenuSrv``)
     A menu bar displays menus.
 
-Tool bar (``::gui::aspect::DefaultToolBarSrv``)
+Tool bar (``::gui::aspect::SDefaultToolBarSrv``)
     A tool bar displays actions, menus and editors.
 
-Menu (``::gui::aspect::DefaultMenuSrv``)
+Menu (``::gui::aspect::SDefaultMenuSrv``)
     A menu displays actions and sub-menus.
 
 Action (inherited from ``::fwGui::IActionSrv`` )
     An action is a service inherited from ``::fwGui::IActionSrv``. It is called when the user clicks on the associated 
     tool bar or menu.
 
-Editors (inherited from ``::gui::editor::IEditor``)
-    An editor is a service inherited from ``::gui::editor::IEditor``. It is used to creates your own gui container.
+Editors (inherited from ``::fwGui::editor::IEditor``)
+    An editor is a service inherited from ``::fwGui::editor::IEditor``. It is used to creates your own gui container.
 
 
 Run
@@ -221,4 +225,4 @@ To run the application, you must call the following line into the install or bui
 
 .. code::
 
-    bin/fwlauncher Bundles/Tuto03DataService_0-1/profile.xml
+    bin/fwlauncher share/Tuto03DataService-0.1/profile.xml

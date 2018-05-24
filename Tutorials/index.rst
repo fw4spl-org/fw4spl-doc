@@ -7,6 +7,7 @@ Tutorials
 
    src/Tuto01Basic
    src/Tuto02DataServiceBasic
+   src/Tuto02DataServiceBasicCtrl
    src/Tuto03DataService
    src/Tuto04SignalSlot
    src/Tuto05Mesher
