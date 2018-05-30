@@ -52,8 +52,7 @@ The DefaultFrame service is configurable with different parameters :
 
 .. code-block:: xml
 
-    <service uid="mainFrame" type="::fwGui::IFrameSrv" 
-        impl="::gui::frame::DefaultFrame" autoConnect="no" >
+    <service uid="mainFrame" type="::gui::frame::SDefaultFrame">
         <gui>
             <frame>
                 <name>Application name</name>
@@ -76,14 +75,13 @@ The DefaultFrame service is configurable with different parameters :
 Menus and actions
 ~~~~~~~~~~~~~~~~~
 
-The menu bar is used to organize application action groups. The main service used to display that kind of bar is ``::fwGui::IMenuBarSrv``. The service ``::gui::aspect::DefaultMenuBarSrv`` is the default implementation. Every backend must provide its own implementation of this service.
+The menu bar is used to organize application action groups. The main service used to display that kind of bar is ``::fwGui::IMenuBarSrv``. The service ``::gui::aspect::SDefaultMenuBar`` is the default implementation. Every backend must provide its own implementation of this service.
 
 The configuration is used to associate a menu label with the service representing the menu.
 
 .. code-block:: xml
 
-    <service uid="menuBar" type="::fwGui::IMenuBarSrv"
-        impl="::gui::aspect::DefaultMenuBarSrv" autoConnect="no" >
+    <service uid="menuBar" type="::gui::aspect::SDefaultMenuBar">
         <gui>
             <layout>
                 <menu name="First Menu"/>
@@ -97,15 +95,14 @@ The configuration is used to associate a menu label with the service representin
     </service>
 
 
-The main service used to display a menu is ``::fwGui::IMenuSrv``. The service ``::gui::aspect::DefaultMenuSrv`` is the default implementation. Every backend must provide its own implementation of this service.
+The main service used to display a menu is ``::fwGui::IMenuSrv``. The service ``::gui::aspect::SDefaultMenu`` is the default implementation. Every backend must provide its own implementation of this service.
 
 The configuration is used to associate an action name and the service performing the action. An action can be configured with a shortcut, a style (default, check, radio) and/or an icon. Several special actions can also be
 specified (QUIT, ABOUT, aso.).
 
 .. code-block:: xml
 
-    <service uid="myMenu" type="::fwGui::IMenuSrv"
-        impl="::gui::aspect::DefaultMenuSrv" autoConnect="no" >
+    <service uid="myMenu" type="::gui::aspect::SDefaultMenu">
         <gui>
             <layout>
                 <menuItem name="First Item" icon="icon_path" />
@@ -122,7 +119,7 @@ specified (QUIT, ABOUT, aso.).
     </service>
 
 
-A menu can also be displayed using a tool bar. The main service used to display a tool bar is ``::fwGui::IToolBarSrv``. The service ``::gui::aspect::DefaultToolBarSrv`` is the default implementation. Every backend must provide its own implementation of this service.
+A menu can also be displayed using a tool bar. The main service used to display a tool bar is ``::fwGui::IToolBarSrv``. The service ``::gui::aspect::SDefaultToolBar`` is the default implementation. Every backend must provide its own implementation of this service.
 
 The configuration of a tool bar is the same as the one used to describe a menu.
 
@@ -130,7 +127,7 @@ The configuration of a tool bar is the same as the one used to describe a menu.
 Layouts
 ~~~~~~~
 
-The layouts are used to organize the different parts of a GUI. The main service used to manage layouts is ``::fwGui::IGuiContainerSrv``. The service ``::gui::view::DefaultView`` is the default implementation. Every backend must provide its own implementation of this service.
+The layouts are used to organize the different parts of a GUI. The main service used to manage layouts is ``::fwGui::IGuiContainerSrv``. The service ``::gui::view::SDefaultView`` is the default implementation. Every backend must provide its own implementation of this service.
 
 Several types of layout can be used :
 
@@ -143,8 +140,7 @@ Every layout can be configured with a set of parameters (orientation, alignment,
 
 .. code-block:: xml
 
-    <service uid="subView" type="::gui::view::IView"
-        impl="::gui::view::DefaultView" autoConnect="no" >
+    <service uid="subView" type="::gui::view::SDefaultView">
         <gui>
             <layout type="::fwGui::LineLayoutManager" >
                 <orientation value="horizontal" />
@@ -166,7 +162,7 @@ The ``fwGui`` library has been designed to support multi-thread application. Whe
 
 .. code-block:: cpp
 
-        ::fwGui::registry::Worker::get()->postTask<void>(
+        ::fwServices::registry::ActiveWorkers::getDefaultWorker()->postTask<void>(
         [&] {
                 //TODO Write function calls
         }

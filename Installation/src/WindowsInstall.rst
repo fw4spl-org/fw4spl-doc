@@ -244,15 +244,15 @@ Source generation
     * ``CMAKE_INSTALL_PREFIX``: set the install location (e.g. Dev\\Install\\Debug).
     * ``CMAKE_BUILD_TYPE``: set to Debug or Release.
     * ``EXTERNAL_LIBRARIES``: set the install path of the dependencies install directory (e.g. Dev\\BinPkgs\\Install\\Debug or Release).
-    * ``PROJECT_TO_BUILD``: set the names of the applications to build (see Dev\Src\Apps or Dev\Src\Samples, ex: VRRender, Tuto01Basic ...), each project should be separated by ";".
+    * ``PROJECTS_TO_BUILD``: set the names of the applications to build (see Dev\Src\Apps or Dev\Src\Samples, ex: VRRender, Tuto01Basic ...), each project should be separated by ";".
     * ``ECLIPSE_PROJECT``: check this box if you want to generate an Eclipse project.
 
 * If you want to generate installers:
-    * ``PROJECT_TO_INSTALL``: set the names of the applications you want to install (i.e. VRRender).
+    * ``PROJECTS_TO_INSTALL``: set the names of the applications you want to install (i.e. VRRender).
 
 .. note::
-    - If ``PROJECT_TO_BUILD`` is empty, all application will be compiled
-    - If ``PROJECT_TO_INSTALL`` is empty, no application will be installed
+    - If ``PROJECTS_TO_BUILD`` is empty, all application will be compiled
+    - If ``PROJECTS_TO_INSTALL`` is empty, no application will be installed
     
 .. warning:: Make sure the arguments concerning the compiler (advanced arguments) point to Visual Studio.
 
@@ -289,7 +289,7 @@ Therefore the profile.xml of the application in the build folder has to be passe
 Generate an installer
 ---------------------
 
-After setting the applications for which you want to generate installers in the ``PROJECT_TO_INSTALL`` CMake variable and generating the code, follow these two steps:
+After setting the applications for which you want to generate installers in the ``PROJECTS_TO_INSTALL`` CMake variable and generating the code, follow these two steps:
 
     * Run *ninja install application_to_install* in the Build directory
     * Run *ninja package* in the Build directory

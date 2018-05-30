@@ -76,10 +76,9 @@ Tuto09MesherWithGenericScene              Scene with multi-object rendering and 
 Tuto10MatrixTransformInGS                 Example of matrix transformation
 Tuto11LaunchBasicConfig                   Example to launch XML config in application
 Tuto12Picker                              Example of scene picker
-Tuto13Scene2D                             Example using the ``scene2d``bundle
+Tuto13Scene2D                             Example using the ``scene2d`` bundle
 Tuto14MeshGenerator                       Mesh features (point/cell color, normals, ...)
 Tuto15Multithread                         Example of multi-threading using fw4spl worker
-Tuto15MultithreadCtrl                     Second example of multi-threading using fw4spl worker
 Tuto16MultithreadConsole                  Second example of multi-threading using fw4spl worker without XML configuration
 TutoGui                                   Example of fw4spl gui feature (toolbar, menu, action)
 TutoTrianConverterCtrl                    Utility converting .trian meshes to .vtk
@@ -93,12 +92,13 @@ Examples
 ==============================  ================================================================
  Name                           Concept
 ==============================  ================================================================
-Ex01VolumeRendering              Example of volume rendering using transfer function
-Ex02ImageMix                     Example of image blend
-Ex03Registration                 Example of simple rigid image-mesh registration
-Ex04ImagesRegistration           Example of simple rigid image-image registration
-Ex05Activities                   Example of activities
-Ex06Dump                         
-Ex07WheelWidget                  Example of wheel widget 
+Ex01VolumeRendering              Volume rendering using transfer function
+Ex02ImageMix                     Blend of two images
+Ex03Registration                 Simple rigid image-mesh registration
+Ex04ImagesRegistration           Simple rigid image-image registration
+Ex05Activities                   Launch activities using a sequencer
+Ex06Dump                         Memory managment
+Ex07WheelWidget                  Wheel widget 
+Ex08SParameters                  Parameters widget 
 ==============================  ================================================================
 

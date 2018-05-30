@@ -14,7 +14,7 @@ This tutorial explains how to perform a filter on an image. Here, the filter app
 Prerequisites
 ===============
 
-Before to read this tutorial, you should have seen :
+Before reading this tutorial, you should have seen :
  * :ref:`tuto05`
 
 
@@ -63,7 +63,7 @@ This file is in the ``rc/`` directory of the application. It defines the service
 
 .. code-block:: xml
 
-    <plugin id="Tuto06Filter" version="@DASH_VERSION@">
+    <plugin id="Tuto06Filter" version="@PROJECT_VERSION@">
 
         <requirement id="dataReg" />
         <requirement id="servicesReg" />
@@ -81,7 +81,7 @@ This file is in the ``rc/`` directory of the application. It defines the service
                     <gui>
                         <frame>
                             <name>Filter</name>
-                            <icon>@BUNDLE_PREFIX@/Tuto06Filter_0-1/tuto.ico</icon>
+                            <icon>Tuto06Filter-0.1/tuto.ico</icon>
                             <minSize width="720" height="600" />
                         </frame>
                         <menuBar />
@@ -172,7 +172,7 @@ This file is in the ``rc/`` directory of the application. It defines the service
                 </service>
 
                 <service uid="readerPathImageFile" type="::uiIO::editor::SIOSelector">
-                    <inout key="target" uid="myImage1" />
+                    <inout key="data" uid="myImage1" />
                     <type mode="reader" />
                 </service>
 
@@ -191,19 +191,19 @@ This file is in the ``rc/`` directory of the application. It defines the service
     </plugin>
 
 
-
 Filter service
 ---------------
 
-Here, the filter service is inherited from ::fwGui::IActionSrv but you can inherit from another type (like 
-``::arServices::IOperator`` in fw4spl-ar repository).
+Here, the filter service is inherited from ``::fwGui::IActionSrv``, which allows to use this service as an action, in this case
+as a button. The member function  ``updating()`` is called when clicking on the button. However you can inherit from another type (like 
+``::arServices::IOperator`` in fw4spl-ar repository) if you do not need this behavior.
 
-For an action, the ``updating()`` method is called by the click on the button. This method retrieves the two images and 
-applies the threshold algorithm.
+This  ``updating()`` function retrieves the two images and applies the threshold algorithm.
 
 The ``::fwData::Image`` contains a buffer for pixel values, it is stored as a ``void *`` to allows several types of 
-pixel (uint8, int8, uint16, int16, double, float ...). To use image buffer, we need to cast it to the image pixel type. 
-For that, we use the ``Dispatcher`` : it allows to invoke a template functor according to the image type.
+pixel (uint8, int8, uint16, int16, double, float ...). To use the image buffer, we need to cast it to the image pixel type. 
+For that, we use the ``::fwTools::Dispatcher`` class which it allows to invoke a template functor according to the image type. This is 
+particularly useful when using template based libraries like `ITK <https://itk.org/>`_.
 
 .. code-block:: cpp
 
@@ -307,4 +307,4 @@ To run the application, you must call the following line into the install or bui
 
 .. code::
 
-    bin/fwlauncher Bundles/Tuto06Filter_0-1/profile.xml
+    bin/fwlauncher share/Tuto06Filter-0.1/profile.xml

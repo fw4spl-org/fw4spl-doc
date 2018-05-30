@@ -5,7 +5,7 @@
 **********************************************
 
 The fifth tutorial explains how to use several objects in an application. 
-This application provides an action to creates a mesh from an image.
+This application provides an action to create a mesh from an image mask.
 
 .. figure:: ../media/tuto05Mesher.png
     :scale: 80
@@ -15,7 +15,7 @@ This application provides an action to creates a mesh from an image.
 Prerequisites
 ===============
 
-Before to read this tutorial, you should have seen :
+Before reading this tutorial, you should have seen :
  * :ref:`tuto04`
 
 
@@ -64,7 +64,7 @@ This file is in the ``rc/`` directory of the application. It defines the service
 
 .. code-block:: xml
 
-    <plugin id="Tuto05Mesher" version="@DASH_VERSION@">
+    <plugin id="Tuto05Mesher" version="@PROJECT_VERSION@">
 
         <requirement id="dataReg" />
         <requirement id="servicesReg" />
@@ -86,7 +86,7 @@ This file is in the ``rc/`` directory of the application. It defines the service
                     <gui>
                         <frame>
                             <name>Mesher</name>
-                            <icon>@BUNDLE_PREFIX@/Tuto05Mesher_0-1/tuto.ico</icon>
+                            <icon>Tuto05Mesher-0.1/tuto.ico</icon>
                             <minSize width="800" height="600" />
                         </frame>
                         <menuBar />
@@ -198,12 +198,12 @@ This file is in the ``rc/`` directory of the application. It defines the service
                 </service>
 
                 <service uid="readerPathImageFile" type="::uiIO::editor::SIOSelector">
-                    <inout key="target" uid="myImage" />
+                    <inout key="data" uid="myImage" />
                     <type mode="reader" />
                 </service>
 
                 <service uid="writerImageFile" type="::uiIO::editor::SIOSelector">
-                    <in key="target" uid="myImage" />
+                    <inout key="data" uid="myImage" />
                     <type mode="writer" />
                 </service>
 
@@ -216,12 +216,12 @@ This file is in the ``rc/`` directory of the application. It defines the service
                 </service>
 
                 <service uid="readerPathMeshFile" type="::uiIO::editor::SIOSelector">
-                    <inout key="target" uid="myMesh" />
+                    <inout key="data" uid="myMesh" />
                     <type mode="reader" />
                 </service>
 
                 <service uid="writerMeshFile" type="::uiIO::editor::SIOSelector">
-                    <in key="target" uid="myMesh" />
+                    <inout key="data" uid="myMesh" />
                     <type mode="writer" />
                 </service>
 
@@ -232,7 +232,6 @@ This file is in the ``rc/`` directory of the application. It defines the service
     </plugin>
 
 
-
 Run
 =========
 
@@ -240,4 +239,4 @@ To run the application, you must call the following line into the install or bui
 
 .. code::
 
-    bin/fwlauncher Bundles/Tuto05Mesher_0-1/profile.xml
+    bin/fwlauncher share/Tuto05Mesher_0-1/profile.xml

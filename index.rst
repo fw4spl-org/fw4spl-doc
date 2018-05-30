@@ -7,13 +7,12 @@ FW4SPL documentation
 
    Introduction/index
    Installation/index
-   SAD/index
+   Tutorials/index
+   HowTos/index
+   FAQ/index
    Testing/index
    CodingStyle/index
    Doxygen <http://fw4spl-org.github.io/fw4spl-dox/>
-   FAQ/FAQ-FW4SPL
-   CMake/index
+   SAD/index
    Contributors/index
-   Tutorials/index
 
-   
