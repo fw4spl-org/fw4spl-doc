@@ -138,25 +138,14 @@ Dependencies configuration
 Dependencies generation
 +++++++++++++++++++++++
 
-.. warning::
+Set the following options (some of the options will be needed for the optional source repositories):
 
-    ``ENABLE_PCL``, ``ENABLE_LIBSGM`` and ``ENABLE_OPENCV_CUDA`` require `Cuda <https://developer.nvidia.com/cuda-downloads>`_ library, if you intend to use one of these, you should install it befor and re-open the ‘VS2015 x64 Native Tools Command Prompt’ to update your PATH.
-
-Set the following options (some of the options will be needed for the optional source):
-
-    * ``ENABLE_EXPERIMENTAL_DEPS``: set to ON to build experimentals libraries (You shouldn't use it).
-    * ``ENABLE_INFINITAM``: set to ON to build infinitam.
-    * ``ENABLE_LIBSGM``: set to ON to build libSGM dependencies.
-    * ``ENABLE_ODIL``: set to ON to build Odil dependencies.
-    * ``ENABLE_OGRE``: set to ON to build ogre.
-    * ``ENABLE_OPENCV_CONTRIB``: set to ON to build OpenCV contrib extra modules.
-    * ``ENABLE_OPENCV_CUDA``: set to ON to build OpenCV with CUDA support.
-    * ``ENABLE_OPEN_MP``: set to ON to enable OpenMP.
-    * ``ENABLE_BUILD_ORB_SLAM2``: set to ON to build ORB Slam 2.
-    * ``ENABLE_PCL``: set to ON to build PCL.
-    * ``ENABLE_PCL_CUDA``: set to ON to build PCL with CUDA support.
-    * ``ENABLE_REALSENSE``: set to ON to build librealsense.
-    * ``ENABLE_SOFA``: set to ON to build sofa.
+    * ``ENABLE_AR``: Build **fw4spl-ar** dependencies (OpenCV, PCL, OpenIGTLink...).
+    * ``ENABLE_OGRE``: Build Ogre3D and its dependencies (necessary for **fw4spl-ogre**).
+    * ``ENABLE_CUDA``: Enable CUDA support in some libraries (OpenCV, PCL, libSGM). This requires `Cuda <https://developer.nvidia.com/cuda-downloads>`_ library to be installed on the system and present in your PATH.
+    * ``ENABLE_SOFA``: Build sofa.
+    * ``ENABLE_EXTRAS`` : Build dependencies that are not used currently in the open-source repositories (Odil, Bullet, realsense, libSGM,...).
+    * ``ENABLE_EXPERIMENTAL_DEPS``: Build experimental libraries (you shouldn't use it, moreover this option is only available with **fw4spl-ext-deps**).
 
 * click on "generate". 
 
