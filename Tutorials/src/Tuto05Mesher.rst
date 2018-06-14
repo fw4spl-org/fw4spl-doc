@@ -4,7 +4,7 @@
 [*Tuto05Mesher*] Create a mesh from an image
 **********************************************
 
-The fifth tutorial explains how to use several objects in an application. 
+The fifth tutorial explains how to use several objects in an application.
 This application provides an action to create a mesh from an image mask.
 
 .. figure:: ../media/tuto05Mesher.png
@@ -15,7 +15,7 @@ This application provides an action to create a mesh from an image mask.
 Prerequisites
 ===============
 
-Before reading this tutorial, you should have seen :
+Before reading this tutorial, you should have seen:
  * :ref:`tuto04`
 
 
@@ -25,7 +25,7 @@ Structure
 Properties.cmake
 ------------------
 
-This file describes the project information and requirements :
+This file describes the project information and requirements:
 
 .. code-block:: cmake
 
@@ -189,6 +189,11 @@ This file is in the ``rc/`` directory of the application. It defines the service
                     <percentReduction value="0" />
                 </service>
 
+                <!-- Add a shortcut in the application (key "v") -->
+                <service uid="ActionShortcut" type="::guiQt::SSignalShortcut">
+                    <config shortcut="v" sid="myDefaultView" />
+                </service>
+
                 <!--
                     Services associated to the Image data :
                     Visualization, reading and writing service creation.
@@ -225,7 +230,14 @@ This file is in the ``rc/`` directory of the application. It defines the service
                     <type mode="writer" />
                 </service>
 
+                <!-- Connect the shortcut "v" to the update slot of 'actionCreateVTKMesh'-->
+                <connect>
+                    <signal>ActionShortcut/activated</signal>
+                    <slot>actionCreateVTKMesh/update</slot>
+                </connect>
+
                 <start uid="myFrame" />
+                <start uid="ActionShortcut" />
 
             </config>
         </extension>
