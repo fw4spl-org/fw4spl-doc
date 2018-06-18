@@ -1,8 +1,8 @@
 Installation for MacOSX
 =======================
 
-Prerequisites for MacOSX users
---------------------------------
+Prerequisites
+-----------------
 
 If not already installed:
 
@@ -25,7 +25,7 @@ For Openni dependency, you need libusb
 
     $ brew install libusb-compat
 
-If you are building the dependencies with the fw4spl-ext-deps additional dependencies, the `VLC <https://www.videolan.org/vlc/index.fr.html>`_ application is also needed.
+If you plan to build extra dependencies, the `VLC <https://www.videolan.org/vlc/index.fr.html>`_ application is also needed.
 
 .. code:: bash
 
@@ -33,8 +33,8 @@ If you are building the dependencies with the fw4spl-ext-deps additional depende
 
 .. include:: CommonDeps.rst
 
-Compilation
-++++++++++++++
+Build
+~~~~~~~~
 
 Now you can compile the FW4SPL dependencies with make in the console, it will automaticaly download, build and install each dependency.
 
@@ -46,7 +46,7 @@ Now you can compile the FW4SPL dependencies with make in the console, it will au
 .. include:: CommonSrc.rst
 
 Recommended software
--------------------------
+--------------------------------
 
 The following programs may be helpful for your developments:
 
