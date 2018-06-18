@@ -81,7 +81,7 @@ First, we need first to build the third-party librairies. We will now fetch the 
     > git clone https://github.com/fw4spl-org/fw4spl-deps.git
 
 .. note:: *Optional*: 
-    You may also clone this extension repository `fw4spl-ext-deps <https://github.com/fw4spl-org/fw4spl-ext-deps.git>`_, but it contains only experimental packages that are not needed for common tasks.
+    You may also clone extension repositories like `fw4spl-ext-deps <https://github.com/fw4spl-org/fw4spl-ext-deps.git>`_. Additional dependency repositories must be cloned in the same directory as **fw4spl-deps** and they will be automatically discovered and then can be enabled via CMake.
 
 * Check if all the cloned repositories are on the same `branch <https://git-scm.com/docs/git-branch>`_.
 
@@ -182,6 +182,8 @@ Source
         - `fw4spl-ar <https://github.com/fw4spl-org/fw4spl-ar.git>`_ contains functionalities for augmented reality (video tracking for instance).
         - `fw4spl-ext <https://github.com/fw4spl-org/fw4spl-ext.git>`_ contains experimental code.
         - `fw4spl-ogre <https://github.com/fw4spl-org/fw4spl-ogre.git>`_ contains a 3D backend using `Ogre3D <http://www.ogre3d.org/>`_.
+
+* Ensure that all the cloned repositories are in the same folder as **fw4spl**. They will be automatically discovered and then can be enabled via CMake.
 
 * Ensure that all the cloned repositories are on the same `branch <https://git-scm.com/docs/git-branch>`_.
 

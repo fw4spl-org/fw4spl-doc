@@ -124,7 +124,6 @@ Please remember that JAVA_HOME is the root folder of the JDK and not the binary 
     For windows, the path to the JDK binaries (java, javac, etc...) must also be in the PATH environment variable.
 
 .. include:: CommonDeps.rst
-    :end-before: Project configuration
 
 Toolchain
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -144,7 +143,7 @@ Project configuration
 To build the dependencies, you must configure the project with CMake into the Build folder. As any CMake based project, there are three different ways to perform that.
 
 1. Command-line
-+++++++++++++++++
+*****************
 
 In this case, you give all the necessary variables on the command-line in one shot :
 
@@ -154,7 +153,7 @@ In this case, you give all the necessary variables on the command-line in one sh
     $ cmake ../Src/fw4spl-deps -DCMAKE_INSTALL_PREFIX=~/Dev/Deps/Install/Debug -DCMAKE_BUILD_TYPE=Debug -DCROSS_COMPILING=ON -DANDROID_NATIVE_API_LEVEL=21 -DCMAKE_TOOLCHAIN_FILE=~/Dev/Droid/android.toolchain.cmake
 
 2. NCurses based editor
-+++++++++++++++++++++++++
+*****************************
 
 This editor allows to set the required each variable in a more interactive way :
 
@@ -179,7 +178,7 @@ Press *"c"* to configure and then *"g"* to generate the makefiles.
 .. figure:: ../media/ccmake_fw4spl-deps.png
 
 3. Qt based gui
-+++++++++++++++++
+*******************
 
 .. code:: bash
 
@@ -211,7 +210,7 @@ Click on "configure" then "generate".
 
 
 .. include:: CommonSrc.rst
-    :end-before: - Go into your Build directory
+    :end-before: * Go into your Build directory
 
 - Clone fw4spl-droid repository into your source directory:
 
@@ -223,8 +222,8 @@ Click on "configure" then "generate".
     $ git checkout master
 
 .. include:: CommonSrc.rst
-    :start-after: git checkout master
-    :end-before: - Change the following cmake arguments
+    :start-after: $ git clone https://github.com/fw4spl-org/fw4spl.git
+    :end-before: * Change the following cmake arguments
 
 - Change the following cmake arguments
     - ``CMAKE_INSTALL_PREFIX``: set the install location (~/Dev/Install/Debug or Release)

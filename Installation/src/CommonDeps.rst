@@ -49,7 +49,7 @@ First, we need to build the third-party libraries. We will now fetch the scripts
     $ git clone https://github.com/fw4spl-org/fw4spl-deps.git
 
 .. note:: *Optional*: 
-    You may also clone this extension repository `fw4spl-ext-deps <https://github.com/fw4spl-org/fw4spl-ext-deps.git>`_, but it contains only experimental packages that are not needed for common tasks.
+    You may also clone extension repositories like `fw4spl-ext-deps <https://github.com/fw4spl-org/fw4spl-ext-deps.git>`_. Additional dependency repositories must be cloned in the same directory as **fw4spl-deps** and they will be automatically discovered and then can be enabled via CMake.
 
 * Ensure that all the cloned repositories are on the same `branch <https://git-scm.com/docs/git-branch>`_.
 
@@ -67,7 +67,7 @@ Configuration
 To build the dependencies, you must configure the project with CMake into the Build folder. As any CMake based project, there are three different ways to perform that.
 
 1. Command-line
-***************
+*****************
 
 In this case, you give all the necessary variables on the command-line in one shot :
 
@@ -77,7 +77,7 @@ In this case, you give all the necessary variables on the command-line in one sh
     $ cmake ../../Src/fw4spl-deps -DCMAKE_INSTALL_PREFIX=Dev/BinPkgs/Install/Debug -DCMAKE_BUILD_TYPE=Debug 
 
 2. NCurses based editor
-***********************
+*************************
 
 This editor allows to set the required each variable in a more interactive way :
 
@@ -112,7 +112,7 @@ When you're done, generate the code by pressing *"g"* on NCurses based editor or
     Do not compile debug and release with the same Build and Install folders. If you followed the recommended folder layout, this should be fine.
 
 3. Qt based gui
-***************
+*****************
 
 .. code:: bash
 
