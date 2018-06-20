@@ -1,8 +1,8 @@
 Installation for Linux
 ======================
 
-Prerequisites for Linux users
---------------------------------
+Prerequisites 
+---------------
 
 If not already installed:
 
@@ -42,16 +42,16 @@ Follow the instructions there to install the necessary packages on your system f
 Since we build Qt with openssl support you also need to install ``libssl-dev`` (be sure that the version is equal or upper to 1.0.0).
 ``libudev-dev`` and ``libusb-1.0.0-dev`` are required by the OpenNI library. Last for VTK we also need the X Toolkit Intrinsics library headers, that you can easily install for instance on a Debian-based distribution with the packages ``libxt-dev``, ``libxrandr-dev`` and ``libxaw7-dev``.
 
-If you are building the dependencies with the fw4spl-ext-deps additional dependencies, the VLC libraries are also needed, regarding to streaming capabilities, and thus the packages: ``libvlc-dev``, ``libvlccore-dev`` and ``vlc-nox``, are required.
+If you plan to build extra dependencies, the VLC libraries are also needed, regarding to streaming capabilities, and thus the packages: ``libvlc-dev``, ``libvlccore-dev`` and ``vlc-nox``, are required.
 
-Finally, please note that we provide Dockerfile at this `link <https://github.com/fw4spl-org/docker-fw4spl-deps>`_. The commands for dependency installation are provided there.
+Finally, please note that we provide Dockerfile at this `link <https://github.com/fw4spl-org/docker-fw4spl-deps>`_. You can have a look at the Dockerfile to get the precise list of commands needed to install dependencies.
 
 .. include:: CommonDeps.rst
 
-Dependencies build
-++++++++++++++++++
+Build
+~~~~~~~~~
 
-Now you can compile the FW4SPL dependencies with make in the console, it will automaticaly download, build and install each dependency.
+Now you can compile the FW4SPL dependencies with make in the console, it will automatically download, build and install each dependency.
 
 .. code:: bash
 
@@ -62,7 +62,7 @@ Now you can compile the FW4SPL dependencies with make in the console, it will au
 .. include:: CommonSrc.rst
 
 Recommended software
--------------------------
+--------------------------------
 
 The following programs may be helpful for your developments:
 

@@ -1,8 +1,8 @@
 Installation for Windows
 =========================
 
-Prerequisites for Windows users
---------------------------------
+Prerequisites
+----------------
 
 If not already installed:
 
@@ -25,8 +25,8 @@ Qt is an external library used in FW4SPL. For the successful compilation of Qt f
 
 - http://wiki.qt.io/Building_Qt_5_from_Git
 
-FW4SPL installation
--------------------
+Source tree layout
+~~~~~~~~~~~~~~~~~~~~~~
 
 Good practices in FW4SPL recommend to separate source files, build and install folders. 
 So to prepare the development environment:
@@ -67,7 +67,7 @@ To compile BinPkgs and sources, you must use the 'VS2015 x64 Native Tools Comman
 .. |directories| image:: ../media/Directories.png
 
 Dependencies
-~~~~~~~~~~~~
+-----------------
 
 First, we need first to build the third-party librairies. We will now fetch the scripts that allow to build them and then launch the compilation.
 
@@ -81,9 +81,7 @@ First, we need first to build the third-party librairies. We will now fetch the 
     > git clone https://github.com/fw4spl-org/fw4spl-deps.git
 
 .. note:: *Optional*: 
-    You can also clone this extension repository: `fw4spl-ext-deps <https://github.com/fw4spl-org/fw4spl-ext-deps.git>`_
-
-    You'll need it if you want to add extension to fw4spl (like fw4spl-ar).
+    You may also clone extension repositories like `fw4spl-ext-deps <https://github.com/fw4spl-org/fw4spl-ext-deps.git>`_. Additional dependency repositories must be cloned in the same directory as **fw4spl-deps** and they will be automatically discovered and then can be enabled via CMake.
 
 * Check if all the cloned repositories are on the same `branch <https://git-scm.com/docs/git-branch>`_.
 
@@ -113,8 +111,8 @@ First, we need first to build the third-party librairies. We will now fetch the 
 
     > cmake-gui
 
-Dependencies configuration
-++++++++++++++++++++++++++
+Configuration
+~~~~~~~~~~~~~~~~
 
 .. note::  
     All the generation options are specified in 'Dependencies generation'
@@ -131,12 +129,12 @@ Dependencies configuration
 
     * ``CMAKE_INSTALL_PREFIX``: set the install location (e.g. Dev\\BinPkgs\\Install\\Debug or Release).
     * ``CMAKE_BUILD_TYPE``: set to Debug or Release.
-    * ``ADDITIONAL_DEPS``: you can leave it empty, it is only needed if you have an extra source location like fw4spl-ext-deps or a custom repository.
+    * ``BUILD_FW4SPL-EXT-DEPS``: allows to enable/disable the **fw4spl-ext-deps** if you cloned it.
 
 * Click on "configure".
 
-Dependencies generation
-+++++++++++++++++++++++
+Generation
+~~~~~~~~~~~~~~
 
 Set the following options (some of the options will be needed for the optional source repositories):
 
@@ -149,8 +147,8 @@ Set the following options (some of the options will be needed for the optional s
 
 * click on "generate". 
 
-Dependencies build
-++++++++++++++++++
+Build
+~~~~~~~~~~~
 
 * Compile the FW4SPL dependencies using jom in the console: 
 
@@ -168,7 +166,7 @@ Dependencies build
 .. note:: To prevent any future problems with source generation, ensure that all the libraries have been compiled
 
 Source
-~~~~~~
+----------
     
 * `Clone <http://git-scm.com/book/en/v2/Git-Basics-Getting-a-Git-Repository#Cloning-an-Existing-Repository>`_ the following repositories in the (Dev\Src) source folder:
     * `fw4spl <https://github.com/fw4spl-org/fw4spl.git>`_
@@ -184,6 +182,8 @@ Source
         - `fw4spl-ar <https://github.com/fw4spl-org/fw4spl-ar.git>`_ contains functionalities for augmented reality (video tracking for instance).
         - `fw4spl-ext <https://github.com/fw4spl-org/fw4spl-ext.git>`_ contains experimental code.
         - `fw4spl-ogre <https://github.com/fw4spl-org/fw4spl-ogre.git>`_ contains a 3D backend using `Ogre3D <http://www.ogre3d.org/>`_.
+
+* Ensure that all the cloned repositories are in the same folder as **fw4spl**. They will be automatically discovered and then can be enabled via CMake.
 
 * Ensure that all the cloned repositories are on the same `branch <https://git-scm.com/docs/git-branch>`_.
 
@@ -213,8 +213,8 @@ Source
 
     > cmake-gui
 
-Source configuration
-++++++++++++++++++++
+Configuration
+~~~~~~~~~~~~~~~~
 
 * Set the desired Build directory (e.g. Dev\\Build\\Debug or Release)
 
@@ -224,8 +224,8 @@ Source configuration
 
 * During configure step, choose the generator 'Ninja' to compile FW4SPL sources.
 
-Source generation
-+++++++++++++++++
+Generation
+~~~~~~~~~~~~~~
 
 * Set the following arguments:
 
@@ -248,8 +248,8 @@ Source generation
 * click on "generate". 
 
 
-Source build
-++++++++++++
+Build
+~~~~~~~
 
 * Compile the FW4SPL source using ninja in the console: 
 
